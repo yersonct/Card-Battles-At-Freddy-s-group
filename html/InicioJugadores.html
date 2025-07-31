@@ -5,34 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <link rel="stylesheet" href="../css/InicioJugadores.css">
-    <script src="../js/InicioJugadores.js"></script>
+
 </head>
 <body>
     <div class="container-jugadores">
         <div class="contenedor-de-container">
 
             <div class="jugadores">
-                <div class="caja-jugadores">
-                        <div class="caja-imagen"></div>
-                    <div class="caja-nombre">
-                        <input type="text" placeholder="Nombre">
+                <div class='caja-jugadores' id='caja-1'>
+                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
+                    <div class="PonerAvatar">+</div>
+                    <div class='caja-imagen'></div>
+                    <div class='caja-nombre'>
+                        <input type='text' placeholder='Nombre'>
                     </div>
                 </div>
-                <div class="caja-jugadores">
-                    <div class="caja-imagen"></div>
-                    <div class="caja-nombre">
-                        <input type="text" placeholder="Nombre">
+                <div class='caja-jugadores' id='caja-2'>
+                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
+                    <div class="PonerAvatar" onclick="ponerAvatar()">+</div>
+                    <div class='caja-imagen'></div>
+                    <div class='caja-nombre'>
+                        <input type='text' placeholder='Nombre'>
                     </div>
                 </div>
             </div>
-            <div class="caja-contenedor-mas">
+            <div class="caja-contenedor-mas" >
                 <div class="caja-mas">
                         <b class="mas">+</b>
                         <p>Quiere agregar otro jugador</p>
                 </div>
             </div>
         </div>
+        <div class="container-iniciar-juego">
+            <button class="btn-iniciar" onclick="IniciarPartidad()">
+                Iniciar Partida
+            </button>
+        </div>
+        <p class="Text-Cantidad"></p>
     </div>
+    <script src="../js/InicioJugadores.js"></script>
     
 </body>
 </html>

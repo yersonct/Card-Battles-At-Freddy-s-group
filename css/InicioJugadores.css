@@ -11,6 +11,7 @@ body{
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -25,7 +26,7 @@ body{
     width: 80%;
     height: 100%;
     background-color: rgba(61, 61, 61, 0.26);
-    
+    flex-wrap: wrap;
     box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.37);
     animation: color-Sombras 1s ease infinite;
     display: flex;
@@ -33,7 +34,9 @@ body{
     align-items: center;
      border-bottom-left-radius: 50px;
     border-top-left-radius: 50px;
-    
+    overflow: scroll;
+    padding: 15px;
+    padding-bottom: 25px;
 }
 .caja-contenedor-mas{
     width: 20%;
@@ -73,6 +76,7 @@ body{
     height: 50%;
     text-align: center;
     padding: 10px 0px;
+    margin: 5px 20px;
 }
 @keyframes cambio-color2 {
     0%{
@@ -145,3 +149,99 @@ body{
     }
     
 }
+
+.Text-Cantidad{
+    color: red;
+    margin: 10px 0px 0px 0px;
+    text-shadow: 0px 0px 10px red;
+}
+.Cancelar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -10px;
+    width: 25%;
+    height: 18%;
+    background-color: rgba(0, 0, 0, 0.123);
+    text-shadow: 0px 0px 10px rgb(0, 162, 255);
+    color:rgb(0, 162, 255) ;
+}
+.container-iniciar-juego {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.container-iniciar-juego .btn-iniciar {
+  position: relative;
+  padding: 16px 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #1d3557, #457b9d, #1d3557);
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideUp 0.8s ease-out forwards 0.3s;
+}
+
+.container-iniciar-juego .btn-iniciar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 10.01%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.container-iniciar-juego .btn-iniciar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+.container-iniciar-juego .btn-iniciar:active::before {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.container-iniciar-juego .btn-iniciar:active {
+  transform: scale(0.97);
+}
+
+/* Animación de entrada */
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.PonerAvatar{
+    color: rgb(0, 162, 255);
+    box-shadow: 0px 0px 10px  rgb(0, 162, 255);
+    text-shadow: 0px 0px 10px  rgb(0, 162, 255);
+    font-size: 25px;
+    border-radius: 100px;
+    position: relative;
+    left: 60%;
+    width: 20%;
+    height: 15%;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.918);
+    margin-bottom: -25px;
+    margin-right: 25px;
+}
+
