@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Business.Interfaces;
 using Entity.Model.Base;
-using Entity.Dtos.Base;
-
+using Entity.Dto.Base;
 namespace Web.Controllers.Implements
 {
     [ApiController]
@@ -18,11 +17,7 @@ namespace Web.Controllers.Implements
             _business = business;
             _logger = logger;
         }
-   
-
-
-
-
+        
         [HttpGet]
         public virtual async Task<IActionResult> GetAll()
         {
@@ -43,6 +38,7 @@ namespace Web.Controllers.Implements
         {
             try
             {
+                // se llaman a las funciones del business para obtener el registro por ID
                 var entity = await _business.GetByIdAsync(id);
                 if (entity == null)
                     return NotFound($"Registro con ID {id} no encontrado");
@@ -63,7 +59,7 @@ namespace Web.Controllers.Implements
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
+                // se llaman a las funciones del business para crear un nuevo registro
                 var createdEntity = await _business.CreateAsync(dto);
                 return CreatedAtAction(nameof(GetById), new { id = GetEntityId(createdEntity) }, createdEntity);
             }
@@ -86,7 +82,7 @@ namespace Web.Controllers.Implements
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
+                // se llaman a las funciones del business para actualizar un registro existente
                 var updatedEntity = await _business.UpdateAsync(dto);
                 return Ok(updatedEntity);
             }
@@ -107,6 +103,7 @@ namespace Web.Controllers.Implements
         {
             try
             {
+                // se llaman a las funciones del business para eliminar un registro por ID
                 var result = await _business.DeleteAsync(id);
                 if (!result)
                     return NotFound($"Registro con ID {id} no encontrado");
@@ -126,6 +123,7 @@ namespace Web.Controllers.Implements
         [HttpDelete("{id}/deleteLogical")]
         public async Task<IActionResult> SoftActive(int id)
         {
+            // se llaman a las funciones del business para eliminar lógicamente un registro por ID
             var result = await _business.SoftDeleteAsync(id);
             if (!result)
                 return NotFound();
