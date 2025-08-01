@@ -11,7 +11,7 @@ function PonerCamposUsuario() {
                <div class="Cancelar" id="Cancelar-${cantidadHijos}" onclick="eliminarJugador(this)"><b>X</b></div>
                 <div class='caja-imagen'></div>
                 <div class='caja-nombre'>
-                    <input type='text' placeholder='Nombre'>
+                    <input type='text' placeholder='Nombre' required maxlength="10" minlength="3">
                 </div>
             </div>`;
         ContenedorDeJugadorCreados.insertAdjacentHTML('beforeend', cajas_usuario);
@@ -46,8 +46,22 @@ function eliminarJugador(boton) {
 }
 
 function IniciarPartidad(){
-    id
-   window.location.href = "./Partida.html"
+  const InputTotal = document.querySelectorAll("input");
+  let todosLlenos = true;
+  InputTotal.forEach(input => {
+    if (input.value.trim() === '') { 
+      todosLlenos = false;
+    }
+  });
+
+  if (todosLlenos) {
+    window.location.href = "../html/Pantalla.html"
+  } else {
+    textoMensaje.style.color ="Yellow";
+    textoMensaje.style.textShadow = '0px 0px 10px yellow';
+    textoMensaje.textContent = `Cada usuario tiene que tener un nombre`;
+  }
+  
 }
 
 

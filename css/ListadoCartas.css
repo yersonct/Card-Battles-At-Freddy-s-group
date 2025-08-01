@@ -1,0 +1,73 @@
+
+body{
+    background-image: url("../img/gif/fondo-spintrap.gif"); 
+    margin: 0px;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Creepster';font-size: 22px;
+}
+
+.marco-grande{
+    height: 100vh;
+    width: auto;
+    background: cover;
+    background-color: #ffffff31 !important;
+    border: solid;
+}
+.container{
+    width: 80%;
+    height: 90%;
+
+    margin: 2.5% auto;
+    background-color: #d9d9d921;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container-row{
+    width: 300px;
+    height: 80%;
+    display: flex;
+    background-color: azure;
+}
+.marco-cartas {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 80%;
+    background-image: url(../img/foto/cartas-L.png)  ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: solid 4px #000;
+}
+.container-titulo-cartas{
+    margin: 0px 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+.container-imagen{
+    margin: -2px  auto 0px auto;
+    width: 78%;
+    height: 46%;
+    border-radius: 15px;
+    background-image: url(../img/foto/Nightmare\ Fredbear.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: aquamarine;
+}
+.color-marroncito{
+    color: #7B3312;
+}
+.reduccion{
+    font-size: large;
+}
+

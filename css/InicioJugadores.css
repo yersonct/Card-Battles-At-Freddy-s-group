@@ -6,6 +6,7 @@
 }
 body{
     background-color: black;
+     font-family: 'Creepster';font-size: 22px;
 }
 .container-jugadores{
     width: 100vw;
@@ -90,7 +91,7 @@ body{
     }
 }
 .caja-imagen{
-    background-image: url(../img/descarga.jpg);
+    background-image: url(../img/foto/1.jpg);
     background-position: center;
     background-size: cover;
     margin: auto;
@@ -107,6 +108,7 @@ body{
     height: 55%;
 }
 .caja-nombre input{
+    font-family: 'Creepster';
     padding: 5%;
     width: 90%;
     text-shadow: 0px 0px 10px  rgb(0, 162, 255);
