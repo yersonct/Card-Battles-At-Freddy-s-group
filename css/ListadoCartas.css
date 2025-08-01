@@ -70,43 +70,4 @@ body{
 .reduccion{
     font-size: large;
 }
-/* .marco-cartas{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 80px;
-    margin-left: 80px;
-    border: solid 2px #fff;
-    background-color: #9b9b9bfa;
-    border: solid 4px #fff;
-    border-radius: 20px;
-    color: #fff;
-    height: 500px;
-    width: 300px;
-}
-.marco-cartas div {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-    top: 45px;
-    
-}
-.marco-cartas div h1,b {
-    
-    z-index: 2;
-    display: block;
-    margin: 1px;
-}
-.marco-cartas div h2 {
-    text-align: center;
 
-}
-.marco-cartas div h1 {}
-.cartas{
-    border-radius: 20px;
-    height: 450px;
-    width: 250px;
-} */

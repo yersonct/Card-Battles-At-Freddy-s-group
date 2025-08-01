@@ -5,12 +5,83 @@
 }
 body{
     background: black;
+    box-shadow: 0px 0px 10px black;
     width: 100vw;
     height: 100vh;
     margin: 0px;
+    font-family: 'Creepster';font-size: 22px;
+}
+.container-video{
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/gif/inicio.gif);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .contenido-lateral-izquierdo{
     height: 100vh;   
     width: 70%;
-    background: #124;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.contenedor-titulo{
+    text-align: center;
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+    height: 10%;
+    z-index: 2;
+    color: white;   
+    font-size: 30px;
+    text-shadow: 0px 0px 2px white;
+}
+.contenedor-sangre{
+    text-align: center;
+    transform: scaleX(-1);
+    margin-top: -22px;
+    width: 63%;
+    background-image: url(../img/gif/sangre.gif);
+    object-position: center;
+    object-fit: cover;
+    height: 10%;
+}
+.contenedor-bt-Empezar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contenedor-bt-Empezar button{
+    margin-top: 85px;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 65px;
+    color: red;
+   font-family: 'Creepster';
+   text-shadow: 0px 0px 2px red;
+}
+
+
+.container-logo-inicio{
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container-logo-inicio div img{
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+}
+.container-logo-inicio div:nth-child(2) h1{
+ font-size: 60px;
+ color: #7B3312 !important;
+ text-shadow: 0px 0px 5px  white;
 }
