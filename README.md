@@ -18,3 +18,6 @@ Este juego de cartas de terror, autoconcluyente, sumerge a los jugadores en una 
 
 # link de tablero canvas clickup
 < https://app.clickup.com/9014718000/v/s/90143051103 >
+
+# link figma
+< https://www.figma.com/design/3AKqlIwk9rdQShSiBV2OB9/Card-Battles-At-Freddy%C2%B4s?node-id=0-1&t=yt9QYqQdnlkfnqle-1 >
