@@ -46,6 +46,7 @@ function eliminarJugador(boton) {
 }
 
 function IniciarPartidad(){
+    id
    window.location.href = "./Partida.html"
 }
 
@@ -64,7 +65,6 @@ fetch('datos.json')
   .then(data => {
     console.log('Datos:', data);
 
-    // Puedes recorrerlo
     data.forEach(jugador => {
       console.log(`ID: ${jugador.id}, Nombre: ${jugador.nombre}, Puntos: ${jugador.puntos}`);
     });
