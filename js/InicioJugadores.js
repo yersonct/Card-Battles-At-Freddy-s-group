@@ -11,7 +11,7 @@ function PonerCamposUsuario() {
                <div class="Cancelar" id="Cancelar-${cantidadHijos}" onclick="eliminarJugador(this)"><b>X</b></div>
                 <div class='caja-imagen'></div>
                 <div class='caja-nombre'>
-                    <input type='text' placeholder='Nombre'>
+                    <input type='text' placeholder='Nombre' required>
                 </div>
             </div>`;
         ContenedorDeJugadorCreados.insertAdjacentHTML('beforeend', cajas_usuario);
@@ -46,7 +46,17 @@ function eliminarJugador(boton) {
 }
 
 function IniciarPartidad(){
-    id
+  const InputTotal = document.querySelectorAll("input")
+    InputTotal.forEach(elemnto=>{
+      if(elemnto.value.length >=2){
+        textoMensaje.textContent = `Señor usuario, los nombres no son invalido, del registro: ${elemnto.value}`;
+      }
+      
+    })
+    const cantidadHijos = ContenedorDeJugadorCreados.children.length;
+    if(cantidadHijos){
+
+    }
    window.location.href = "./Partida.html"
 }
 

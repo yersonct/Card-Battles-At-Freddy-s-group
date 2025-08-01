@@ -1,0 +1,22 @@
+*::after,*::before{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+    box-sizing: border-box;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+     margin: 0px;
+    background-image: url(../img/gif/Efecto\ de\ Tv\ sin\ señal\ FONDO\ VERDE\ para\ editar\ videos\ \(1\).gif);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
