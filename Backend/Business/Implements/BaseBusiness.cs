@@ -1,7 +1,7 @@
 using System;
 using AutoMapper;
 using Data.Interfaces;
-using Entity.Dtos.Base;
+using Entity.Dto.Base;
 using Entity.Model.Base;
 using Microsoft.Extensions.Logging;
 
@@ -32,7 +32,7 @@ namespace Business.Implements
         /// <param name="data">Repositorio de datos para operaciones de persistencia</param>
         /// <param name="mapper">Instancia de AutoMapper para mapeo entre DTOs y entidades</param>
         /// <param name="logger">Logger para registrar eventos y errores durante las operaciones</param>
-        public BaseBusiness( IBaseModelData<T> data,IMapper mapper,ILogger logger): base()
+        public BaseBusiness(IBaseModelData<T> data, IMapper mapper, ILogger logger) : base()
         {
             _data = data ?? throw new ArgumentNullException(nameof(data));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -66,32 +66,81 @@ namespace Business.Implements
         /// <inheritdoc />
         public override async Task<D> GetByIdAsync(int id)
         {
-
+            try
+            {
+                _logger.LogInformation($"Obteniendo registro de {typeof(T).Name} con ID {id}");
+                var entity = await _data.GetByIdAsync(id);
+                return _mapper.Map<D>(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al obtener registro de {typeof(T).Name} con ID {id}");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public override async Task<D> CreateAsync(D dto)
         {
-
+            try
+            {
+                _logger.LogInformation($"Creando nuevo registro de {typeof(T).Name}");
+                var entity = _mapper.Map<T>(dto);
+                var createdEntity = await _data.CreateAsync(entity);
+                return _mapper.Map<D>(createdEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al crear registro de {typeof(T).Name}");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public override async Task<D> UpdateAsync(D dto)
         {
-
+            try
+            {
+                _logger.LogInformation($"Actualizando registro de {typeof(T).Name}");
+                var entity = _mapper.Map<T>(dto);
+                var updatedEntity = await _data.UpdateAsync(entity);
+                return _mapper.Map<D>(updatedEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al actualizar registro de {typeof(T).Name}");
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public override async Task<bool> DeleteAsync(int id)
         {
-
+            try
+            {
+                _logger.LogInformation($"Eliminando registro de {typeof(T).Name} con ID {id}");
+                return await _data.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al eliminar registro de {typeof(T).Name} con ID {id}");
+                throw;
+            }
         }
 
 
         public override async Task<bool> SoftDeleteAsync(int id)
         {
-
+            try
+            {
+                _logger.LogInformation($"Eliminando registro de {typeof(T).Name} con ID {id}");
+                return await _data.SoftDeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error al eliminar registro de {typeof(T).Name} con ID {id}");
+                throw;
+            }
         }
-
     }
 }

@@ -32,14 +32,105 @@ namespace Entity.Context
         ///
         /// DB SETS
         ///
-        
+        public DbSet<Partida> Partidas { get; set; } = null!;
+        public DbSet<Ronda> Rondas { get; set; } = null!;
+        public DbSet<Jugada> Jugadas { get; set; } = null!;
+        public DbSet<Jugador> Jugadores { get; set; } = null!;
+        public DbSet<Carta> Cartas { get; set; } = null!;
+        public DbSet<CartaJugador> CartaJugadores { get; set; } = null!;
+
         /// <summary>
         /// Configura los modelos de la base de datos aplicando configuraciones desde ensamblados.
         /// </summary>
         /// <param name="modelBuilder">Constructor del modelo de base de datos.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-        
+            // configura los modelos de la base de datos
+            // configuracion de carta
+            modelBuilder.Entity<Carta>(
+                entity =>
+                {
+                    // es varchar(100) y no nulo
+                    entity.Property(e => e.Nombre)
+                        .HasColumnType("varchar(100)");
+
+                    // es varchar(100) y unico
+                    entity.Property(e => e.Categoria)
+                        .HasColumnType("varchar(100)")
+                        .IsRequired();
+                    entity.HasIndex(e => e.Categoria).IsUnique();
+                }
+
+            );
+            // configuracion de carta jugador
+            modelBuilder.Entity<Jugador>(
+                entity =>
+                {
+                    // es varchar(100) y no nulo
+                    entity.Property(e => e.Nombre)
+                        .HasColumnType("varchar(100)")
+                        .IsRequired();
+                    // es varchar(100) y no nulo
+                    entity.Property(e => e.Avatar)
+                        .HasColumnType("varchar(100)")
+                        .IsRequired();
+                    
+                }
+            );
+            // configuracion de ronda
+            modelBuilder.Entity<Ronda>(
+                entity =>
+                {
+                    // es varchar(100) y no nulo
+                    entity.Property(e => e.AtributoCompetido)
+                        .HasColumnType("varchar(100)")
+                        .IsRequired();
+
+                    entity.HasOne(e => e.Partida)
+                        .WithMany(e => e.Ronda)
+                        .HasForeignKey(e => e.IdPartida);
+
+                    entity.HasOne(e => e.Jugador)
+                        .WithMany(e => e.Ronda)
+                        .HasForeignKey(e => e.IdJugador);
+
+                    entity.HasOne(e => e.Jugador)
+                        .WithMany(e => e.Ronda)
+                        .HasForeignKey(e => e.IdGanador);
+                }
+            );
+
+            // configuracion de jugada
+            modelBuilder.Entity<Jugada>(
+                entity =>
+                {
+                    entity.HasOne(e => e.Ronda)
+                        .WithMany(e => e.Jugada)
+                        .HasForeignKey(e => e.IdRonda);
+
+                    entity.HasOne(e => e.Jugador)
+                        .WithMany(e => e.Jugada)
+                        .HasForeignKey(e => e.IdJugador);
+
+                    entity.HasOne(e => e.CartaJugador)
+                        .WithMany(e => e.Jugada)
+                        .HasForeignKey(e => e.IdCartaJugador);
+                }
+            );
+
+            // configuracion de CartaJugador
+            modelBuilder.Entity<CartaJugador>(
+                entity =>
+                {
+                    entity.HasOne(e => e.Jugador)
+                        .WithMany(e => e.CartaJugador)
+                        .HasForeignKey(e => e.IdJugador);
+                        
+                    entity.HasOne(e => e.Carta)
+                        .WithMany(e => e.CartaJugador)
+                        .HasForeignKey(e => e.IdCarta);
+                }
+            );
         }
 
         /// <summary>

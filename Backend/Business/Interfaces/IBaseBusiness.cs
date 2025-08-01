@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Data.Implements.BaseData;
-using Data.Interfaces;
-using Entity.Dtos.Base;
+﻿using Entity.Dto.Base;
 using Entity.Model.Base;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Business.Interfaces
 {
@@ -14,6 +9,7 @@ namespace Business.Interfaces
         /// <summary>
         /// Obtiene todas las entidades desde la base de datos.
         /// </summary>
+        /// 
         Task<List<D>> GetAllAsync();
 
         /// <summary>
@@ -22,7 +18,7 @@ namespace Business.Interfaces
         Task<D> GetByIdAsync(int id);
 
         /// <summary>
-        /// Obtiene un DTO espec�fico por su ID.
+        /// Obtiene un DTO específico por su ID.
         /// </summary>
         Task<D> CreateAsync(D dto);
 

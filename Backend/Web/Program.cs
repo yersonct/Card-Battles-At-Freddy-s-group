@@ -1,18 +1,12 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Data.Interfaces;
 using Business.Interfaces;
 using Business.Implements;
 using Web.ServiceExtension;
 using FluentValidation;
-using FluentValidation.AspNetCore;
-using Data.Implements;
 using Data.Implements.BaseData;
 using Entity.Context;
-using Entity.Dtos;
-using Utilities.Mappers.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,13 +51,8 @@ builder.Services.AddScoped(typeof(IBaseBusiness<,>), typeof(BaseBusiness<,>));
 
 // Registrar servicios específicos de Business
 
-// builder.Services.AddScoped<ICarritoProductoBusiness, CarritoProductoBusiness>(); // Manejado por CarritoBusiness
-
-// builder.Services.AddScoped<IPedidoProductoBusiness, PedidoProductoBusiness>(); // Manejado por PedidoBusiness
-
-
 // Registrar todos los perfiles de AutoMapper de una vez
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

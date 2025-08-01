@@ -1,5 +1,5 @@
 using Business.Interfaces;
-using Entity.Dtos.Base;
+using Entity.Dto.Base;
 using Entity.Model.Base;
 
 namespace Business.Implements
