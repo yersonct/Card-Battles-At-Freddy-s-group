@@ -29,17 +29,18 @@ builder.Services.AddSwaggerDocumentation();
 
 // DbContext
 var dbProvider = builder.Configuration["DatabaseProvider"];
-if (dbProvider == "MySql")
+if (dbProvider == "SqlServer")
 {
-    var mySqlConnection = builder.Configuration.GetConnectionString("MySqlConnection");
+    // SQL Server como opción secundaria
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")!));
 }
-else // SqlServer por defecto
+else // MySQL por defecto usando MySql.EntityFrameworkCore
 {
-    var sqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+    var mySqlConnection = builder.Configuration.GetConnectionString("MySqlConnection") 
+                         ?? builder.Configuration.GetConnectionString("DefaultConnection")!;
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(sqlConnection));
+        options.UseMySQL(mySqlConnection));
 }
 
 // Register generic repositories and business logic
