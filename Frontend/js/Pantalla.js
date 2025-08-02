@@ -1,8 +1,16 @@
-setTimeout(()=>{
+document.addEventListener("DOMContentLoaded", () => {
+    const elementos = document.querySelectorAll(".elementos");
 
-    window.location.href= './Partida.html'
-},1500)
+    elementos.forEach((elemento) => {
+        elemento.addEventListener("click", () => {
+            const destino = elemento.getAttribute("data-url");
+            if (destino) {
+                // Guardamos la URL de destino en el almacenamiento local
+                localStorage.setItem("urlDestino", destino);
 
-function(){
-
-}
+                // Redirigimos a la página de transición
+                window.location.href = "../html/Pantalla.html";
+            }
+        });
+    });
+});

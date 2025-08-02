@@ -2,7 +2,7 @@
 body{
     background-image: url("../img/gif/fondo-spintrap.gif"); 
     margin: 0px;
-    overflow: hidden;
+    overflow-y: auto;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -57,5 +57,5 @@ document.addEventListener("visibilitychange", () => {
 // });
 
 function irTransmision(){
-    window.location.href = '../html/InicioJugadores.html'
+    window.location.href = '../html/Pantalla.html'
 }
