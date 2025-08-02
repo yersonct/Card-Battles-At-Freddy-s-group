@@ -12,7 +12,7 @@ namespace Data.Implements.BaseData
     /// <typeparam name="T"></typeparam>
     public abstract class ABaseModelData<T> : IBaseModelData<T> where T : BaseModel
     {
-    
+
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _dbSet;
 
@@ -29,6 +29,8 @@ namespace Data.Implements.BaseData
         public abstract Task<T> UpdateAsync(T entity);
         public abstract Task<bool> DeleteAsync(int id);
         public abstract Task<bool> SoftDeleteAsync(int id);
+        
+        public abstract Task<T> MergePatchAsync(int id, T partialEntity);
 
     }
 }

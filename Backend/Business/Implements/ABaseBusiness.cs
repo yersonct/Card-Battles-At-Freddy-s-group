@@ -1,6 +1,7 @@
 using Business.Interfaces;
 using Entity.Dto.Base;
 using Entity.Model.Base;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Business.Implements
 {
@@ -14,5 +15,8 @@ namespace Business.Implements
         public abstract Task<D> UpdateAsync(D dto);
         public abstract Task<bool> DeleteAsync(int id);
         public abstract Task<bool> SoftDeleteAsync(int id);
+        public abstract Task<D> MergePatchAsync(int id, D partialDto);
+
     }
+
 }

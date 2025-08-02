@@ -62,5 +62,16 @@ namespace Data.Implements.BaseData
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public override async Task<T> MergePatchAsync(int id, T partialEntity)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null) return null;
+
+            // Aquí se pueden aplicar los cambios parciales a la entidad
+            _context.Entry(entity).CurrentValues.SetValues(partialEntity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
     }
 }

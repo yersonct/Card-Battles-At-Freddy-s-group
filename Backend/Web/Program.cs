@@ -17,7 +17,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 });
 
 // Add controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(); // Añadir soporte para JsonPatch
 builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
