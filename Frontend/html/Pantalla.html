@@ -13,6 +13,21 @@
     <audio autoplay  >
         <source src="../img/sonido/tv-on-and-off-effect-after-effects-n-forced-1_nHv1tO39.mp3" type="audio/mp3" >
     </audio>
-<script src="../js/Pantalla.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const destino = localStorage.getItem("urlDestino");
+            
+            setTimeout(() => {
+                if (destino) {
+                    // Redirige después de la animación
+                    window.location.href = destino;
+
+                    // Limpia para evitar errores en futuros clics
+                    localStorage.removeItem("urlDestino");
+                }
+            }, 1500); // espera 2 segundos
+        });
+    </script>
+
 </body>
 </html>

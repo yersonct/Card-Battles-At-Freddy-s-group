@@ -12,6 +12,18 @@ body {
     overflow: hidden;
  background: black;
  font-family: 'Creepster';
+ opacity: 1;
+ animation: opacida 1s ease ;
+}
+
+@keyframes opacida {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+    
 }
 .container-completo{
     position: relative;
