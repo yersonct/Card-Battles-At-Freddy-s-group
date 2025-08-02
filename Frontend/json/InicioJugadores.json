@@ -1,0 +1,31 @@
+[
+    {
+        "numero-carta":"1A",
+        "nombre-carta":"Nightmare Freddy",
+        "imagen-personaje":"../img/foto/Nightmare Fredbear.jpg",
+        "etiqueta-estadistica":[{
+            "VIDA":"12000",
+            "ATAQUE":"28000",
+            "DEFENSA":"15000",
+            "VELOCIDAD":"8000",
+            "PODER":"20000",
+            "TERROR":"5000"
+        }],
+        "texto-trasero":"TRADING CARDS"
+    },
+    {
+        "numero-carta":"1A",
+        "nombre-carta":"Nightmare Freddy",
+        "imagen-personaje":"../img/foto/Nightmare Fredbear.jpg",
+        "etiqueta-estadistica":[{
+            "VIDA":"12000",
+            "ATAQUE":"28000",
+            "DEFENSA":"15000",
+            "VELOCIDAD":"8000",
+            "PODER":"20000",
+            "TERROR":"5000"
+        }],
+        "texto-trasero":"TRADING CARDS"
+    }
+    
+]
