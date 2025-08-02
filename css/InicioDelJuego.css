@@ -2,6 +2,7 @@
     margin: 0px;
     padding: 0px;
     box-sizing: content-box;
+   
 }
 body{
     background: black;
@@ -10,8 +11,14 @@ body{
     height: 100vh;
     margin: 0px;
     font-family: 'Creepster';font-size: 22px;
+    
+    cursor: url('../img/foto/fnaf-fetch-pack-removebg-preview.cur'), auto;
 }
+
 .container-video{
+    opacity: 0;
+    display: none; /* Importante: oculto al inicio */
+    transition: opacity 1s ease;
     width: 100%;
     height: 100%;
     background-image: url(../img/gif/inicio.gif);
@@ -49,6 +56,7 @@ body{
     height: 10%;
 }
 .contenedor-bt-Empezar{
+    transition: all 1 ease;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -63,6 +71,7 @@ body{
     color: red;
    font-family: 'Creepster';
    text-shadow: 0px 0px 2px red;
+   cursor: pointer;
 }
 
 
@@ -74,6 +83,8 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    opacity: 1;
+  transition: opacity 1s ease;
 }
 .container-logo-inicio div img{
     width: 100%;

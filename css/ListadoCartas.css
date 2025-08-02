@@ -1,11 +1,13 @@
-        body {
-            margin: 0;
-            padding: 0;
-            /* CAMBIA ESTA URL POR TU IMAGEN DE FONDO */
-            background: url('../img/gif/fondo-spintrap.gif') center/cover;
-            background-attachment: fixed;
-            font-family: 'Creepster';font-size: 22px;
-        }
+
+body{
+    background-image: url("../img/gif/fondo-spintrap.gif"); 
+    margin: 0px;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Creepster';font-size: 22px;
+}
 
         .marco-grande {
             min-height: 100vh;

@@ -7,6 +7,7 @@
 body{
     background-color: black;
      font-family: 'Creepster';font-size: 22px;
+         cursor: url('../img/foto/fnaf-fetch-pack-removebg-preview.cur'), auto;
 }
 .container-jugadores{
     width: 100vw;
@@ -35,7 +36,8 @@ body{
     align-items: center;
      border-bottom-left-radius: 50px;
     border-top-left-radius: 50px;
-    overflow: scroll;
+    overflow-y:auto;
+    overflow-x: none;
     padding: 15px;
     padding-bottom: 25px;
 }
