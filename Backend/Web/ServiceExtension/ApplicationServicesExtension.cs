@@ -1,7 +1,10 @@
 ﻿using FluentValidation;
 using System.Reflection;
+using Utilities.Mappers.Profiles;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace Web.ServiceExtension
 {
@@ -17,9 +20,9 @@ namespace Web.ServiceExtension
             {
                 options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
-                    var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? 
+                    var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ??
                                        new string[] { "http://localhost:3000", "http://localhost:5173" };
-                    
+
                     builder.WithOrigins(allowedOrigins)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
@@ -36,7 +39,10 @@ namespace Web.ServiceExtension
             });
 
             // Registra AutoMapper
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(cfg => 
+            {
+                cfg.AddMaps(typeof(PartidaProfile).Assembly); // se pone asi por la version de la libreria
+            });
 
             return services;
         }

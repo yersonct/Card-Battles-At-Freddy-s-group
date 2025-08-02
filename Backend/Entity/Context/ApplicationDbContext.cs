@@ -88,15 +88,18 @@ namespace Entity.Context
 
                     entity.HasOne(e => e.Partida)
                         .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdPartida);
+                        .HasForeignKey(e => e.IdPartida)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
 
                     entity.HasOne(e => e.Jugador)
                         .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdJugador);
+                        .HasForeignKey(e => e.IdJugador)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
 
                     entity.HasOne(e => e.Jugador)
                         .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdGanador);
+                        .HasForeignKey(e => e.IdGanador)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
                 }
             );
 
@@ -106,15 +109,18 @@ namespace Entity.Context
                 {
                     entity.HasOne(e => e.Ronda)
                         .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdRonda);
+                        .HasForeignKey(e => e.IdRonda)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
 
                     entity.HasOne(e => e.Jugador)
                         .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdJugador);
+                        .HasForeignKey(e => e.IdJugador)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
 
                     entity.HasOne(e => e.CartaJugador)
                         .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdCartaJugador);
+                        .HasForeignKey(e => e.IdCartaJugador)
+                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
                 }
             );
 

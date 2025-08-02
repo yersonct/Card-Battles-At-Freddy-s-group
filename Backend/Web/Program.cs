@@ -21,27 +21,13 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
-builder.Services.AddSingleton<IValidatorFactory>(sp =>
-    new ServiceProviderValidatorFactory(sp));
 
 // Swagger
 builder.Services.AddSwaggerDocumentation();
 
-// DbContext
-var dbProvider = builder.Configuration["DatabaseProvider"];
-if (dbProvider == "SqlServer")
-{
-    // SQL Server como opción secundaria
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")!));
-}
-else // MySQL por defecto usando MySql.EntityFrameworkCore
-{
-    var mySqlConnection = builder.Configuration.GetConnectionString("MySqlConnection") 
-                         ?? builder.Configuration.GetConnectionString("DefaultConnection")!;
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseMySQL(mySqlConnection));
-}
+// DbContext - usando solo SQL Server por compatibilidad
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")!));
 
 // Register generic repositories and business logic
 builder.Services.AddScoped(typeof(IBaseModelData<>), typeof(BaseModelData<>));
@@ -52,8 +38,10 @@ builder.Services.AddScoped(typeof(IBaseBusiness<,>), typeof(BaseBusiness<,>));
 
 // Registrar servicios específicos de Business
 
-// Registrar todos los perfiles de AutoMapper de una vez
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Registrar logging
+builder.Services.AddLogging();
+
+// AutoMapper
 
 var app = builder.Build();
 
@@ -80,7 +68,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Inicializar base de datos y aplicar migraciones
-await InitializeDatabaseAsync(app.Services);
+
+// Comentado temporalmente debido a problemas de cascada en las FK
+// await InitializeDatabaseAsync(app.Services);
 
 app.Run();
 

@@ -7,7 +7,7 @@ namespace Entity.Dto
     /// Clase base para los DTOs que contiene los de su entidad.
     /// Esta clase hereda de BaseDto para incluir propiedades comunes a todos los DTOs.
     /// </summary>
-    public abstract class PartidaDto : BaseDto
+    public class PartidaDto : BaseDto
     {
         public DateTime FechaInicio { get; set; } // Fecha de inicio de la partida
         public DateTime TiempoPartida { get; set; } // Tiempo de la partida

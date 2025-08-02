@@ -23,7 +23,7 @@ namespace Business.Implements
         /// </summary>
         protected readonly IMapper _mapper;
         protected readonly IBaseModelData<T> _data;
-        protected readonly ILogger _logger;
+        protected readonly ILogger<BaseBusiness<T, D>> _logger;
 
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Business.Implements
         /// <param name="data">Repositorio de datos para operaciones de persistencia</param>
         /// <param name="mapper">Instancia de AutoMapper para mapeo entre DTOs y entidades</param>
         /// <param name="logger">Logger para registrar eventos y errores durante las operaciones</param>
-        public BaseBusiness(IBaseModelData<T> data, IMapper mapper, ILogger logger) : base()
+        public BaseBusiness(IBaseModelData<T> data, IMapper mapper, ILogger<BaseBusiness<T, D>> logger) : base()
         {
             _data = data ?? throw new ArgumentNullException(nameof(data));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

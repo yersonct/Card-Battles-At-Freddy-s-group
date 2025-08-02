@@ -7,7 +7,7 @@ namespace Entity.Dto
     /// Clase base para los DTOs que contiene los de su entidad.
     /// Esta clase hereda de BaseDto para incluir propiedades comunes a todos los DTOs.
     /// </summary>
-    public abstract class JugadorDto : BaseDto
+    public class JugadorDto : BaseDto
     {
         public int IdPartida { get; set; } // ID de la partida a la que pertenece el jugador
         public string Nombre { get; set; } = null!; // Nombre del jugador
