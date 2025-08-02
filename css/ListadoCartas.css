@@ -235,3 +235,99 @@ body{
                 height: 140px;
             }
         }
+
+        /* Barra-desplazamiento personalizada - Agregar al final de tu archivo ListadoCartas.css */
+
+/* Para navegadores Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra vertical */
+    height: 12px; /* Alto de la barra horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #2b2b2b; /* Fondo gris oscuro de la pista */
+    border-radius: 10px;
+    border: 1px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #dc2626; /* Color rojo de la barra */
+    border-radius: 10px;
+    border: 1px solid #991b1b; /* Borde más oscuro */
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ef4444; /* Rojo más claro al pasar el ratón */
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #b91c1c; /* Rojo más oscuro al hacer clic */
+}
+
+/* Para las esquinas donde se cruzan las barras horizontal y vertical */
+::-webkit-scrollbar-corner {
+    background: #2b2b2b;
+}
+
+/* Configuración del body para mantener el fondo fijo */
+body {
+    background-image: url("../img/gif/fondo-spintrap.gif"); 
+    margin: 0px;
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    overflow-x: hidden; /* Oculta desplazamiento horizontal */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* CLAVE: Mantiene el fondo fijo al hacer scroll */
+    font-family: 'Creepster';
+    font-size: 22px;
+    /* Barra-desplazamiento para Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #dc2626 #2b2b2b;
+}
+
+/* Configuración específica para el contenedor-principal si necesitas desplazamiento interno */
+.contenedor-principal {
+    /* Si quieres que solo el contenedor tenga desplazamiento en lugar del body */
+    /* max-height: 90vh; */
+    /* overflow-y: auto; */
+    /* scrollbar-width: thin; */
+    /* scrollbar-color: #dc2626 #2b2b2b; */
+}
+
+/* Animación suave para la barra-desplazamiento */
+::-webkit-scrollbar-thumb {
+    transition: background-color 0.3s ease;
+}
+
+/* Estilos adicionales para mejor apariencia */
+::-webkit-scrollbar-track:hover {
+    background: #333333;
+}
+
+/* Para hacer la barra-desplazamiento más visible en modo oscuro */
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #dc2626;
+        border: 1px solid #7f1d1d;
+    }
+}
+
+/* Responsivo para móviles - barra-desplazamiento más delgada */
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    /* Asegurar que el fondo siga fijo en móviles */
+    body {
+        background-attachment: fixed;
+    }
+}
