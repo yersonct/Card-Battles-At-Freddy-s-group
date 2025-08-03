@@ -24,6 +24,7 @@ namespace Entity.Migrations
                     Defensa = table.Column<int>(type: "int", nullable: false),
                     Velocidad = table.Column<int>(type: "int", nullable: false),
                     Ataque = table.Column<int>(type: "int", nullable: false),
+                    Poder = table.Column<int>(type: "int", nullable: false),
                     Terror = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
