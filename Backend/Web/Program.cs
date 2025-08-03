@@ -26,9 +26,31 @@ builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 // Swagger
 builder.Services.AddSwaggerDocumentation();
 
-// DbContext - usando solo SQL Server por compatibilidad
+// Configuración de base de datos dinámica
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? "MySql";
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")!));
+{
+    switch (databaseProvider.ToLower())
+    {
+        case "mysql":
+            var mysqlConnection = builder.Configuration.GetConnectionString("MySqlConnection") 
+                ?? builder.Configuration.GetConnectionString("DefaultConnection");
+            options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection));
+            break;
+        
+        case "sqlserver":
+            var sqlServerConnection = builder.Configuration.GetConnectionString("SqlServerConnection");
+            options.UseSqlServer(sqlServerConnection);
+            break;
+        
+        default:
+            // Por defecto usar MySQL con Pomelo
+            var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+            options.UseMySql(defaultConnection, ServerVersion.AutoDetect(defaultConnection));
+            break;
+    }
+});
 
 // Register generic repositories and business logic
 builder.Services.AddScoped(typeof(IBaseModelData<>), typeof(BaseModelData<>));
@@ -70,8 +92,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Inicializar base de datos y aplicar migraciones
-
-// Comentado temporalmente debido a problemas de cascada en las FK
 // await InitializeDatabaseAsync(app.Services);
 
 app.Run();
@@ -84,10 +104,14 @@ static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider)
     using var scope = serviceProvider.CreateScope();
     var services = scope.ServiceProvider;
     var logger = services.GetRequiredService<ILogger<Program>>();
+    var configuration = services.GetRequiredService<IConfiguration>();
     
     try
     {
         var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        var databaseProvider = configuration.GetValue<string>("DatabaseProvider") ?? "MySql";
+        
+        logger.LogInformation($"Inicializando base de datos con proveedor: {databaseProvider}");
         
         // Verificar si existen migraciones pendientes
         var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
@@ -127,11 +151,11 @@ static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider)
         // Verificar conectividad
         if (await dbContext.Database.CanConnectAsync())
         {
-            logger.LogInformation("Conexión a la base de datos verificada exitosamente.");
+            logger.LogInformation($"Conexión a la base de datos {databaseProvider} verificada exitosamente.");
         }
         else
         {
-            logger.LogError("No se pudo conectar a la base de datos.");
+            logger.LogError($"No se pudo conectar a la base de datos {databaseProvider}.");
         }
     }
     catch (Exception ex)
