@@ -1,52 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Battles At Freddy´s</title>
-    <link rel="stylesheet" href="../css/InicioJugadores.css">
     <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
+    <link rel="stylesheet" href="../css/InicioJugadores.css">
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
-
 
 </head>
 <body>
+    <!-- Contenedor principal -->
     <div class="container-jugadores">
-        <div class="contenedor-de-container">
-
-            <div class="jugadores">
-                <div class='caja-jugadores' id='caja-1'>
-                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar">+</div>
-                    <div class='caja-imagen'></div>
-                    <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3">
-                    </div>
-                </div>
-                <div class='caja-jugadores' id='caja-2'>
-                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar" onclick="ponerAvatar()">+</div>
-                    <div class='caja-imagen'></div>
-                    <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3">
-                    </div>
+        <!-- Contenedor de avatares de jugadores -->
+        <div class="contenedor-avatares" id="contenedor-avatares">
+            <!-- Jugador 1 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="1">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(1)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 1" maxlength="10" minlength="3">
                 </div>
             </div>
-            <div class="caja-contenedor-mas" >
-                <div class="caja-mas">
-                        <b class="mas">+</b>
-                        <p>Quiere agregar otro jugador</p>
+
+            <!-- Jugador 2 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="2">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(2)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 1" maxlength="10" minlength="3">
                 </div>
+            </div>
+
+            <!-- Botón para agregar más jugadores -->
+            <div class="boton-agregar" id="boton-agregar" onclick="agregarJugador()">
+                <div class="circulo-agregar">+</div>
+                <div class="texto-agregar">QUIERE AGREGAR OTRO JUGADOR</div>
             </div>
         </div>
+
+        <!-- Botón para comenzar partida -->
         <div class="container-iniciar-juego">
-            <button class="btn-iniciar elementos" onclick="IniciarPartidad()" onclick="irTransmision()" div="ir-4">
-                Iniciar Partida
+            <button class="btn-comenzar" onclick="iniciarPartida()">
+                COMENZAR
             </button>
         </div>
-        <p class="Text-Cantidad"></p>
+
+        <!-- Texto de cantidad de jugadores -->
+        <p class="texto-cantidad" id="texto-cantidad">Jugadores: 2</p>
     </div>
     <script src="../js/InicioJugadores.js"></script>
-    <script src="../js/Pantalla.js"></script>
+
 </body>
 </html>
