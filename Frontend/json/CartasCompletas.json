@@ -1,0 +1,130 @@
+[
+  {
+    "numero-carta": "1A",
+    "nombre-carta": "Nightmare Freddy",
+    "imagen-personaje": "../img/foto/Nightmare Fredbear.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "12000",
+        "ATAQUE": "28000",
+        "DEFENSA": "15000",
+        "VELOCIDAD": "8000",
+        "PODER": "20000",
+        "TERROR": "50000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "D7",
+    "nombre-carta": "Freddy Fazbear",
+    "imagen-personaje": "../img/foto/FreddyFazbear.webp",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "8000",
+        "ATAQUE": "15000",
+        "DEFENSA": "12000",
+        "VELOCIDAD": "6000",
+        "PODER": "9000",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "H7",
+    "nombre-carta": "Circus Baby",
+    "imagen-personaje": "../img/foto/nomeacuerdo.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "7500",
+        "ATAQUE": "14000",
+        "DEFENSA": "11000",
+        "VELOCIDAD": "7000",
+        "PODER": "8500",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "5B",
+    "nombre-carta": "Mangle",
+    "imagen-personaje": "../img/foto/Mangle.png",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "6000",
+        "ATAQUE": "9000",
+        "DEFENSA": "5000",
+        "VELOCIDAD": "12000",
+        "PODER": "7000",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "5B",
+    "nombre-carta": "Toy Bonnie",
+    "imagen-personaje": "../img/foto/toy bonnie.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "5500",
+        "ATAQUE": "8500",
+        "DEFENSA": "6000",
+        "VELOCIDAD": "10000",
+        "PODER": "7500",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "5B",
+    "nombre-carta": "Puppet",
+    "imagen-personaje": "../img/foto/puppet.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "4000",
+        "ATAQUE": "7000",
+        "DEFENSA": "3000",
+        "VELOCIDAD": "15000",
+        "PODER": "9000",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "5B",
+    "nombre-carta": "Balloon Boy",
+    "imagen-personaje": "../img/foto/ballons.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "3000",
+        "ATAQUE": "4000",
+        "DEFENSA": "2000",
+        "VELOCIDAD": "8000",
+        "PODER": "5000",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  },
+  {
+    "numero-carta": "5B",
+    "nombre-carta": "Toy Freddy",
+    "imagen-personaje": "../img/foto/toy freddy.jpg",
+    "etiqueta-estadistica": [
+      {
+        "VIDA": "6500",
+        "ATAQUE": "9500",
+        "DEFENSA": "7000",
+        "VELOCIDAD": "5000",
+        "PODER": "8000",
+        "TERROR": "3000"
+      }
+    ],
+    "texto-trasero": "TRADING CARDS"
+  }
+]

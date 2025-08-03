@@ -1,31 +1,114 @@
 [
     {
-        "numero-carta":"1A",
-        "nombre-carta":"Nightmare Freddy",
-        "imagen-personaje":"../img/foto/Nightmare Fredbear.jpg",
-        "etiqueta-estadistica":[{
-            "VIDA":"12000",
-            "ATAQUE":"28000",
-            "DEFENSA":"15000",
-            "VELOCIDAD":"8000",
-            "PODER":"20000",
-            "TERROR":"5000"
+        "numero-carta": "1A",
+        "nombre-carta": "Nightmare Freddy",
+        "imagen-personaje": "../img/foto/Nightmare Fredbear.jpg",
+        "etiqueta-estadistica": [{
+            "VIDA": "12000",
+            "ATAQUE": "28000",
+            "DEFENSA": "15000",
+            "VELOCIDAD": "8000",
+            "PODER": "20000",
+            "TERROR": "50000"
         }],
-        "texto-trasero":"TRADING CARDS"
+        "texto-trasero": "TRADING CARDS"
     },
     {
-        "numero-carta":"1A",
-        "nombre-carta":"Nightmare Freddy",
-        "imagen-personaje":"../img/foto/Nightmare Fredbear.jpg",
-        "etiqueta-estadistica":[{
-            "VIDA":"12000",
-            "ATAQUE":"28000",
-            "DEFENSA":"15000",
-            "VELOCIDAD":"8000",
-            "PODER":"20000",
-            "TERROR":"5000"
+        "numero-carta": "D7",
+        "nombre-carta": "Freddy Fazbear",
+        "imagen-personaje": "../img/foto/FreddyFazbear.webp",
+        "etiqueta-estadistica": [{
+            "VIDA": "8000",
+            "ATAQUE": "15000",
+            "DEFENSA": "12000",
+            "VELOCIDAD": "6000",
+            "PODER": "9000",
+            "TERROR": "3000"
         }],
-        "texto-trasero":"TRADING CARDS"
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "H7",
+        "nombre-carta": "Circus Baby",
+        "imagen-personaje": "../img/foto/nomeacuerdo.jpg",
+        "etiqueta-estadistica": [{
+            "VIDA": "7500",
+            "ATAQUE": "14000",
+            "DEFENSA": "11000",
+            "VELOCIDAD": "7000",
+            "PODER": "8500",
+            "TERROR": "4000"
+        }],
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "5B",
+        "nombre-carta": "Mangle",
+        "imagen-personaje": "../img/foto/Mangle.png",
+        "etiqueta-estadistica": [{
+            "VIDA": "6000",
+            "ATAQUE": "9000",
+            "DEFENSA": "5000",
+            "VELOCIDAD": "12000",
+            "PODER": "7000",
+            "TERROR": "6000"
+        }],
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "5B",
+        "nombre-carta": "Toy Bonnie",
+        "imagen-personaje": "../img/foto/ToyBonnie.webp",
+        "etiqueta-estadistica": [{
+            "VIDA": "5500",
+            "ATAQUE": "8000",
+            "DEFENSA": "4500",
+            "VELOCIDAD": "10000",
+            "PODER": "6000",
+            "TERROR": "2500"
+        }],
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "5B",
+        "nombre-carta": "Puppet",
+        "imagen-personaje": "../img/foto/Puppet.webp",
+        "etiqueta-estadistica": [{
+            "VIDA": "9000",
+            "ATAQUE": "12000",
+            "DEFENSA": "8000",
+            "VELOCIDAD": "11000",
+            "PODER": "13000",
+            "TERROR": "8000"
+        }],
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "5B",
+        "nombre-carta": "Balloon Boy",
+        "imagen-personaje": "../img/foto/BalloonBoy.webp",
+        "etiqueta-estadistica": [{
+            "VIDA": "3000",
+            "ATAQUE": "4000",
+            "DEFENSA": "2000",
+            "VELOCIDAD": "15000",
+            "PODER": "3500",
+            "TERROR": "1000"
+        }],
+        "texto-trasero": "TRADING CARDS"
+    },
+    {
+        "numero-carta": "5B",
+        "nombre-carta": "Toy Freddy",
+        "imagen-personaje": "../img/foto/ToyFreddy.webp",
+        "etiqueta-estadistica": [{
+            "VIDA": "7000",
+            "ATAQUE": "11000",
+            "DEFENSA": "9000",
+            "VELOCIDAD": "5000",
+            "PODER": "8000",
+            "TERROR": "3500"
+        }],
+        "texto-trasero": "TRADING CARDS"
     }
-    
 ]

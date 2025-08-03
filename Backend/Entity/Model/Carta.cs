@@ -9,6 +9,7 @@ namespace Entity.Model
 {
     public class Carta : BaseModel
     {
+        public byte[] Imagen { get; set; } = null!; // Imagen de la carta
         public string Nombre { get; set; } // Nombre de la carta
         public string Categoria { get; set; } // Categoría de la carta (ejemplo: "1A", "1B", etc.)
         public int Vida { get; set; } // Vida de la carta

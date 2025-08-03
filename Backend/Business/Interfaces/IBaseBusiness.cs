@@ -1,5 +1,6 @@
 ﻿using Entity.Dto.Base;
 using Entity.Model.Base;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Business.Interfaces
 {
@@ -38,5 +39,11 @@ namespace Business.Interfaces
         /// Elimina lógicamente un registro del sistema (cambio de estado a inactivo)
         /// </summary>
         Task<bool> SoftDeleteAsync(int id);
+
+        /// <summary>
+        /// Actualiza parcialmente una entidad - solo los campos enviados se modifican
+        /// </summary>
+        Task<D> MergePatchAsync(int id, D partialDto);
+
     }
 }
