@@ -32,9 +32,10 @@ namespace Web.ServiceExtension
                 // Política completamente abierta para desarrollo
                 options.AddPolicy("AllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.SetIsOriginAllowed(origin => true) // Permite cualquier origen incluyendo file://
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
 

@@ -17,6 +17,7 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Imagen = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Nombre = table.Column<string>(type: "varchar(100)", nullable: false),
                     Categoria = table.Column<string>(type: "varchar(100)", nullable: false),
                     Vida = table.Column<int>(type: "int", nullable: false),

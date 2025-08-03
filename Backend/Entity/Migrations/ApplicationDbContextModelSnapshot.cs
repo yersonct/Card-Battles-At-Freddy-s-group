@@ -43,6 +43,10 @@ namespace Entity.Migrations
                     b.Property<int>("Defensa")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Imagen")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(100)");

@@ -60,7 +60,8 @@ if (app.Environment.IsDevelopment())
 // Usa la política de CORS completamente abierta en desarrollo
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+// Deshabilitar HTTPS redirection para desarrollo local
+// app.UseHttpsRedirection();
 
 // Autenticación y autorización
 app.UseAuthentication();

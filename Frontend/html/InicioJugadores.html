@@ -17,18 +17,18 @@
             <div class="jugadores">
                 <div class='caja-jugadores' id='caja-1'>
                     <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar">+</div>
-                    <div class='caja-imagen'></div>
+                    <div class="PonerAvatar" onclick="ponerAvatar(1)">+</div>
+                    <div class='caja-imagen' id='imagen-1'></div>
                     <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3">
+                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3" data-jugador="1">
                     </div>
                 </div>
                 <div class='caja-jugadores' id='caja-2'>
-                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar" onclick="ponerAvatar()">+</div>
-                    <div class='caja-imagen'></div>
+                    <div class="Cancelar" id="Cancelar-2" onclick="eliminarJugador(this)"><b>X</b></div>
+                    <div class="PonerAvatar" onclick="ponerAvatar(2)">+</div>
+                    <div class='caja-imagen' id='imagen-2'></div>
                     <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3">
+                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3" data-jugador="2">
                     </div>
                 </div>
             </div>
@@ -46,6 +46,20 @@
         </div>
         <p class="Text-Cantidad"></p>
     </div>
+    
+    <!-- Scripts de API -->
+    <script src="../Api/ConfigApi.js"></script>
+    <script src="../Api/Services/BaseApiService.js"></script>
+    <script src="../Api/Services/CartaService.js"></script>
+    <script src="../Api/Services/CartaJugadorService.js"></script>
+    <script src="../Api/Services/JugadaService.js"></script>
+    <script src="../Api/Services/JugadorService.js"></script>
+    <script src="../Api/Services/PartidaService.js"></script>
+    <script src="../Api/Services/RondaService.js"></script>
+    <script src="../Api/Services/GameService.js"></script>
+    <script src="../Api/Services/ApiServiceManager.js"></script>
+    
+    <!-- Scripts de la página -->
     <script src="../js/InicioJugadores.js"></script>
     <script src="../js/Pantalla.js"></script>
 </body>
