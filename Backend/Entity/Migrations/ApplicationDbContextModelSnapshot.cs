@@ -51,6 +51,9 @@ namespace Entity.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<int>("Poder")
+                        .HasColumnType("int");
+
                     b.Property<int>("Terror")
                         .HasColumnType("int");
 
