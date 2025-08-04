@@ -1,66 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Battles At Freddy´s</title>
-    <link rel="stylesheet" href="../css/InicioJugadores.css">
-    <link rel="icon" href="../img/foto/freddy-icono.png">
+    <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
-
-
+    <link rel="stylesheet" href="../css/InicioJugadores.css">
 </head>
 <body>
+    <!-- Contenedor principal -->
     <div class="container-jugadores">
-        <div class="contenedor-de-container">
-
-            <div class="jugadores">
-                <div class='caja-jugadores' id='caja-1'>
-                    <div class="Cancelar" id="Cancelar-1" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar" onclick="ponerAvatar(1)">+</div>
-                    <div class='caja-imagen' id='imagen-1'></div>
-                    <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3" data-jugador="1">
-                    </div>
-                </div>
-                <div class='caja-jugadores' id='caja-2'>
-                    <div class="Cancelar" id="Cancelar-2" onclick="eliminarJugador(this)"><b>X</b></div>
-                    <div class="PonerAvatar" onclick="ponerAvatar(2)">+</div>
-                    <div class='caja-imagen' id='imagen-2'></div>
-                    <div class='caja-nombre'>
-                        <input type='text' placeholder='Nombre' required maxlength="10" minlength="3" data-jugador="2">
-                    </div>
+        <!-- Contenedor de avatares de jugadores -->
+        <div class="contenedor-avatares" id="contenedor-avatares">
+            <!-- Jugador 1 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="1">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(1)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 1" maxlength="10" minlength="3">
                 </div>
             </div>
-            <div class="caja-contenedor-mas" >
-                <div class="caja-mas">
-                        <b class="mas">+</b>
-                        <p>Quiere agregar otro jugador</p>
+
+            <!-- Jugador 2 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="2">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(2)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 1" maxlength="10" minlength="3">
                 </div>
+            </div>
+
+            <!-- Botón para agregar más jugadores -->
+            <div class="boton-agregar" id="boton-agregar" onclick="agregarJugador()">
+                <div class="circulo-agregar">+</div>
+                <div class="texto-agregar">QUIERE AGREGAR OTRO JUGADOR</div>
             </div>
         </div>
+
+        <!-- Botón para comenzar partida -->
         <div class="container-iniciar-juego">
-            <button class="btn-iniciar elementos" onclick="IniciarPartidad()" onclick="irTransmision()" div="ir-4">
-                Iniciar Partida
+            <button class="btn-comenzar" onclick="iniciarPartida()">
+                COMENZAR
             </button>
         </div>
-        <p class="Text-Cantidad"></p>
+
+        <!-- Texto de cantidad de jugadores -->
+        <p class="texto-cantidad" id="texto-cantidad">Jugadores: 2</p>
     </div>
-    
-    <!-- Scripts de API -->
-    <script src="../Api/ConfigApi.js"></script>
-    <script src="../Api/Services/BaseApiService.js"></script>
-    <script src="../Api/Services/CartaService.js"></script>
-    <script src="../Api/Services/CartaJugadorService.js"></script>
-    <script src="../Api/Services/JugadaService.js"></script>
-    <script src="../Api/Services/JugadorService.js"></script>
-    <script src="../Api/Services/PartidaService.js"></script>
-    <script src="../Api/Services/RondaService.js"></script>
-    <script src="../Api/Services/GameService.js"></script>
-    <script src="../Api/Services/ApiServiceManager.js"></script>
-    
-    <!-- Scripts de la página -->
     <script src="../js/InicioJugadores.js"></script>
-    <script src="../js/Pantalla.js"></script>
 </body>
 </html>
