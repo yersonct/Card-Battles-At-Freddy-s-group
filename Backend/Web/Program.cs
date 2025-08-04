@@ -17,7 +17,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 });
 
 // Add controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(); // Añadir soporte para JsonPatch
 builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
@@ -59,7 +60,8 @@ if (app.Environment.IsDevelopment())
 // Usa la política de CORS completamente abierta en desarrollo
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+// Deshabilitar HTTPS redirection para desarrollo local
+// app.UseHttpsRedirection();
 
 // Autenticación y autorización
 app.UseAuthentication();

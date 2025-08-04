@@ -1,9 +1,11 @@
 using System;
+using System.Reflection;
 using AutoMapper;
 using Data.Interfaces;
 using Entity.Dto.Base;
 using Entity.Model.Base;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Business.Implements
 {
@@ -141,6 +143,85 @@ namespace Business.Implements
                 _logger.LogError(ex, $"Error al eliminar registro de {typeof(T).Name} con ID {id}");
                 throw;
             }
+        }
+
+       public override async Task<D> MergePatchAsync(int id, D partialDto)
+        {
+            try
+            {
+                _logger.LogInformation($"Aplicando merge patch al registro con ID {id} de {typeof(T).Name}");
+
+                // 1. Obtener la entidad existente de la base de datos
+                var existingEntity = await _data.GetByIdAsync(id);
+                if (existingEntity == null)
+                    throw new KeyNotFoundException($"Registro con ID {id} no encontrado");
+
+                // 2. Convertir la entidad existente a DTO
+                var existingDto = _mapper.Map<D>(existingEntity);
+
+                // 3. Obtener todas las propiedades del DTO (excluyendo Id y Active)
+                var properties = typeof(D).GetProperties()
+                    .Where(p => p.CanWrite && p.Name != "Id" && p.Name != "Active");
+
+                // 4. Actualizar solo las propiedades que NO son valores por defecto
+                foreach (var property in properties)
+                {
+                    var newValue = property.GetValue(partialDto);
+                    var currentValue = property.GetValue(existingDto);
+                    
+                    // Solo actualizar si el valor no es el valor por defecto del tipo
+                    if (newValue != null && !IsDefaultValue(newValue, property.PropertyType))
+                    {
+                        // Solo cambiar si realmente es diferente
+                        if (!Equals(currentValue, newValue))
+                        {
+                            property.SetValue(existingDto, newValue);
+                            _logger.LogInformation($"Actualizando campo {property.Name} de '{currentValue}' a '{newValue}'");
+                        }
+                    }
+                    else if (newValue != null && property.PropertyType == typeof(string))
+                    {
+                        // Para strings, permitir strings vacíos si no son null
+                        if (!string.IsNullOrEmpty(newValue.ToString()) && !Equals(currentValue, newValue))
+                        {
+                            property.SetValue(existingDto, newValue);
+                            _logger.LogInformation($"Actualizando campo string {property.Name} de '{currentValue}' a '{newValue}'");
+                        }
+                    }
+                }
+
+                // 5. Convertir de vuelta a entidad y guardar
+                var entityToUpdate = _mapper.Map<T>(existingDto);
+                var updatedEntity = await _data.MergePatchAsync(id, entityToUpdate);
+
+                return _mapper.Map<D>(updatedEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al aplicar merge patch: {ex.Message}");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Verifica si un valor es el valor por defecto de su tipo
+        /// </summary>
+        private bool IsDefaultValue(object value, Type type)
+        {
+            if (value == null) return true;
+            
+            if (type.IsValueType)
+            {
+                var defaultValue = Activator.CreateInstance(type);
+                return value.Equals(defaultValue);
+            }
+            
+            if (type == typeof(string))
+            {
+                return string.IsNullOrEmpty(value.ToString());
+            }
+            
+            return false;
         }
     }
 }

@@ -7,9 +7,9 @@ Este juego de cartas de terror, autoconcluyente, sumerge a los jugadores en una 
 + Brayan Stid Cortes Lombana
 
 ### Herramientas que se usaron
-**FrontEnd:** Tailwind, react,Bootstrap
+**FrontEnd:** HTML, CSS, JavaScript, Bootstrap
 
-**BackEnd:** Mysql, C#
+**BackEnd:** SqlServer/ Mysql, C#
 
 
 # link de documentos

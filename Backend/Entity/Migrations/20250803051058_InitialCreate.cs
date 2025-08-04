@@ -17,12 +17,14 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Imagen = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Nombre = table.Column<string>(type: "varchar(100)", nullable: false),
                     Categoria = table.Column<string>(type: "varchar(100)", nullable: false),
                     Vida = table.Column<int>(type: "int", nullable: false),
                     Defensa = table.Column<int>(type: "int", nullable: false),
                     Velocidad = table.Column<int>(type: "int", nullable: false),
                     Ataque = table.Column<int>(type: "int", nullable: false),
+                    Poder = table.Column<int>(type: "int", nullable: false),
                     Terror = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },

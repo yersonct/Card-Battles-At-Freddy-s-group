@@ -11,5 +11,6 @@ namespace Web.Controllers.Interface
         Task<IActionResult> Update(TDto dto);
         Task<IActionResult> Delete(int id);
         Task<IActionResult> SoftActive(int id);
+        Task<IActionResult> MergePatch(int id, TDto partialDto);
     }
 }

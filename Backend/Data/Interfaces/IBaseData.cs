@@ -48,5 +48,10 @@ namespace Data.Interfaces
         /// </summary>
         Task<bool> SoftDeleteAsync(int id);
 
+        /// <summary>
+        /// Actualiza parcialmente una entidad
+        /// </summary>
+        Task<T> MergePatchAsync(int id, T partialEntity);
+
     }
 }

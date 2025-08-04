@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250802205325_InitialCreate")]
+    [Migration("20250803051058_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -46,9 +46,16 @@ namespace Entity.Migrations
                     b.Property<int>("Defensa")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Imagen")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Poder")
+                        .HasColumnType("int");
 
                     b.Property<int>("Terror")
                         .HasColumnType("int");

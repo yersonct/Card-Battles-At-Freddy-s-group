@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
 using Business.Interfaces;
 using Entity.Model.Base;
 using Entity.Dto.Base;
@@ -97,6 +98,29 @@ namespace Web.Controllers.Implements
                 return StatusCode(500, "Error interno del servidor");
             }
         }
+
+        [HttpPatch("{id}/merge")]
+        public virtual async Task<IActionResult> MergePatch(int id, [FromBody] TDto partialDto)
+        {
+            try
+            {
+                if (partialDto == null)
+                    return BadRequest("Los datos parciales no pueden ser nulos");
+
+                var updatedEntity = await _business.MergePatchAsync(id, partialDto);
+                return Ok(updatedEntity);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound($"Registro con ID {id} no encontrado");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al aplicar merge patch al registro con ID {id}: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+
 
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(int id)
