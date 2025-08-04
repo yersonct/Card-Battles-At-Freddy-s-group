@@ -1,0 +1,314 @@
+/* Estilos para la selección de carta estilo imagen */
+
+/* Contenedor principal para la vista de selección */
+.vista-seleccion-carta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.vista-seleccion-carta.activa {
+    display: flex;
+}
+
+/* Contenedor de la carta seleccionada */
+.contenedor-carta-seleccionada {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Carta principal en el centro */
+.carta-principal-seleccionada {
+    width: 280px;
+    height: 400px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    transition: all 0.3s ease;
+    z-index: 10;
+    background: linear-gradient(145deg, #FFD700, #FFA500);
+    border: 3px solid #B8860B;
+    position: relative;
+    overflow: hidden;
+}
+
+.carta-principal-seleccionada:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+}
+
+/* Panel de información de la carta */
+.panel-info-carta {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff6b35;
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px;
+    height: 350px;
+    color: white;
+    font-family: 'Creepster', cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.panel-info-carta h3 {
+    text-align: center;
+    color: #ff6b35;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    text-shadow: 0 0 10px #ff6b35;
+}
+
+.stats-detalladas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 5px;
+    border-left: 3px solid #ff6b35;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #ffccaa;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 5px #ff6b35;
+}
+
+/* Botones de acción */
+.botones-accion-carta {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-accion {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Creepster', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 180px;
+}
+
+.btn-tirar {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-tirar:hover {
+    background: linear-gradient(45deg, #45a049, #4CAF50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-volver {
+    background: linear-gradient(45deg, #f44336, #d32f2f);
+    color: white;
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.btn-volver:hover {
+    background: linear-gradient(45deg, #d32f2f, #f44336);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+}
+
+/* Indicador de tiempo para escapar */
+.tiempo-escape {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-family: 'Creepster', cursive;
+    font-size: 1.2em;
+    border: 2px solid #ff0000;
+    animation: pulso-tiempo 1s infinite;
+}
+
+@keyframes pulso-tiempo {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Cartas del oponente (versión simplificada en los lados) */
+.cartas-oponentes {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+}
+
+.carta-oponente {
+    width: 60px;
+    height: 90px;
+    background: #333;
+    border-radius: 8px;
+    border: 2px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Creepster', cursive;
+    font-size: 0.8em;
+    position: relative;
+}
+
+.carta-oponente::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: #ff6b35;
+    border-radius: 50%;
+    font-size: 0.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.carta-oponente.t2::before { content: 'T2'; }
+.carta-oponente.t3::before { content: 'T3'; }
+.carta-oponente.t4::before { content: 'T4'; }
+.carta-oponente.t5::before { content: 'T5'; }
+.carta-oponente.t6::before { content: 'T6'; }
+.carta-oponente.t7::before { content: 'T7'; }
+
+/* Animación de entrada */
+.vista-seleccion-carta.entrando .carta-principal-seleccionada {
+    animation: carta-aparece 0.5s ease-out;
+}
+
+.vista-seleccion-carta.entrando .panel-info-carta {
+    animation: panel-desliza 0.5s ease-out 0.2s both;
+}
+
+@keyframes carta-aparece {
+    from {
+        transform: scale(0.5) rotateY(180deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes panel-desliza {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor-carta-seleccionada {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .carta-principal-seleccionada {
+        width: 200px;
+        height: 280px;
+    }
+    
+    .panel-info-carta {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+    }
+    
+    .cartas-oponentes {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-bottom: 20px;
+    }
+}
+
+/* Efectos especiales para diferentes rarezas */
+.carta-principal-seleccionada.dorada {
+    background: linear-gradient(145deg, #FFD700, #FFA500);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+.carta-principal-seleccionada.rosa {
+    background: linear-gradient(145deg, #FF69B4, #FF1493);
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+}
+
+.carta-principal-seleccionada.azul {
+    background: linear-gradient(145deg, #1E90FF, #0066CC);
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.8);
+}
+
+/* Estilos para cartas ya tiradas */
+.carta-tirada {
+    opacity: 0.6 !important;
+    filter: grayscale(50%) !important;
+    pointer-events: none !important;
+    position: relative;
+}
+
+.carta-tirada::after {
+    content: "USADA";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-family: 'Creepster', cursive;
+    font-size: 0.8em;
+    z-index: 10;
+    border: 2px solid #fff;
+}

@@ -7,6 +7,7 @@
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
     <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
     <link rel="stylesheet" href="../css/Sala.css">
+    <link rel="stylesheet" href="../css/SeleccionCarta.css">
 
 </head>
 <body>
@@ -181,8 +182,49 @@
             </tbody>
         </table>
     </div>
+     <!-- Script de demo -->
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ocultar loading después de 2 segundos
+            setTimeout(() => {
+                const loading = document.querySelector('.loading-cartas');
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            }, 2000);
+            
+            // Función demo para probar la selección avanzada
+            window.probarSeleccion = function() {
+                const primeraCarta = document.querySelector('.carta');
+                if (primeraCarta && typeof mostrarSeleccionAvanzada === 'function') {
+                    primeraCarta.classList.add('volteada');
+                    mostrarSeleccionAvanzada(primeraCarta);
+                }
+            };
+            
+            // Agregar botón de prueba
+            const botonPrueba = document.createElement('button');
+            botonPrueba.textContent = '🧪 Probar Selección';
+            botonPrueba.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff6b35;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-family: 'Creepster';
+                cursor: pointer;
+                z-index: 100;
+            `;
+            botonPrueba.onclick = window.probarSeleccion;
+            document.body.appendChild(botonPrueba);
+        });
+    </script>
     <script src="../js/Pantalla.js"></script>
     <script src="../js/Sala/Sala.js"></script>
     <script src="../js/Sala/CartasRepetidas.js"></script>
+    <script src="../js/Sala/SeleccionCartaAvanzada.js" defer></script>
 </body>
 </html>

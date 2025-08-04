@@ -200,8 +200,8 @@ class GeneradorCartas {
         if (this.contenedorCartas) {
             this.contenedorCartas.addEventListener('click', (event) => {
                 const carta = event.target.closest('.carta');
-                if (carta && typeof voltearCarta === 'function') {
-                    voltearCarta(carta);
+                if (carta) {
+                    this.manejarClickCarta(carta);
                 }
             });
 
@@ -209,12 +209,27 @@ class GeneradorCartas {
             this.contenedorCartas.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     const carta = event.target.closest('.carta');
-                    if (carta && typeof voltearCarta === 'function') {
+                    if (carta) {
                         event.preventDefault();
-                        voltearCarta(carta);
+                        this.manejarClickCarta(carta);
                     }
                 }
             });
+        }
+    }
+
+    manejarClickCarta(carta) {
+        // Primero voltear la carta si no está volteada
+        if (!carta.classList.contains('volteada')) {
+            carta.classList.add('volteada');
+            return;
+        }
+
+        // Si ya está volteada, mostrar selección avanzada
+        if (typeof mostrarSeleccionAvanzada === 'function') {
+            mostrarSeleccionAvanzada(carta);
+        } else if (typeof voltearCarta === 'function') {
+            voltearCarta(carta);
         }
     }
 
