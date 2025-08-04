@@ -1,251 +1,252 @@
-*{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: content-box;
-    box-sizing:border-box;
-}
-body{
-    background-color: black;
-     font-family: 'Creepster';font-size: 22px;
-         cursor: url('../img/foto/fnaf-fetch-pack-removebg-preview.cur'), auto;
-}
-.container-jugadores{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.contenedor-de-container{
-    width: 70%;
-    height: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.jugadores{
-    width: 80%;
-    height: 100%;
-    background-color: rgba(61, 61, 61, 0.26);
-    flex-wrap: wrap;
-    box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.37);
-    animation: color-Sombras 1s ease infinite;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-     border-bottom-left-radius: 50px;
-    border-top-left-radius: 50px;
-    overflow-y:auto;
-    overflow-x: none;
-    padding: 15px;
-    padding-bottom: 25px;
-}
-.caja-contenedor-mas{
-    width: 20%;
-    height: 100%;
-    background-color: rgba(61, 61, 61, 0.26);
-    border-bottom-right-radius: 50px;
-    border-top-right-radius: 50px;
-    box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.37);
-    animation: color-Sombras 1s ease infinite;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.caja-mas{
-    border: 2px dashed rgb(0, 162, 255);
-    animation: cambio-color2 2.5s ease infinite;
-    border-top-right-radius: 40px ;
-    width: 80%;
-    height: 50%;
-    text-align: center;
-    padding: 10px 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: rgb(0, 162, 255);
-    text-shadow: 0px 0px 10px  rgb(0, 162, 255);
-}
-.mas{
-    font-size: 80px;
-}
-.caja-jugadores{
-    border: 2px dashed rgb(0, 162, 255);
-    animation: cambio-color2 2.5s ease infinite;
-    border-top-right-radius: 40px ;
-    width: 20%;
-    height: 50%;
-    text-align: center;
-    padding: 10px 0px;
-    margin: 5px 20px;
-}
-@keyframes cambio-color2 {
-    0%{
-         border: 2px dashed transparent;
-    }
-    50%{
-          border: 2px dashed rgb(0, 162, 255);
-    }
-    100%{
-         border: 2px dashed transparent;
-    }
-}
-.caja-imagen{
-    background-image: url(../img/foto/1.jpg);
-    background-position: center;
-    background-size: cover;
-    margin: auto;
-    width: 65%;
-    height: 50%;
-    border-radius: 100px;
-    border: 2px solid rgb(0, 162, 255);
-    animation: cambio-color 2.5s ease infinite;
-}
-.caja-nombre{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 55%;
-}
-.caja-nombre input{
-    font-family: 'Creepster';
-    padding: 5%;
-    width: 90%;
-    text-shadow: 0px 0px 10px  rgb(0, 162, 255);
-    color:  rgb(0, 162, 255);
-    border: none;
-    border-bottom: 1px solid rgb(0, 162, 255);
-    background: transparent;
-    box-shadow: 0px 5px 10px 1px rgb(0, 162, 255);
+        /* Reset y configuración básica */
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
 
-}
+        body{
+            background-image: url("../img/gif/fondosala.gif");
+            font-family: 'Creepster';
+            font-size: 22px;
+            cursor: url('../img/foto/fnaf-fetch-pack-removebg-preview.cur'), auto;
+            /* Aquí puedes cambiar la imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
 
+        /* Contenedor principal */
+        .container-jugadores{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-@keyframes cambio-color {
-    0%{
-         border: 2px solid transparent;
-    }
-    50%{
-          border: 2px solid rgb(0, 162, 255);
-    }
-    100%{
-         border: 2px solid transparent;
-    }
-}
-@keyframes color-Sombras {
-    0%{
-      box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.37);
-    }
-    25%{
-        box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.63);
+        /* Contenedor de avatares en cuadrícula */
+        .contenedor-avatares{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+            padding: 20px;
+        }
 
-    }
-    50%{
-        box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.37);
+        /* Caja individual de cada jugador */
+        .caja-jugador{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-    }
-    100%{
-        box-shadow: 0px 0px 10px 1px rgba(61, 61, 61, 0.63);
+        /* Botón X para eliminar jugador */
+        .boton-eliminar{
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
 
+        .boton-eliminar:hover{
+            background-color: #f44336;
+            color: white;
+            transform: scale(1.1);
+        }
 
-    }
-    
-}
+        /* Avatar circular del jugador */
+        .avatar-jugador{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-color: #333;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            /* Imagen por defecto (vacía al inicio) */
+            background-image: url('../img/avatares/default.png');
+        }
 
-.Text-Cantidad{
-    color: red;
-    margin: 10px 0px 0px 0px;
-    text-shadow: 0px 0px 10px red;
-}
-.Cancelar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: -10px;
-    width: 25%;
-    height: 18%;
-    background-color: rgba(0, 0, 0, 0.123);
-    text-shadow: 0px 0px 10px rgb(0, 162, 255);
-    color:rgb(0, 162, 255) ;
-}
-.container-iniciar-juego {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-}
+        .avatar-jugador:hover{
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
 
-.container-iniciar-juego .btn-iniciar {
-  position: relative;
-  padding: 16px 50px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(135deg, #1d3557, #457b9d, #1d3557);
-  border: none;
-  border-radius: 40px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transform: translateY(30px);
-  animation: slideUp 0.8s ease-out forwards 0.3s;
-}
+        /* Etiqueta con nombre del jugador */
+        .etiqueta-nombre{
+            background-color: rgba(255, 255, 255, 0.95);
+            color: black;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            font-family: 'Creepster';
+            text-align: center;
+            min-width: 120px;
+            border: 2px solid #ffffff;
+        }
 
-.container-iniciar-juego .btn-iniciar::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 10.01%);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  border-radius: 50%;
-  pointer-events: none;
-}
+        .etiqueta-nombre input{
+            background: transparent;
+            border: none;
+            color: black;
+            text-align: center;
+            font-family: 'Creepster';
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
 
-.container-iniciar-juego .btn-iniciar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-}
+        .etiqueta-nombre input::placeholder{
+            color: #666;
+        }
 
-.container-iniciar-juego .btn-iniciar:active::before {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
+        /* Botón "COMENZAR" con flecha triangular */
+        .container-iniciar-juego {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-.container-iniciar-juego .btn-iniciar:active {
-  transform: scale(0.97);
-}
+        .btn-comenzar {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-family: 'Creepster';
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: 3px solid white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7);
+        }
 
-/* Animación de entrada */
-@keyframes slideUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+        .btn-comenzar:hover{
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
 
-.PonerAvatar{
-    color: rgb(0, 162, 255);
-    box-shadow: 0px 0px 10px  rgb(0, 162, 255);
-    text-shadow: 0px 0px 10px  rgb(0, 162, 255);
-    font-size: 25px;
-    border-radius: 100px;
-    position: relative;
-    left: 60%;
-    width: 20%;
-    height: 15%;
-    z-index: 2;
-    background-color: rgba(0, 0, 0, 0.918);
-    margin-bottom: -25px;
-    margin-right: 25px;
-}
+        /* Flecha triangular del botón */
+        .btn-comenzar::after{
+            content: '';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid white;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid transparent;
+            transition: all 0.3s ease;
+        }
 
+        .btn-comenzar:hover::after{
+            border-left-color: rgba(255, 255, 255, 0.8);
+            right: -30px;
+        }
+
+        /* Mensaje de cantidad de jugadores */
+        .texto-cantidad{
+            color: #ffffff;
+            font-size: 18px;
+            text-shadow: 0px 0px 10px #ffffff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Botón para agregar jugador */
+        .boton-agregar{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .circulo-agregar{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #666;
+            background-color: rgba(128, 128, 128, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .boton-agregar:hover .circulo-agregar{
+            border-color: #ffffff;
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .texto-agregar{
+            color: #ffffff;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'Creepster';
+            max-width: 120px;
+            line-height: 1.2;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .contenedor-avatares{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .avatar-jugador, .circulo-agregar{
+                width: 100px;
+                height: 100px;
+            }
+            
+            .circulo-agregar{
+                font-size: 50px;
+            }
+            
+            .btn-comenzar{
+                font-size: 24px;
+                padding: 15px 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contenedor-avatares{
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
