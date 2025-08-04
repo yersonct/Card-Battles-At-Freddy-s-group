@@ -14,6 +14,18 @@ const API_CONFIG = {
 
 // URLs de los endpoints
 const API_ENDPOINTS = {
+    // Endpoints del nuevo sistema de partidas
+    PARTIDAS: '/partida',
+    PARTIDA_CREAR: '/partida/crear',
+    PARTIDA_ESTADO: '/partida/{id}/estado',
+    PARTIDA_ELEGIR_ATRIBUTO: '/partida/elegir-atributo',
+    PARTIDA_JUGAR_CARTA: '/partida/jugar-carta',
+    PARTIDA_VERIFICAR_RONDA: '/partida/{id}/verificar-ronda',
+    PARTIDA_RANKING: '/partida/{id}/ranking',
+    PARTIDA_FINALIZAR: '/partida/{id}/finalizar',
+    PARTIDA_CARTAS_JUGADOR: '/partida/{partidaId}/jugador/{jugadorId}/cartas',
+    PARTIDA_ES_TURNO: '/partida/{partidaId}/jugador/{jugadorId}/es-turno',
+    
     // Cartas
     CARTAS: '/Carta',
     CARTAS_BY_CATEGORIA: '/Carta/categoria/{categoria}',

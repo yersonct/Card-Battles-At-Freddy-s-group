@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:7147/api';
 // Función para ir a la pantalla de transición antes de volver a crear sala
 function irTransmision() {
     // Guardamos la URL de destino en el almacenamiento local
-    localStorage.setItem("urlDestino", "./CrearSala.html");
+    localStorage.setItem("urlDestino", "./Lobby.html");
     
     // Redirigimos a la página de transición
     window.location.href = '../html/Pantalla.html';

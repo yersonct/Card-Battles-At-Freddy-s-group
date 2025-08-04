@@ -6,8 +6,8 @@
    <title>Card Battles At Freddy´s</title>
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
     <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
-    <link rel="stylesheet" href="../css/Salas/Sala.css">
-    <link rel="stylesheet" href="../css/Salas/SeleccionCarta.css">
+    <link rel="stylesheet" href="../css/Partida/Partida.css">
+    <link rel="stylesheet" href="../css/Partida/SeleccionCarta.css">
 
 </head>
 <body>
@@ -201,13 +201,20 @@
                     mostrarSeleccionAvanzada(primeraCarta);
                 }
             };
-            
-           
         });
     </script>
+    
+    <!-- Scripts de configuración y servicios backend -->
+    <script src="../Api/ConfigApi.js"></script>
+    <script src="../Api/Services/BaseApiService.js"></script>
+    <script src="../Api/Services/PartidaBackendService.js"></script>
+    
+    <!-- Scripts originales -->
     <script src="../js/Pantalla.js"></script>
-    <script src="../js/Sala/Sala.js"></script>
-    <script src="../js/Sala/CartasRepetidas.js"></script>
-    <script src="../js/Sala/SeleccionCartaAvanzada.js" defer></script>
+    <!-- Partida bakend  -->
+    <script src="../js/Partida/JuegoControllerBackend.js"></script>
+    <script src="../js/Partida/Partida.js"></script>
+    <script src="../js/Partida/CartasRepetidas.js"></script>
+    <script src="../js/Partida/SeleccionCartaAvanzada.js" defer></script>
 </body>
 </html>

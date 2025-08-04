@@ -1,22 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Entity.Context;
+using System.ComponentModel.DataAnnotations;
 using Entity.Model.Base;
-using Microsoft.EntityFrameworkCore;
 
 namespace Entity.Model
 {
     public class CartaJugador : BaseModel
     {
         public int IdJugador { get; set; } // ID del jugador que posee la carta
-        public int IdJugada { get; set; } // ID de la jugada en la que se usa la carta
         public int IdCarta { get; set; } // ID de la carta
-        public bool Usada { get; set; } // Indica si la carta ha sido usada en la partida
+        public int PosicionEnMazo { get; set; } // Posición de la carta en el mazo (1-8)
+        public bool Usada { get; set; } = false; // Indica si la carta ha sido usada en la partida
+        public int? RondaUsada { get; set; } // En qué ronda fue usada
 
-        // relaciones entre tablas
-        public ICollection<Jugada> Jugada { get; set; } // Relación con Jugada
-        public Carta Carta { get; set; } // Relación con Carta
-        public Jugador Jugador { get; set; } // Relación con Jugador
+        // Navegación
+        public Carta Carta { get; set; } = null!;
+        public Jugador Jugador { get; set; } = null!;
+        public ICollection<Jugada> Jugadas { get; set; } = new List<Jugada>();
     }
 }

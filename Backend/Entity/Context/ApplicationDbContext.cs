@@ -38,6 +38,7 @@ namespace Entity.Context
         public DbSet<Jugador> Jugadores { get; set; } = null!;
         public DbSet<Carta> Cartas { get; set; } = null!;
         public DbSet<CartaJugador> CartaJugadores { get; set; } = null!;
+        public DbSet<RankingPartida> RankingPartidas { get; set; } = null!;
 
         /// <summary>
         /// Configura los modelos de la base de datos aplicando configuraciones desde ensamblados.
@@ -45,98 +46,134 @@ namespace Entity.Context
         /// <param name="modelBuilder">Constructor del modelo de base de datos.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // configura los modelos de la base de datos
-            // configuracion de carta
-            modelBuilder.Entity<Carta>(
-                entity =>
-                {
-                    // es varchar(100) y no nulo
-                    entity.Property(e => e.Nombre)
-                        .HasColumnType("varchar(100)");
+            // Configuración de Carta
+            modelBuilder.Entity<Carta>(entity =>
+            {
+                entity.Property(e => e.Nombre)
+                    .HasColumnType("varchar(100)");
 
-                    // es varchar(100) y unico
-                    entity.Property(e => e.Categoria)
-                        .HasColumnType("varchar(100)")
-                        .IsRequired();
-                    entity.HasIndex(e => e.Categoria).IsUnique();
-                }
+                entity.Property(e => e.Categoria)
+                    .HasColumnType("varchar(100)")
+                    .IsRequired();
+                entity.HasIndex(e => e.Categoria).IsUnique();
+            });
 
-            );
-            // configuracion de carta jugador
-            modelBuilder.Entity<Jugador>(
-                entity =>
-                {
-                    // es varchar(100) y no nulo
-                    entity.Property(e => e.Nombre)
-                        .HasColumnType("varchar(100)")
-                        .IsRequired();
-                    // es varchar(100) y no nulo
-                    entity.Property(e => e.Avatar)
-                        .HasColumnType("varchar(100)")
-                        .IsRequired();
+            // Configuración de Partida
+            modelBuilder.Entity<Partida>(entity =>
+            {
+                entity.Property(e => e.Estado)
+                    .HasColumnType("varchar(50)")
+                    .HasDefaultValue("Esperando");
+
+                entity.Property(e => e.AtributoElegido)
+                    .HasColumnType("varchar(100)");
+            });
+
+            // Configuración de Jugador
+            modelBuilder.Entity<Jugador>(entity =>
+            {
+                entity.Property(e => e.Nombre)
+                    .HasColumnType("varchar(100)")
+                    .IsRequired();
+                
+                entity.Property(e => e.Avatar)
+                    .HasColumnType("varchar(100)")
+                    .IsRequired();
+
+                // Relación con Partida
+                entity.HasOne(e => e.Partida)
+                    .WithMany(e => e.Jugadores)
+                    .HasForeignKey(e => e.IdPartida)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configuración de CartaJugador
+            modelBuilder.Entity<CartaJugador>(entity =>
+            {
+                // Índice único para evitar duplicados de posición por jugador
+                entity.HasIndex(e => new { e.IdJugador, e.PosicionEnMazo })
+                    .IsUnique();
+
+                entity.HasOne(e => e.Jugador)
+                    .WithMany(e => e.CartasJugador)
+                    .HasForeignKey(e => e.IdJugador)
+                    .OnDelete(DeleteBehavior.Cascade);
                     
-                }
-            );
-            // configuracion de ronda
-            modelBuilder.Entity<Ronda>(
-                entity =>
-                {
-                    // es varchar(100) y no nulo
-                    entity.Property(e => e.AtributoCompetido)
-                        .HasColumnType("varchar(100)")
-                        .IsRequired();
+                entity.HasOne(e => e.Carta)
+                    .WithMany(e => e.CartaJugador)
+                    .HasForeignKey(e => e.IdCarta)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
-                    entity.HasOne(e => e.Partida)
-                        .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdPartida)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
+            // Configuración de Ronda
+            modelBuilder.Entity<Ronda>(entity =>
+            {
+                entity.Property(e => e.AtributoCompetido)
+                    .HasColumnType("varchar(100)")
+                    .IsRequired();
 
-                    entity.HasOne(e => e.Jugador)
-                        .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdJugador)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
+                entity.Property(e => e.Estado)
+                    .HasColumnType("varchar(50)")
+                    .HasDefaultValue("Esperando");
 
-                    entity.HasOne(e => e.Jugador)
-                        .WithMany(e => e.Ronda)
-                        .HasForeignKey(e => e.IdGanador)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
-                }
-            );
+                // Índice único para evitar duplicados de número de ronda por partida
+                entity.HasIndex(e => new { e.IdPartida, e.NumeroRonda })
+                    .IsUnique();
 
-            // configuracion de jugada
-            modelBuilder.Entity<Jugada>(
-                entity =>
-                {
-                    entity.HasOne(e => e.Ronda)
-                        .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdRonda)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
+                // Relación con Partida
+                entity.HasOne(e => e.Partida)
+                    .WithMany(e => e.Rondas)
+                    .HasForeignKey(e => e.IdPartida)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                    entity.HasOne(e => e.Jugador)
-                        .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdJugador)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
+                // Relación con JugadorQueElige
+                entity.HasOne(e => e.JugadorQueElige)
+                    .WithMany(e => e.RondasQueElige)
+                    .HasForeignKey(e => e.IdJugadorQueElige)
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    entity.HasOne(e => e.CartaJugador)
-                        .WithMany(e => e.Jugada)
-                        .HasForeignKey(e => e.IdCartaJugador)
-                        .OnDelete(DeleteBehavior.NoAction); // Evita cascada múltiple
-                }
-            );
+                // Relación con Ganador
+                entity.HasOne(e => e.Ganador)
+                    .WithMany(e => e.RondasGanadas)
+                    .HasForeignKey(e => e.IdGanador)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
 
-            // configuracion de CartaJugador
-            modelBuilder.Entity<CartaJugador>(
-                entity =>
-                {
-                    entity.HasOne(e => e.Jugador)
-                        .WithMany(e => e.CartaJugador)
-                        .HasForeignKey(e => e.IdJugador);
-                        
-                    entity.HasOne(e => e.Carta)
-                        .WithMany(e => e.CartaJugador)
-                        .HasForeignKey(e => e.IdCarta);
-                }
-            );
+            // Configuración de Jugada
+            modelBuilder.Entity<Jugada>(entity =>
+            {
+                // Índice único para evitar que un jugador juegue más de una vez por ronda
+                entity.HasIndex(e => new { e.IdRonda, e.IdJugador })
+                    .IsUnique();
+
+                entity.HasOne(e => e.Ronda)
+                    .WithMany(e => e.Jugadas)
+                    .HasForeignKey(e => e.IdRonda)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Jugador)
+                    .WithMany(e => e.Jugadas)
+                    .HasForeignKey(e => e.IdJugador)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.CartaJugador)
+                    .WithMany(e => e.Jugadas)
+                    .HasForeignKey(e => e.IdCartaJugador)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configuración de RankingPartida
+            modelBuilder.Entity<RankingPartida>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                
+                entity.Property(e => e.NombreJugador)
+                    .HasColumnType("varchar(100)")
+                    .IsRequired();
+
+                entity.HasIndex(e => e.IdPartida);
+                entity.HasIndex(e => e.IdJugador);
+            });
         }
 
         /// <summary>

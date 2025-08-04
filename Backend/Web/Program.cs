@@ -67,6 +67,7 @@ builder.Services.AddScoped(typeof(IBaseBusiness<,>), typeof(BaseBusiness<,>));
 
 
 // Registrar servicios específicos de Business
+builder.Services.AddScoped<IPartidaBusiness, PartidaBusiness>();
 
 // Registrar logging
 builder.Services.AddLogging();
