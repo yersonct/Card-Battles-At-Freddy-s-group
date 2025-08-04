@@ -6,6 +6,7 @@
 class SeleccionCartaAvanzada {
     constructor() {
         this.cartaSeleccionada = null;
+        this.atributoSeleccionado = null; // Nuevo: almacenar atributo seleccionado
         this.tiempoLimite = 100; // segundos
         this.intervaloCronometro = null;
         this.init();
@@ -39,29 +40,36 @@ class SeleccionCartaAvanzada {
                     <h3 id="nombre-carta-seleccionada">Nombre de la Carta</h3>
                     
                     <div class="stats-detalladas" id="stats-carta-seleccionada">
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="vida">
                             <span class="stat-label">VIDA</span>
                             <span class="stat-value" id="stat-vida">0</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="ataque">
                             <span class="stat-label">ATAQUE</span>
                             <span class="stat-value" id="stat-ataque">0</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="poder">
                             <span class="stat-label">PODER</span>
                             <span class="stat-value" id="stat-poder">0</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="defensa">
                             <span class="stat-label">DEFENSA</span>
                             <span class="stat-value" id="stat-defensa">0</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="velocidad">
                             <span class="stat-label">VELOCIDAD</span>
                             <span class="stat-value" id="stat-velocidad">0</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item clickeable" data-atributo="terror">
                             <span class="stat-label">TERROR</span>
                             <span class="stat-value" id="stat-terror">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="selector-atributo">
+                        <h4>🎯 Selecciona el atributo para jugar:</h4>
+                        <div class="mensaje-seleccion" id="mensaje-atributo">
+                            Haz click en cualquier estadística de arriba
                         </div>
                     </div>
                     
@@ -98,17 +106,78 @@ class SeleccionCartaAvanzada {
             }
         });
         
+        // Event listeners para selección de atributos (se configuran después de crear la interfaz)
+        this.setupAtributoListeners();
+        
         // Cerrar clickeando fuera
         document.getElementById('vista-seleccion-carta').addEventListener('click', (e) => {
             if (e.target.id === 'vista-seleccion-carta') {
+                e.preventDefault();
+                e.stopPropagation();
                 this.cerrarSeleccion();
+            }
+        });
+        
+        // Prevenir que clicks dentro del contenedor cierren la vista
+        document.addEventListener('click', (e) => {
+            const contenedor = e.target.closest('.contenedor-carta-seleccionada');
+            if (contenedor && this.estaVisible()) {
+                e.stopPropagation();
             }
         });
     }
 
+    setupAtributoListeners() {
+        // Agregar event listeners a cada estadística
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.stat-item.clickeable') && this.estaVisible()) {
+                const statItem = e.target.closest('.stat-item.clickeable');
+                this.seleccionarAtributo(statItem);
+            }
+        });
+    }
+
+    seleccionarAtributo(statItem) {
+        // Remover selección anterior
+        document.querySelectorAll('.stat-item.clickeable').forEach(item => {
+            item.classList.remove('atributo-seleccionado');
+        });
+        
+        // Marcar el nuevo atributo seleccionado
+        statItem.classList.add('atributo-seleccionado');
+        this.atributoSeleccionado = statItem.dataset.atributo;
+        
+        // Actualizar mensaje
+        const mensaje = document.getElementById('mensaje-atributo');
+        const nombreAtributo = statItem.querySelector('.stat-label').textContent;
+        const valorAtributo = statItem.querySelector('.stat-value').textContent;
+        
+        mensaje.innerHTML = `✅ <strong>${nombreAtributo}: ${valorAtributo}</strong> seleccionado`;
+        mensaje.style.color = '#4CAF50';
+        
+        // Habilitar botón de tirar carta
+        const btnTirar = document.getElementById('btn-tirar-carta');
+        btnTirar.disabled = false;
+        btnTirar.textContent = `TIRAR CON ${nombreAtributo}`;
+        btnTirar.classList.add('btn-habilitado');
+        
+        // Efecto visual en la estadística seleccionada
+        this.mostrarMensaje(`🎯 ${nombreAtributo} seleccionado: ${valorAtributo}`, 'success');
+    }
+
     mostrarSeleccionCarta(cartaElement) {
+        // Verificar que la carta no haya sido tirada
+        if (cartaElement.classList.contains('carta-tirada')) {
+            this.mostrarMensaje('❌ Esta carta ya fue usada', 'warning');
+            return;
+        }
+        
         this.cartaSeleccionada = cartaElement;
+        this.atributoSeleccionado = null; // Resetear atributo seleccionado
         const datosCarta = this.extraerDatosCarta(cartaElement);
+        
+        // Limpiar otras cartas seleccionadas primero
+        this.limpiarTodasLasCartas();
         
         // Marcar la carta como seleccionada para referencias futuras
         cartaElement.classList.add('seleccionada');
@@ -116,9 +185,19 @@ class SeleccionCartaAvanzada {
         // Llenar información de la carta
         this.llenarInformacionCarta(datosCarta);
         
-        // Mostrar la vista
+        // Resetear interfaz de selección de atributos
+        this.resetearSeleccionAtributos();
+        
+        // Mostrar la vista con animación suave
         const vista = document.getElementById('vista-seleccion-carta');
         vista.classList.add('activa', 'entrando');
+        vista.style.display = 'flex';
+        
+        // Forzar reflow y luego mostrar
+        setTimeout(() => {
+            vista.style.opacity = '1';
+            vista.style.visibility = 'visible';
+        }, 10);
         
         // Iniciar cronómetro
         this.iniciarCronometro();
@@ -181,6 +260,25 @@ class SeleccionCartaAvanzada {
         document.getElementById('stat-terror').textContent = datos.terror || '0';
     }
 
+    resetearSeleccionAtributos() {
+        // Limpiar selección anterior
+        document.querySelectorAll('.stat-item.clickeable').forEach(item => {
+            item.classList.remove('atributo-seleccionado');
+        });
+        
+        // Resetear mensaje
+        const mensaje = document.getElementById('mensaje-atributo');
+        mensaje.innerHTML = 'Haz click en cualquier estadística de arriba';
+        mensaje.style.color = '#ffccaa';
+        
+        // Deshabilitar botón de tirar
+        const btnTirar = document.getElementById('btn-tirar-carta');
+        btnTirar.disabled = true;
+        btnTirar.textContent = 'SELECCIONA ATRIBUTO';
+        btnTirar.classList.remove('btn-habilitado');
+        btnTirar.classList.add('btn-deshabilitado');
+    }
+
     iniciarCronometro() {
         let tiempoRestante = this.tiempoLimite;
         const cronometroElement = document.getElementById('cronometro-seleccion');
@@ -207,8 +305,13 @@ class SeleccionCartaAvanzada {
     tiempoAgotado() {
         clearInterval(this.intervaloCronometro);
         
+        // Si no se ha seleccionado atributo, seleccionar automáticamente el más alto
+        if (!this.atributoSeleccionado) {
+            this.seleccionarAtributoMasAlto();
+        }
+        
         // Mostrar mensaje de tiempo agotado
-        this.mostrarMensaje('⏰ ¡Tiempo agotado! Se selecciona automáticamente.', 'warning');
+        this.mostrarMensaje('⏰ ¡Tiempo agotado! Se juega automáticamente.', 'warning');
         
         // Auto-tirar la carta después de 1 segundo
         setTimeout(() => {
@@ -216,8 +319,34 @@ class SeleccionCartaAvanzada {
         }, 1000);
     }
 
+    seleccionarAtributoMasAlto() {
+        const stats = ['vida', 'ataque', 'poder', 'defensa', 'velocidad', 'terror'];
+        let mayorValor = -1;
+        let mejorAtributo = null;
+        let mejorStatItem = null;
+        
+        stats.forEach(stat => {
+            const valor = parseInt(document.getElementById(`stat-${stat}`).textContent) || 0;
+            if (valor > mayorValor) {
+                mayorValor = valor;
+                mejorAtributo = stat;
+                mejorStatItem = document.querySelector(`[data-atributo="${stat}"]`);
+            }
+        });
+        
+        if (mejorStatItem) {
+            this.seleccionarAtributo(mejorStatItem);
+        }
+    }
+
     tirarCarta() {
         if (!this.cartaSeleccionada) return;
+        
+        // Verificar que se haya seleccionado un atributo
+        if (!this.atributoSeleccionado) {
+            this.mostrarMensaje('⚠️ Debes seleccionar un atributo primero', 'warning');
+            return;
+        }
         
         // Limpiar cronómetro
         clearInterval(this.intervaloCronometro);
@@ -231,9 +360,12 @@ class SeleccionCartaAvanzada {
         
         // Llamar a la función de juego original si existe
         if (typeof lanzarCartaConAtributo === 'function') {
-            const atributoSeleccionado = this.obtenerAtributoSeleccionado();
-            lanzarCartaConAtributo(atributoSeleccionado);
+            lanzarCartaConAtributo(this.atributoSeleccionado);
         }
+        
+        // Mostrar mensaje de confirmación con el atributo seleccionado
+        const nombreAtributo = this.atributoSeleccionado.toUpperCase();
+        this.mostrarMensaje(`🎯 ¡Carta lanzada con ${nombreAtributo}!`, 'success');
         
         // Cerrar vista después de la animación
         setTimeout(() => {
@@ -260,23 +392,37 @@ class SeleccionCartaAvanzada {
         clearInterval(this.intervaloCronometro);
         
         const vista = document.getElementById('vista-seleccion-carta');
-        vista.classList.remove('activa');
+        
+        // Animación de cierre suave
+        vista.style.opacity = '0';
+        vista.style.visibility = 'hidden';
+        
+        setTimeout(() => {
+            vista.classList.remove('activa');
+            vista.style.opacity = '';
+            vista.style.visibility = '';
+        }, 300);
         
         // Resetear cronómetro
-        document.getElementById('cronometro-seleccion').textContent = this.tiempoLimite;
-        document.getElementById('cronometro-seleccion').style.background = 'rgba(255, 0, 0, 0.8)';
-        document.getElementById('cronometro-seleccion').style.animation = 'pulso-tiempo 1s infinite';
+        const cronometro = document.getElementById('cronometro-seleccion');
+        cronometro.textContent = this.tiempoLimite;
+        cronometro.style.background = 'rgba(255, 0, 0, 0.8)';
+        cronometro.style.animation = 'pulso-tiempo 1s infinite';
         
-        // ARREGLO: Resetear estado de la carta original cuando se cancela
+        // ARREGLO: Mantener estado visual de la carta original 
         if (this.cartaSeleccionada && !this.cartaSeleccionada.classList.contains('carta-tirada')) {
-            this.cartaSeleccionada.classList.remove('volteada', 'seleccionada');
-            // Resetear transform si tiene alguno aplicado
-            this.cartaSeleccionada.style.transform = '';
+            // Solo remover 'seleccionada', mantener 'volteada' si la tiene
+            this.cartaSeleccionada.classList.remove('seleccionada');
+            
+            // NO resetear transform si la carta está volteada
+            if (!this.cartaSeleccionada.classList.contains('volteada')) {
+                this.cartaSeleccionada.style.transform = '';
+            }
             this.cartaSeleccionada.style.transition = '';
         }
         
-        // Limpiar cualquier otra carta que pueda estar seleccionada
-        this.limpiarTodasLasCartas();
+        // Limpiar estado de atributo seleccionado
+        this.atributoSeleccionado = null;
         
         this.cartaSeleccionada = null;
     }
@@ -287,8 +433,12 @@ class SeleccionCartaAvanzada {
         todasLasCartas.forEach(carta => {
             // Solo limpiar cartas que no han sido tiradas
             if (!carta.classList.contains('carta-tirada')) {
-                carta.classList.remove('volteada', 'seleccionada');
-                carta.style.transform = '';
+                carta.classList.remove('seleccionada');
+                // NO remover 'volteada' - mantener el estado de volteo
+                // Solo resetear transform si la carta NO está volteada
+                if (!carta.classList.contains('volteada')) {
+                    carta.style.transform = '';
+                }
                 carta.style.transition = '';
             }
         });
@@ -361,8 +511,16 @@ window.mostrarSeleccionAvanzada = function(cartaElement) {
 // Sobrescribir la función voltearCarta original para usar el nuevo sistema
 const voltearCartaOriginal = window.voltearCarta;
 window.voltearCarta = function(cartaElement) {
+    // Verificar que la carta no esté ya tirada
+    if (cartaElement.classList.contains('carta-tirada')) {
+        if (sistemaSeleccion) {
+            sistemaSeleccion.mostrarMensaje('❌ Esta carta ya fue usada', 'warning');
+        }
+        return;
+    }
+    
     // Si la carta ya está volteada o seleccionada, mostrar selección avanzada
-    if (cartaElement.classList.contains('volteada') || cartaElement.classList.contains('seleccionada')) {
+    if (cartaElement.classList.contains('volteada')) {
         if (sistemaSeleccion) {
             sistemaSeleccion.manejarClickCarta(cartaElement);
         }
@@ -371,8 +529,15 @@ window.voltearCarta = function(cartaElement) {
         if (voltearCartaOriginal) {
             voltearCartaOriginal(cartaElement);
         } else {
-            cartaElement.classList.toggle('volteada');
+            cartaElement.classList.add('volteada');
         }
+        
+        // Después de voltear, permitir selección inmediata
+        setTimeout(() => {
+            if (sistemaSeleccion && cartaElement.classList.contains('volteada')) {
+                sistemaSeleccion.manejarClickCarta(cartaElement);
+            }
+        }, 100);
     }
 };
 

@@ -6,8 +6,8 @@
    <title>Card Battles At Freddy´s</title>
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
     <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
-    <link rel="stylesheet" href="../css/Sala.css">
-    <link rel="stylesheet" href="../css/SeleccionCarta.css">
+    <link rel="stylesheet" href="../css/Salas/Sala.css">
+    <link rel="stylesheet" href="../css/Salas/SeleccionCarta.css">
 
 </head>
 <body>
@@ -114,7 +114,7 @@
           <!-- SECCIÓN MODIFICADA: Área de cartas dinámicas -->
         <div class="Turno-jugador">
             <div class="contenedor-cartas-completo">
-                <!-- ⭐ AQUÍ SE GENERARÁN LAS 8 CARTAS AUTOMÁTICAMENTE ⭐ -->
+                <!--AQUÍ SE GENERARÁN LAS 8 CARTAS AUTOMÁTICAMENTE -->
                 <div class="loading-cartas" style="display: flex; justify-content: center; align-items: center; min-height: 200px; font-family: 'Creepster'; color: #ff6b35;">
                     <p>🎴 Generando cartas...</p>
                 </div>
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-
+    <!-- ranking -->
     <div class="container">
         <h1>Tabla de Terror: Los Más Temidos</h1>
         <table>
@@ -202,24 +202,7 @@
                 }
             };
             
-            // Agregar botón de prueba
-            const botonPrueba = document.createElement('button');
-            botonPrueba.textContent = '🧪 Probar Selección';
-            botonPrueba.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #ff6b35;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 8px;
-                font-family: 'Creepster';
-                cursor: pointer;
-                z-index: 100;
-            `;
-            botonPrueba.onclick = window.probarSeleccion;
-            document.body.appendChild(botonPrueba);
+           
         });
     </script>
     <script src="../js/Pantalla.js"></script>

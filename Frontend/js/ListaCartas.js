@@ -45,18 +45,17 @@ function arrayBufferToBase64(buffer) {
     return window.btoa(binary);
 }
 
-// Función para determinar la clase CSS según la categoría
-function obtenerClaseCategoria(categoria) {
-    if (!categoria) return 'azul';
-    
-    // Mapear categorías a clases CSS
-    const categoria_lower = categoria.toLowerCase();
-    if (categoria_lower.includes('1a') || categoria_lower.includes('nightmare')) {
+// Función para determinar la clase CSS según la rareza
+function obtenerClaseCategoria(rareza) {
+    if (!rareza) return 'azul';
+
+    const rarezaLower = rareza.toLowerCase();
+    if (rarezaLower === 'especial') {
         return 'dorada';
-    } else if (categoria_lower.includes('d7') || categoria_lower.includes('h7')) {
+    } else if (rarezaLower === 'rara') {
         return 'rosa';
     } else {
-        return 'azul';
+        return 'azul'; // común u otro valor
     }
 }
 

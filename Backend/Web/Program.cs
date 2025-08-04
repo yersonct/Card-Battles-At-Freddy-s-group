@@ -25,8 +25,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 });
 
 // Add controllers
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(); // Añadir soporte para JsonPatch
+builder.Services.AddControllers().AddNewtonsoftJson(); // Añadir soporte para JsonPatch
 builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
@@ -82,7 +81,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Sistema de Accesorios para tienda virtual");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API sitema de juego");
         c.RoutePrefix = string.Empty;
     });
 }
