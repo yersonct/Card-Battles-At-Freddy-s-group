@@ -268,7 +268,7 @@ window.addEventListener('serviciosApiListos', () => {
 function PonerCamposUsuario() {
     const cantidadHijos = ContenedorDeJugadorCreados.children.length;
 
-    if (cantidadHijos < 6) {
+    if (cantidadHijos < 7) {
         const cajas_usuario = `
             <div class='caja-jugadores' id='caja-${cantidadHijos + 1}'>
                <div class="Cancelar" id="Cancelar-${cantidadHijos + 1}" onclick="eliminarJugador(this)"><b>X</b></div>
@@ -282,7 +282,7 @@ function PonerCamposUsuario() {
         textoMensaje.textContent = `Jugadores: ${cantidadHijos + 1}`;
         textoMensaje.style.color = "#ffffff";
     } else {
-        textoMensaje.textContent = "Máximo 6 jugadores";
+        textoMensaje.textContent = "Máximo 7 jugadores";
         textoMensaje.style.color = "yellow";
         bottomAgragarJugador.style.display = 'none';
     }

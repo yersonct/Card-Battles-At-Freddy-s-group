@@ -84,6 +84,10 @@ function crearCartaHTML(carta) {
                             <span class="valor-estadistica">${carta.ataque || 0}</span>
                         </div>
                         <div class="fila-estadistica">
+                            <span class="etiqueta-estadistica">PODER</span>
+                            <span class="valor-estadistica">${carta.poder || 0}</span>
+                        </div>
+                        <div class="fila-estadistica">
                             <span class="etiqueta-estadistica">DEFENSA</span>
                             <span class="valor-estadistica">${carta.defensa || 0}</span>
                         </div>

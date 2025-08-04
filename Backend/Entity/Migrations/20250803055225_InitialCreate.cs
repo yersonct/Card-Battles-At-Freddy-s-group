@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,58 +12,67 @@ namespace Entity.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "Cartas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Imagen = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Categoria = table.Column<string>(type: "varchar(100)", nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Imagen = table.Column<byte[]>(type: "longblob", nullable: false),
+                    Nombre = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Categoria = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Vida = table.Column<int>(type: "int", nullable: false),
                     Defensa = table.Column<int>(type: "int", nullable: false),
                     Velocidad = table.Column<int>(type: "int", nullable: false),
                     Ataque = table.Column<int>(type: "int", nullable: false),
                     Poder = table.Column<int>(type: "int", nullable: false),
                     Terror = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cartas", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Partidas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TiempoPartida = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Estado = table.Column<bool>(type: "bit", nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FechaInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TiempoPartida = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Estado = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     RondasJugadas = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Partidas", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Jugadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdPartida = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Avatar = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Nombre = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Avatar = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PosicionTurno = table.Column<int>(type: "int", nullable: false),
                     PuntosAcumulados = table.Column<int>(type: "int", nullable: false),
                     PartidaId = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,19 +83,20 @@ namespace Entity.Migrations
                         principalTable: "Partidas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CartaJugadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdJugador = table.Column<int>(type: "int", nullable: false),
                     IdJugada = table.Column<int>(type: "int", nullable: false),
                     IdCarta = table.Column<int>(type: "int", nullable: false),
-                    Usada = table.Column<bool>(type: "bit", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Usada = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,21 +113,23 @@ namespace Entity.Migrations
                         principalTable: "Jugadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Rondas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdJugada = table.Column<int>(type: "int", nullable: false),
                     IdJugador = table.Column<int>(type: "int", nullable: false),
                     IdGanador = table.Column<int>(type: "int", nullable: false),
                     NumeroRonda = table.Column<int>(type: "int", nullable: false),
-                    AtributoCompetido = table.Column<string>(type: "varchar(100)", nullable: false),
+                    AtributoCompetido = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IdPartida = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,18 +144,19 @@ namespace Entity.Migrations
                         column: x => x.IdPartida,
                         principalTable: "Partidas",
                         principalColumn: "Id");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Jugadas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdRonda = table.Column<int>(type: "int", nullable: false),
                     IdJugador = table.Column<int>(type: "int", nullable: false),
                     IdCartaJugador = table.Column<int>(type: "int", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,7 +176,8 @@ namespace Entity.Migrations
                         column: x => x.IdRonda,
                         principalTable: "Rondas",
                         principalColumn: "Id");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartaJugadores_IdCarta",
