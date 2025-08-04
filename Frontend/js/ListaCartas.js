@@ -61,7 +61,7 @@ function obtenerClaseCategoria(rareza) {
 
 // Función para crear el HTML de una carta
 function crearCartaHTML(carta) {
-    const claseCategoria = obtenerClaseCategoria(carta.categoria);
+    const claseCategoria = obtenerClaseCategoria(carta.rareza);
     
     // Convertir imagen a base64 si existe
     let imagenSrc = '../img/foto/default-card.jpg'; // imagen por defecto
@@ -138,6 +138,16 @@ async function cargarCartas() {
             contenedorPrincipal.innerHTML = '<div class="no-cartas">No se encontraron cartas en el backend</div>';
             return;
         }
+
+        // Ordenar cartas por rareza
+        const ordenRareza = { 'especial': 1, 'rara': 2, 'comun': 3 };
+        cartas.sort((a, b) => {
+            const rarezaA = a.rareza ? a.rareza.toLowerCase() : 'comun';
+            const rarezaB = b.rareza ? b.rareza.toLowerCase() : 'comun';
+            const ordenA = ordenRareza[rarezaA] || 4;
+            const ordenB = ordenRareza[rarezaB] || 4;
+            return ordenA - ordenB;
+        });
 
         // Limpiar contenedor y agregar cartas
         contenedorPrincipal.innerHTML = '';
