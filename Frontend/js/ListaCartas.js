@@ -48,24 +48,23 @@ function arrayBufferToBase64(buffer) {
     return window.btoa(binary);
 }
 
-// Función para determinar la clase CSS según la categoría
-function obtenerClaseCategoria(categoria) {
-    if (!categoria) return 'azul';
-    
-    // Mapear categorías a clases CSS
-    const categoria_lower = categoria.toLowerCase();
-    if (categoria_lower.includes('1a') || categoria_lower.includes('nightmare')) {
+// Función para determinar la clase CSS según la rareza
+function obtenerClaseCategoria(rareza) {
+    if (!rareza) return 'azul';
+
+    const rarezaLower = rareza.toLowerCase();
+    if (rarezaLower === 'especial') {
         return 'dorada';
-    } else if (categoria_lower.includes('d7') || categoria_lower.includes('h7')) {
+    } else if (rarezaLower === 'rara') {
         return 'rosa';
     } else {
-        return 'azul';
+        return 'azul'; // común u otro valor
     }
 }
 
 // Función para crear el HTML de una carta
 function crearCartaHTML(carta) {
-    const claseCategoria = obtenerClaseCategoria(carta.categoria);
+    const claseCategoria = obtenerClaseCategoria(carta.rareza);
     
     // Convertir imagen a base64 si existe
     let imagenSrc = '../img/foto/default-card.jpg'; // imagen por defecto
@@ -142,6 +141,16 @@ async function cargarCartas() {
             contenedorPrincipal.innerHTML = '<div class="no-cartas">No se encontraron cartas en el backend</div>';
             return;
         }
+
+        // Ordenar cartas por rareza
+        const ordenRareza = { 'especial': 1, 'rara': 2, 'comun': 3 };
+        cartas.sort((a, b) => {
+            const rarezaA = a.rareza ? a.rareza.toLowerCase() : 'comun';
+            const rarezaB = b.rareza ? b.rareza.toLowerCase() : 'comun';
+            const ordenA = ordenRareza[rarezaA] || 4;
+            const ordenB = ordenRareza[rarezaB] || 4;
+            return ordenA - ordenB;
+        });
 
         // Limpiar contenedor y agregar cartas
         contenedorPrincipal.innerHTML = '';

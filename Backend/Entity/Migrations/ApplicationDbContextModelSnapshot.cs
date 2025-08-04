@@ -54,6 +54,10 @@ namespace Entity.Migrations
                     b.Property<int>("Poder")
                         .HasColumnType("int");
 
+                    b.Property<string>("Rareza")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Terror")
                         .HasColumnType("int");
 

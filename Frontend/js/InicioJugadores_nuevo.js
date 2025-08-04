@@ -273,7 +273,7 @@ function iniciarPartida() {
     
     // Por ahora, simular redirección
     setTimeout(() => {
-        window.location.href = "../html/InicioDelJuego.html";
+        window.location.href = "../html/Sala.html";
     }, 1000);
 }
 
