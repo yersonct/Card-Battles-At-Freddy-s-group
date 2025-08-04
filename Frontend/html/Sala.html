@@ -7,26 +7,543 @@
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
     <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
     <link rel="stylesheet" href="../css/Sala.css">
+
 </head>
 <body>
+    <div class="contenedor-ronda">
+        <h1 class="texto-terror">raonda:<span class="numero">1</span></h1>
+    </div>
+    <div id="cronometro-2">10</div>
+    <div class="container-bottones">
+        <button class="tirar">Lanzar</button>
+        <button class="no-tirar">No Lanzar</button>
+    </div>
     <div class="container-completo">
         <div class="completo-iconos-usuario">
+            <div id="cronometro">03:00</div>
+            
             <div class="container-icono">
-                <div class="iconos-1"></div>
-                <div class="iconos-2"></div>
+                <div class="iconos-1">
+                    <h4>T2</h4>
+                    <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad"> 
+                </div>
+                <div class="iconos-2">
+                    <h4>T3</h4>
+                     <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad">
+                </div>
             </div>
+
             <div class="container-icono">
-                <div class="iconos-1"></div>
-                <div class="iconos-2"></div>
+                <div class="iconos-1">
+                    <h4>T4</h4>
+                     <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad">
+                </div>
+                <div class="iconos-2">
+                    <h4>T5</h4>
+                     <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad">
+                </div>
             </div>
+
             <div class="container-icono">
-                <div class="iconos-1"></div>
-                <div class="iconos-2"></div>
+                <div class="iconos-1">
+                    <h4>T6</h4>
+                     <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad">
+                </div>
+                <div class="iconos-2">
+                    <h4>T7</h4>
+                     <div class="contenedor-cantidad-cartas-jugador">
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                        <div class="cantidad-no-jugadas"></div>
+                    </div>
+                    <input type="text" readonly value="asdsad">
+                </div>
             </div>
-        </div>
-        <div class="completo-cartas">
 
         </div>
+        <div class="Turno-jugador">
+            <div class="contenedor-cartas-completo">
+
+
+                <div class="carta" onclick="voltearCarta(this)" id="carta-1">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-2">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-3">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-4">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-5">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-6">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-7">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carta" onclick="voltearCarta(this)" id="carta-8">
+                    <div class="contenedor-carta">
+                        <!-- Lado frontal -->
+                        <div class="lado-frontal ${claseCategoria}">
+                            <div class="encabezado-carta">
+                                <div class="numero-carta">asdasd</div>
+                                <div class="nombre-carta">asdasd</div>
+                            </div>
+                            <div class="contenedor-imagen-personaje">
+                                <img src="../img/foto/1.jpg" alt="${carta.nombre}" class="imagen-personaje">
+                            </div>
+                            <div class="contenedor-estadisticas">
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VIDA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>  
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">ATAQUE</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">PODER</span>
+                                    <span class="valor-estadistica">adas</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">DEFENSA</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">VELOCIDAD</span>
+                                    <span class="valor-estadistica">asdasd</span>
+                                </div>
+                                <div class="fila-estadistica">
+                                    <span class="etiqueta-estadistica">TERROR</span>
+                                    <span class="valor-estadistica">sadsadas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lado trasero -->
+                        <div class="lado-trasero">
+                            <div class="logo-trasero"></div>
+                            <div class="texto-trasero">TRADING CARDS</div>
+                        </div>
+                    </div>
+                </div>
+               
+
+            </div>
+            <div class="iconos-jugador">
+                
+                <div class="container-icono">
+                
+                    <div class="iconos-1">
+                        <h4>T1</h4>
+                        <input type="text" readonly value="asdsad">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+     <div class="container">
+        <h1>Tabla de Terror: Los Más Temidos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Posición</th>
+                    <th>Nombre</th>
+                    <th>Avatar</th>
+                    <th>Puntuación</th>
+                    <th>Partidas Ganadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Morticia Blackwood</td>
+                    <td><img src="https://via.placeholder.com/50/800000/FFFFFF?text=M" alt="Avatar Morticia" class="avatar"></td>
+                    <td class="score-cell">6660</td>
+                    <td class="wins-cell">13</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Vlad el Empalador</td>
+                    <td><img src="https://via.placeholder.com/50/4B0082/FFFFFF?text=V" alt="Avatar Vlad" class="avatar"></td>
+                    <td class="score-cell">5900</td>
+                    <td class="wins-cell">10</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>El Hombre del Saco</td>
+                    <td><img src="https://via.placeholder.com/50/2F4F4F/FFFFFF?text=H" alt="Avatar Saco" class="avatar"></td>
+                    <td class="score-cell">5000</td>
+                    <td class="wins-cell">9</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>La Llorona</td>
+                    <td><img src="https://via.placeholder.com/50/006400/FFFFFF?text=L" alt="Avatar Llorona" class="avatar"></td>
+                    <td class="score-cell">4500</td>
+                    <td class="wins-cell">8</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Freddy Krueger</td>
+                    <td><img src="https://via.placeholder.com/50/8B0000/FFFFFF?text=F" alt="Avatar Freddy" class="avatar"></td>
+                    <td class="score-cell">4000</td>
+                    <td class="wins-cell">7</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <script src="../js/Pantalla.js"></script>
     <script src="../js/Sala.js"></script>
