@@ -43,9 +43,6 @@ class ApiServiceManager {
             
             // Crear servicio principal del juego
             this.servicios.game = new GameService();
-            
-            // Crear servicio de flujo completo del juego CON TEMPORIZADORES
-            this.servicios.flujoJuego = new FlujoJuegoService();
 
             // Hacer servicios disponibles globalmente
             window.cartaService = this.servicios.carta;
@@ -55,7 +52,6 @@ class ApiServiceManager {
             window.partidaService = this.servicios.partida;
             window.rondaService = this.servicios.ronda;
             window.gameService = this.servicios.game;
-            window.flujoJuegoService = this.servicios.flujoJuego;
             this.exponerServiciosGlobalmente();
 
             // Verificar conectividad con el backend
@@ -85,9 +81,6 @@ class ApiServiceManager {
         
         // Servicio principal del juego
         window.gameService = this.servicios.game;
-        
-        // Servicio de flujo completo del juego
-        window.flujoJuegoService = this.servicios.flujoJuego;
         
         // Manager de servicios
         window.apiManager = this;
