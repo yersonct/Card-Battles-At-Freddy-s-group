@@ -1,6 +1,3 @@
-
-
-
 function usuarioPresente() {
     const inicioFreddy = document.querySelector('.container-logo-inicio');
     const Empezar = document.querySelector('.container-video');

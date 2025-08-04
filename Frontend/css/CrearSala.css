@@ -157,3 +157,121 @@ grid-column: 1/2;
   margin: 8% 0% 5% 14% !important;
   cursor: pointer;
 }
+
+/* Estilos para el modal de confirmación de salida */
+.modal-salir {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-salir.mostrar {
+    opacity: 1;
+}
+
+.modal-contenido {
+    background: linear-gradient(145deg, #e0e0e0, #f5f5f5);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal-salir.mostrar .modal-contenido {
+    transform: scale(1);
+}
+
+.modal-titulo {
+    font-family: 'Creepster', cursive;
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.boton-si,
+.boton-no {
+    font-family: 'Creepster', cursive;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 35px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.boton-si {
+    background: linear-gradient(145deg, #ff9999, #ffb3b3);
+}
+
+.boton-si:hover {
+    background: linear-gradient(145deg, #ff7777, #ff9999);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 119, 119, 0.4);
+}
+
+.boton-no {
+    background: linear-gradient(145deg, #99ff99, #b3ffb3);
+}
+
+.boton-no:hover {
+    background: linear-gradient(145deg, #77ff77, #99ff99);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(119, 255, 119, 0.4);
+}
+
+.boton-si:active,
+.boton-no:active {
+    transform: translateY(0);
+}
+
+/* Responsive para el modal */
+@media (max-width: 768px) {
+    .modal-contenido {
+        padding: 30px 20px;
+        max-width: 350px;
+    }
+    
+    .modal-titulo {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+    
+    .modal-botones {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .boton-si,
+    .boton-no {
+        font-size: 1.5rem;
+        padding: 12px 30px;
+        width: 120px;
+    }
+}
