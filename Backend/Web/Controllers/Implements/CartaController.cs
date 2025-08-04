@@ -111,6 +111,7 @@ namespace Web.Controllers.Implements
                         {
                             Nombre = cartaJson.NombreCarta,
                             Categoria = cartaJson.NumeroCart,
+                            Rareza = cartaJson.Rareza,
                             Imagen = imagenBytes ?? new byte[0],
                             Vida = int.Parse(cartaJson.EtiquetaEstadistica[0].Vida),
                             Ataque = int.Parse(cartaJson.EtiquetaEstadistica[0].Ataque),
@@ -153,6 +154,9 @@ namespace Web.Controllers.Implements
         
         [JsonPropertyName("nombre-carta")]
         public string NombreCarta { get; set; } = "";
+
+        [JsonPropertyName("rareza")]
+        public string Rareza { get; set; } = "";
         
         [JsonPropertyName("imagen-personaje")]
         public string ImagenPersonaje { get; set; } = "";
