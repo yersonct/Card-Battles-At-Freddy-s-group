@@ -14,6 +14,7 @@ namespace Entity.Dto
         public int IdJugador { get; set; } // ID del jugador que realiza la ronda
         public int NumeroRonda { get; set; } // Número de la ronda
         public string AtributoCompetido { get; set; } = string.Empty; // Ejemplo: "Ataque", "Defensa", etc.
+        public string Estado { get; set; } = "Esperando"; // Esperando, EnProgreso, Finalizada
 
     }
 }

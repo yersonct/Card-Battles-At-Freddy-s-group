@@ -1,3 +1,12 @@
+// Función para ir a la pantalla de transición antes de volver a crear sala
+function irTransmision() {
+    // Guardamos la URL de destino en el almacenamiento local
+    localStorage.setItem("urlDestino", "../html/videoTerror.html");
+    
+    // Redirigimos a la página de transición
+    window.location.href = '../html/Pantalla.html';
+}
+
 // ===== VARIABLES GLOBALES =====
 let contadorJugadores = 2; // Empezamos con 2 jugadores
 let maxJugadores = 7; // Máximo de 7 jugadores permitidos
@@ -19,7 +28,7 @@ let indicesAvatares = {};
 // Array para rastrear qué avatares están siendo usados
 let avatarsUsados = [];
 
-// FUNCIONES PRINCIPALES
+// ===== FUNCIONES PRINCIPALES =====
 
 // Función para cambiar avatar al hacer clic directo
 function cambiarAvatar(numeroJugador) {
@@ -264,7 +273,7 @@ function iniciarPartida() {
     
     // Por ahora, simular redirección
     setTimeout(() => {
-        window.location.href = "../html/InicioDelJuego.html";
+        window.location.href = "../html/Sala.html";
     }, 1000);
 }
 

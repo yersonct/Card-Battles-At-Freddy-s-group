@@ -1,277 +1,336 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background: black;
-    font-family: 'Creepster';
-    opacity: 1;
-    animation: opacida 1s ease ;
-}
-
-@keyframes opacida {
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-    
-}
-.container-completo{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    z-index: 1;
-    background-color: rgba(99, 99, 99, 0.048);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.container-video{
-    
-    width: 100%;
-    height: 70%;
-    overflow: hidden;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-video{
-    z-index: 0;
-    width: 100%;
-    height: min-content;
-  object-fit: cover; 
-  object-position: center top; 
-  
-    animation: zoomFondo 20s ease-in-out infinite alternate;
-}
-
-
-  @keyframes zoomFondo {
-        0% {
-            background-size: 120%;
-            background-position: -190px -160px;
+        /* Reset y configuración básica */
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
         }
-        100% {
-            background-size: 125%;
-            background-position: -180px -120px;
+
+        body{
+            background-image: url("../img/gif/fondosala.gif");
+            font-family: 'Creepster';
+            font-size: 22px;
+            cursor: url('../img/foto/fnaf-fetch-pack-removebg-preview.cur'), auto;
+            /* Aquí puedes cambiar la imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-    } 
 
+        /* Botón triangular para volver */
+        .boton-volver {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
 
+        .boton-volver:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
 
-.contenedor-contexto{
-    position: absolute;
-    z-index: 2;
-    height: 100%;
-    width:  100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-.contenedor-contexto div{
-    margin: 2px;
-    width: 100%;
-    height: 20%;
-    
-}
-.contenedor-contexto .contexto-salida{
-        height: 40%;
-        display: flex;
-        justify-self: center;
-        align-items: center;
-         margin: auto;
-        margin-top: 3%;
-}
-.contenedor-contexto .contexto-salida div{
-   text-shadow: 0px 0px 15px black;
+        .triangulo-volver {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 20px solid #ffffff;
+            margin-left: -3px; /* Centrar visualmente el triángulo */
+            transition: all 0.3s ease;
+        }
 
-    text-align: center;
-    font-size: 3.5vmax;
-}
-.contenedor-contexto .contexto-informacion{
-    height: 60%;
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px 0px 12% 10%;
-}
-.informacion-contenido{
-    height: 90% !important;
-    width: 10%;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(2,1fr);
+        .boton-volver:hover .triangulo-volver {
+            border-right-color: #ff6b35;
+            transform: translateX(-2px);
+        }
 
-}
-.informacion-contenido div{
+        /* Efecto adicional para el botón volver */
+        .boton-volver::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
- display: flex;
- align-items: center;
- justify-content: center;
- margin: auto;
- text-align: center;
-text-shadow: 0px 0px 15px black;
-  font-size: 1.3vmax;
-  border-radius: 10px;
-}
-.informacion-contenido div:first-child{
-grid-column: 1/3;
- width: 40%;
- height: 80%;
- margin: 16% 0% 5% 29% !important;
- cursor: pointer;
-}
-.informacion-contenido div:nth-child(2){
-grid-column: 1/2;
- width: 82%;
-  height: 76%;
-  margin: 8% 0% 5% 5% !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-   cursor: pointer;
-}
+        .boton-volver:hover::before {
+            opacity: 1;
+        }
 
-.informacion-contenido div:last-child{
-   grid-column: 2/3;
-   width: 80%;
-   height: 76%;
+        /* Contenedor principal */
+        .container-jugadores{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-  margin: 8% 0% 5% 14% !important;
-  cursor: pointer;
-}
+        /* Contenedor de avatares en cuadrícula */
+        .contenedor-avatares{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+            padding: 20px;
+        }
 
-/* Estilos para el modal de confirmación de salida */
-.modal-salir {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        /* Caja individual de cada jugador */
+        .caja-jugador{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-.modal-salir.mostrar {
-    opacity: 1;
-}
+        /* Botón X para eliminar jugador */
+        .boton-eliminar{
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
 
-.modal-contenido {
-    background: linear-gradient(145deg, #e0e0e0, #f5f5f5);
-    border-radius: 20px;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
-    width: 90%;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
-}
+        .boton-eliminar:hover{
+            background-color: #f44336;
+            color: white;
+            transform: scale(1.1);
+        }
 
-.modal-salir.mostrar .modal-contenido {
-    transform: scale(1);
-}
+        /* Avatar circular del jugador */
+        .avatar-jugador{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-color: #333;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            /* Imagen por defecto (vacía al inicio) */
+            background-image: url('../img/avatares/default.png');
+        }
 
-.modal-titulo {
-    font-family: 'Creepster', cursive;
-    font-size: 2.2rem;
-    color: #333;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    line-height: 1.2;
-}
+        .avatar-jugador:hover{
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
 
-.modal-botones {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 20px;
-}
+        /* Etiqueta con nombre del jugador */
+        .etiqueta-nombre{
+            background-color: rgba(255, 255, 255, 0.95);
+            color: black;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            font-family: 'Creepster';
+            text-align: center;
+            min-width: 120px;
+            border: 2px solid #ffffff;
+        }
 
-.boton-si,
-.boton-no {
-    font-family: 'Creepster', cursive;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    border: none;
-    border-radius: 15px;
-    padding: 15px 35px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
+        .etiqueta-nombre input{
+            background: transparent;
+            border: none;
+            color: black;
+            text-align: center;
+            font-family: 'Creepster';
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
 
-.boton-si {
-    background: linear-gradient(145deg, #ff9999, #ffb3b3);
-}
+        .etiqueta-nombre input::placeholder{
+            color: #666;
+        }
 
-.boton-si:hover {
-    background: linear-gradient(145deg, #ff7777, #ff9999);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 119, 119, 0.4);
-}
+        /* Botón "COMENZAR" con flecha triangular */
+        .container-iniciar-juego {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-.boton-no {
-    background: linear-gradient(145deg, #99ff99, #b3ffb3);
-}
+        .btn-comenzar {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-family: 'Creepster';
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: 3px solid white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7);
+        }
 
-.boton-no:hover {
-    background: linear-gradient(145deg, #77ff77, #99ff99);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(119, 255, 119, 0.4);
-}
+        .btn-comenzar:hover{
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
 
-.boton-si:active,
-.boton-no:active {
-    transform: translateY(0);
-}
+        /* Flecha triangular del botón */
+        .btn-comenzar::after{
+            content: '';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid white;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid transparent;
+            transition: all 0.3s ease;
+        }
 
-/* Responsive para el modal */
-@media (max-width: 768px) {
-    .modal-contenido {
-        padding: 30px 20px;
-        max-width: 350px;
-    }
-    
-    .modal-titulo {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-    }
-    
-    .modal-botones {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-    }
-    
-    .boton-si,
-    .boton-no {
-        font-size: 1.5rem;
-        padding: 12px 30px;
-        width: 120px;
-    }
-}
+        .btn-comenzar:hover::after{
+            border-left-color: rgba(255, 255, 255, 0.8);
+            right: -30px;
+        }
+
+        /* Mensaje de cantidad de jugadores */
+        .texto-cantidad{
+            color: #ffffff;
+            font-size: 18px;
+            text-shadow: 0px 0px 10px #ffffff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Botón para agregar jugador */
+        .boton-agregar{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .circulo-agregar{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #666;
+            background-color: rgba(128, 128, 128, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .boton-agregar:hover .circulo-agregar{
+            border-color: #ffffff;
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .texto-agregar{
+            color: #ffffff;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'Creepster';
+            max-width: 120px;
+            line-height: 1.2;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .contenedor-avatares{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .avatar-jugador, .circulo-agregar{
+                width: 100px;
+                height: 100px;
+            }
+            
+            .circulo-agregar{
+                font-size: 50px;
+            }
+            
+            .btn-comenzar{
+                font-size: 24px;
+                padding: 15px 35px;
+            }
+
+            /* Botón volver responsive */
+            .boton-volver {
+                width: 50px;
+                height: 50px;
+                top: 20px;
+                left: 20px;
+            }
+
+            .triangulo-volver {
+                border-top: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-right: 16px solid #ffffff;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contenedor-avatares{
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Botón volver para móviles pequeños */
+            .boton-volver {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+            }
+
+            .triangulo-volver {
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+                border-right: 14px solid #ffffff;
+            }
+        }

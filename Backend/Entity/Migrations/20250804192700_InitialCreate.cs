@@ -49,14 +49,41 @@ namespace Entity.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FechaInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TiempoPartida = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Estado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RondasJugadas = table.Column<int>(type: "int", nullable: false),
+                    FechaFin = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Estado = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, defaultValue: "Esperando")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RondaActual = table.Column<int>(type: "int", nullable: false),
+                    TurnoActual = table.Column<int>(type: "int", nullable: false),
+                    JugadorQueElige = table.Column<int>(type: "int", nullable: true),
+                    AtributoElegido = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NumeroJugadores = table.Column<int>(type: "int", nullable: false),
+                    MaximoRondas = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Partidas", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "RankingPartidas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdPartida = table.Column<int>(type: "int", nullable: false),
+                    IdJugador = table.Column<int>(type: "int", nullable: false),
+                    NombreJugador = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PuntosObtenidos = table.Column<int>(type: "int", nullable: false),
+                    Posicion = table.Column<int>(type: "int", nullable: false),
+                    FechaPartida = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RankingPartidas", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -67,21 +94,20 @@ namespace Entity.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdPartida = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Nombre = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Avatar = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Avatar = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PosicionTurno = table.Column<int>(type: "int", nullable: false),
                     PuntosAcumulados = table.Column<int>(type: "int", nullable: false),
-                    PartidaId = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jugadores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jugadores_Partidas_PartidaId",
-                        column: x => x.PartidaId,
+                        name: "FK_Jugadores_Partidas_IdPartida",
+                        column: x => x.IdPartida,
                         principalTable: "Partidas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -95,9 +121,10 @@ namespace Entity.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdJugador = table.Column<int>(type: "int", nullable: false),
-                    IdJugada = table.Column<int>(type: "int", nullable: false),
                     IdCarta = table.Column<int>(type: "int", nullable: false),
+                    PosicionEnMazo = table.Column<int>(type: "int", nullable: false),
                     Usada = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RondaUsada = table.Column<int>(type: "int", nullable: true),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -124,13 +151,16 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IdJugada = table.Column<int>(type: "int", nullable: false),
-                    IdJugador = table.Column<int>(type: "int", nullable: false),
-                    IdGanador = table.Column<int>(type: "int", nullable: false),
-                    NumeroRonda = table.Column<int>(type: "int", nullable: false),
-                    AtributoCompetido = table.Column<string>(type: "varchar(100)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IdPartida = table.Column<int>(type: "int", nullable: false),
+                    NumeroRonda = table.Column<int>(type: "int", nullable: false),
+                    AtributoCompetido = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IdJugadorQueElige = table.Column<int>(type: "int", nullable: false),
+                    IdGanador = table.Column<int>(type: "int", nullable: true),
+                    Estado = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, defaultValue: "Esperando")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaInicio = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    FechaFin = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -142,10 +172,16 @@ namespace Entity.Migrations
                         principalTable: "Jugadores",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Rondas_Jugadores_IdJugadorQueElige",
+                        column: x => x.IdJugadorQueElige,
+                        principalTable: "Jugadores",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Rondas_Partidas_IdPartida",
                         column: x => x.IdPartida,
                         principalTable: "Partidas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -158,6 +194,8 @@ namespace Entity.Migrations
                     IdRonda = table.Column<int>(type: "int", nullable: false),
                     IdJugador = table.Column<int>(type: "int", nullable: false),
                     IdCartaJugador = table.Column<int>(type: "int", nullable: false),
+                    ValorAtributo = table.Column<int>(type: "int", nullable: false),
+                    FechaJugada = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -167,17 +205,20 @@ namespace Entity.Migrations
                         name: "FK_Jugadas_CartaJugadores_IdCartaJugador",
                         column: x => x.IdCartaJugador,
                         principalTable: "CartaJugadores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Jugadas_Jugadores_IdJugador",
                         column: x => x.IdJugador,
                         principalTable: "Jugadores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Jugadas_Rondas_IdRonda",
                         column: x => x.IdRonda,
                         principalTable: "Rondas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -187,9 +228,10 @@ namespace Entity.Migrations
                 column: "IdCarta");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartaJugadores_IdJugador",
+                name: "IX_CartaJugadores_IdJugador_PosicionEnMazo",
                 table: "CartaJugadores",
-                column: "IdJugador");
+                columns: new[] { "IdJugador", "PosicionEnMazo" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cartas_Categoria",
@@ -208,14 +250,25 @@ namespace Entity.Migrations
                 column: "IdJugador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jugadas_IdRonda",
+                name: "IX_Jugadas_IdRonda_IdJugador",
                 table: "Jugadas",
-                column: "IdRonda");
+                columns: new[] { "IdRonda", "IdJugador" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jugadores_PartidaId",
+                name: "IX_Jugadores_IdPartida",
                 table: "Jugadores",
-                column: "PartidaId");
+                column: "IdPartida");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RankingPartidas_IdJugador",
+                table: "RankingPartidas",
+                column: "IdJugador");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RankingPartidas_IdPartida",
+                table: "RankingPartidas",
+                column: "IdPartida");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rondas_IdGanador",
@@ -223,9 +276,15 @@ namespace Entity.Migrations
                 column: "IdGanador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rondas_IdPartida",
+                name: "IX_Rondas_IdJugadorQueElige",
                 table: "Rondas",
-                column: "IdPartida");
+                column: "IdJugadorQueElige");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rondas_IdPartida_NumeroRonda",
+                table: "Rondas",
+                columns: new[] { "IdPartida", "NumeroRonda" },
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -233,6 +292,9 @@ namespace Entity.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Jugadas");
+
+            migrationBuilder.DropTable(
+                name: "RankingPartidas");
 
             migrationBuilder.DropTable(
                 name: "CartaJugadores");

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Battles At Freddy´s</title>
+    <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/Lobby.css">
+    <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
+     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
+</head>
+<body>
+    <div class="container-completo">
+        
+        <div class="container-video">
+
+            <video src="../img/video/New Project.mp4" autoplay loop muted></video>
+        </div>
+        <div class="contenedor-contexto">
+            <div  class="contexto-salida" onclick="mostrarModalSalir()">
+                <div><h2>SALIR</h2></div>
+            </div>
+            <div class="contexto-informacion">
+                <div class="informacion-contenido">
+                    <div class="contenido-crear-sala elementos"  onclick="irTransmision()" data-url="./CrearSala.html">
+                        <h2>CREAR SALA</h2>
+                    </div>
+                    <div class="contenido-lista-de-cartas elementos"  onclick="irTransmision()" data-url="./ListadoCartas.html">
+                        <h2>LISTA De CARTAS</h2>
+                    </div>
+                    <div class="contenido-icono" onclick="irTransmision()" data-url="./videoTerror.html">
+                        <img src="../img/foto/icono.png" alt="icono"  width="100%" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Modal de confirmación para salir -->
+    <div id="modalSalir" class="modal-salir">
+        <div class="modal-contenido">
+            <h2 class="modal-titulo">¿SEGURO QUE QUIEREN SALIR?</h2>
+            <div class="modal-botones">
+                <button class="boton-si" onclick="confirmarSalir()">SÍ</button>
+                <button class="boton-no" onclick="cancelarSalir()">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de configuración y servicios backend -->
+    <script src="../Api/ConfigApi.js"></script>
+    <script src="../Api/Services/BaseApiService.js"></script>
+    <script src="../Api/Services/PartidaBackendService.js"></script>
+    <script src="../js/JuegoControllerBackend.js"></script>
+    
+    <!-- Scripts de la página -->
+    <script src="../js/Pantalla.js"></script>
+    <script src="../js/Lobby.js"></script>
+</body>
+</html>

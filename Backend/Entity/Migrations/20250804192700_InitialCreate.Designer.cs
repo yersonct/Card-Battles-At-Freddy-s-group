@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250804154734_InitialCreate")]
+    [Migration("20250804192700_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -92,10 +92,13 @@ namespace Entity.Migrations
                     b.Property<int>("IdCarta")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdJugada")
+                    b.Property<int>("IdJugador")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdJugador")
+                    b.Property<int>("PosicionEnMazo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RondaUsada")
                         .HasColumnType("int");
 
                     b.Property<bool>("Usada")
@@ -105,7 +108,8 @@ namespace Entity.Migrations
 
                     b.HasIndex("IdCarta");
 
-                    b.HasIndex("IdJugador");
+                    b.HasIndex("IdJugador", "PosicionEnMazo")
+                        .IsUnique();
 
                     b.ToTable("CartaJugadores");
                 });
@@ -121,6 +125,9 @@ namespace Entity.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("FechaJugada")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("IdCartaJugador")
                         .HasColumnType("int");
 
@@ -130,13 +137,17 @@ namespace Entity.Migrations
                     b.Property<int>("IdRonda")
                         .HasColumnType("int");
 
+                    b.Property<int>("ValorAtributo")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdCartaJugador");
 
                     b.HasIndex("IdJugador");
 
-                    b.HasIndex("IdRonda");
+                    b.HasIndex("IdRonda", "IdJugador")
+                        .IsUnique();
 
                     b.ToTable("Jugadas");
                 });
@@ -154,6 +165,7 @@ namespace Entity.Migrations
 
                     b.Property<string>("Avatar")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<int>("IdPartida")
@@ -161,10 +173,8 @@ namespace Entity.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<int>("PartidaId")
-                        .HasColumnType("int");
 
                     b.Property<int>("PosicionTurno")
                         .HasColumnType("int");
@@ -174,7 +184,7 @@ namespace Entity.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PartidaId");
+                    b.HasIndex("IdPartida");
 
                     b.ToTable("Jugadores");
                 });
@@ -190,21 +200,78 @@ namespace Entity.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("Estado")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("AtributoElegido")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Esperando");
+
+                    b.Property<DateTime?>("FechaFin")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("RondasJugadas")
+                    b.Property<int?>("JugadorQueElige")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TiempoPartida")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("MaximoRondas")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumeroJugadores")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RondaActual")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TurnoActual")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Partidas");
+                });
+
+            modelBuilder.Entity("Entity.Model.RankingPartida", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaPartida")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("IdJugador")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPartida")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NombreJugador")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Posicion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PuntosObtenidos")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdJugador");
+
+                    b.HasIndex("IdPartida");
+
+                    b.ToTable("RankingPartidas");
                 });
 
             modelBuilder.Entity("Entity.Model.Ronda", b =>
@@ -220,15 +287,26 @@ namespace Entity.Migrations
 
                     b.Property<string>("AtributoCompetido")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("IdGanador")
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Esperando");
+
+                    b.Property<DateTime?>("FechaFin")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaInicio")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("IdGanador")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdJugada")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdJugador")
+                    b.Property<int>("IdJugadorQueElige")
                         .HasColumnType("int");
 
                     b.Property<int>("IdPartida")
@@ -241,7 +319,10 @@ namespace Entity.Migrations
 
                     b.HasIndex("IdGanador");
 
-                    b.HasIndex("IdPartida");
+                    b.HasIndex("IdJugadorQueElige");
+
+                    b.HasIndex("IdPartida", "NumeroRonda")
+                        .IsUnique();
 
                     b.ToTable("Rondas");
                 });
@@ -255,7 +336,7 @@ namespace Entity.Migrations
                         .IsRequired();
 
                     b.HasOne("Entity.Model.Jugador", "Jugador")
-                        .WithMany("CartaJugador")
+                        .WithMany("CartasJugador")
                         .HasForeignKey("IdJugador")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -268,21 +349,21 @@ namespace Entity.Migrations
             modelBuilder.Entity("Entity.Model.Jugada", b =>
                 {
                     b.HasOne("Entity.Model.CartaJugador", "CartaJugador")
-                        .WithMany("Jugada")
+                        .WithMany("Jugadas")
                         .HasForeignKey("IdCartaJugador")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entity.Model.Jugador", "Jugador")
-                        .WithMany("Jugada")
+                        .WithMany("Jugadas")
                         .HasForeignKey("IdJugador")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entity.Model.Ronda", "Ronda")
-                        .WithMany("Jugada")
+                        .WithMany("Jugadas")
                         .HasForeignKey("IdRonda")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CartaJugador");
@@ -295,8 +376,8 @@ namespace Entity.Migrations
             modelBuilder.Entity("Entity.Model.Jugador", b =>
                 {
                     b.HasOne("Entity.Model.Partida", "Partida")
-                        .WithMany()
-                        .HasForeignKey("PartidaId")
+                        .WithMany("Jugadores")
+                        .HasForeignKey("IdPartida")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -305,19 +386,26 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Model.Ronda", b =>
                 {
-                    b.HasOne("Entity.Model.Jugador", "Jugador")
-                        .WithMany("Ronda")
+                    b.HasOne("Entity.Model.Jugador", "Ganador")
+                        .WithMany("RondasGanadas")
                         .HasForeignKey("IdGanador")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Entity.Model.Jugador", "JugadorQueElige")
+                        .WithMany("RondasQueElige")
+                        .HasForeignKey("IdJugadorQueElige")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entity.Model.Partida", "Partida")
-                        .WithMany("Ronda")
+                        .WithMany("Rondas")
                         .HasForeignKey("IdPartida")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Jugador");
+                    b.Navigation("Ganador");
+
+                    b.Navigation("JugadorQueElige");
 
                     b.Navigation("Partida");
                 });
@@ -329,26 +417,30 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Model.CartaJugador", b =>
                 {
-                    b.Navigation("Jugada");
+                    b.Navigation("Jugadas");
                 });
 
             modelBuilder.Entity("Entity.Model.Jugador", b =>
                 {
-                    b.Navigation("CartaJugador");
+                    b.Navigation("CartasJugador");
 
-                    b.Navigation("Jugada");
+                    b.Navigation("Jugadas");
 
-                    b.Navigation("Ronda");
+                    b.Navigation("RondasGanadas");
+
+                    b.Navigation("RondasQueElige");
                 });
 
             modelBuilder.Entity("Entity.Model.Partida", b =>
                 {
-                    b.Navigation("Ronda");
+                    b.Navigation("Jugadores");
+
+                    b.Navigation("Rondas");
                 });
 
             modelBuilder.Entity("Entity.Model.Ronda", b =>
                 {
-                    b.Navigation("Jugada");
+                    b.Navigation("Jugadas");
                 });
 #pragma warning restore 612, 618
         }

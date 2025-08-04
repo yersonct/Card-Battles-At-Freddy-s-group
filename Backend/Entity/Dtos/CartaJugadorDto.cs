@@ -13,5 +13,6 @@ namespace Entity.Dto
         public int IdJugada { get; set; } // ID de la jugada en la que se usa la carta
         public int IdCarta { get; set; } // ID de la carta
         public bool Usada { get; set; } // Indica si la carta ha sido usada en la partida
+        public int PosicionEnMazo { get; set; } // Posición de la carta en el mazo (1-8)
     }
 }

@@ -1,55 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Battles At Freddy´s</title>
+    <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
     <link rel="stylesheet" href="../css/CrearSala.css">
-    <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
-     <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
 </head>
 <body>
-  <audio id="miAudio" src="../sonidos-fondo/Ennard BOSS FIGHT Music [EXTENDED] - Greytezi.mp3" autoplay loop></audio>
-    <div class="container-completo">
-        
-        <div class="container-video">
-
-            <video src="../img/video/New Project.mp4" autoplay loop muted></video>
+    <!-- Botón triangular para volver -->
+        <div class="boton-volver" onclick="irTransmision()">
+            <div class="triangulo-volver"></div>
         </div>
-        <div class="contenedor-contexto">
-            <div  class="contexto-salida" onclick="mostrarModalSalir()">
-                <div><h2>SALIR</h2></div>
-            </div>
-            <div class="contexto-informacion">
-                <div class="informacion-contenido">
-                    <div class="contenido-crear-sala elementos"  onclick="irTransmision()" data-url="./InicioJugadores.html">
-                        <h2>CREAR SALA</h2>
-                    </div>
-                    <div class="contenido-lista-de-cartas elementos"  onclick="irTransmision()" data-url="./ListadoCartas.html">
-                        <h2>LISTA De CARTAS</h2>
-                    </div>
-                    <div class="contenido-icono" onclick="irTransmision()" data-url="./videoTerror.html">
-                        <img src="../img/foto/icono.png" alt="icono"  width="100%" >
-                    </div>
+    <!-- Contenedor principal -->
+    <div class="container-jugadores">
+
+        <!-- Contenedor de avatares de jugadores -->
+        <div class="contenedor-avatares" id="contenedor-avatares">
+            <!-- Jugador 1 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="1">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(1)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 1" maxlength="10" minlength="3">
                 </div>
             </div>
-        </div>
-        
-    </div>
 
-    <!-- Modal de confirmación para salir -->
-    <div id="modalSalir" class="modal-salir">
-        <div class="modal-contenido">
-            <h2 class="modal-titulo">¿SEGURO QUE QUIEREN SALIR?</h2>
-            <div class="modal-botones">
-                <button class="boton-si" onclick="confirmarSalir()">SÍ</button>
-                <button class="boton-no" onclick="cancelarSalir()">NO</button>
+            <!-- Jugador 2 (siempre presente) -->
+            <div class="caja-jugador" data-jugador="2">
+                <button class="boton-eliminar" onclick="eliminarJugador(this)" style="display: none;">X</button>
+                <div class="avatar-jugador" onclick="cambiarAvatar(2)"></div>
+                <div class="etiqueta-nombre">
+                    <input type="text" placeholder="JUGADOR 2" maxlength="10" minlength="3">
+                </div>
+            </div>
+
+            <!-- Botón para agregar más jugadores -->
+            <div class="boton-agregar" id="boton-agregar" onclick="agregarJugador()">
+                <div class="circulo-agregar">+</div>
+                <div class="texto-agregar">QUIERE AGREGAR OTRO JUGADOR</div>
             </div>
         </div>
-    </div>
 
-    <script src="../js/Pantalla.js"></script>
+        <!-- Botón para comenzar partida -->
+        <div class="container-iniciar-juego">
+            <button class="btn-comenzar" onclick="iniciarPartida()">
+                COMENZAR
+            </button>
+        </div>
+
+        <!-- Texto de cantidad de jugadores -->
+        <p class="texto-cantidad" id="texto-cantidad">Jugadores: 2</p>
+    </div>
+    <!-- Scripts de configuración y servicios backend -->
+    <script src="../Api/ConfigApi.js"></script>
+    <script src="../Api/Services/BaseApiService.js"></script>
+    <script src="../Api/Services/PartidaService.js"></script>
+    
+    <!-- Script de la página -->
     <script src="../js/CrearSala.js"></script>
 </body>
 </html>
