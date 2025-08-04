@@ -117,6 +117,7 @@ namespace Web.Controllers.Implements
                             Ataque = int.Parse(cartaJson.EtiquetaEstadistica[0].Ataque),
                             Defensa = int.Parse(cartaJson.EtiquetaEstadistica[0].Defensa),
                             Velocidad = int.Parse(cartaJson.EtiquetaEstadistica[0].Velocidad),
+                            Poder = int.Parse(cartaJson.EtiquetaEstadistica[0].Poder),
                             Terror = int.Parse(cartaJson.EtiquetaEstadistica[0].Terror)
                         };
 
