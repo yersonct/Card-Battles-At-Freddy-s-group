@@ -18,13 +18,14 @@ body{
 .container-video{
     opacity: 0;
     display: none; /* Importante: oculto al inicio */
-    transition: opacity 1s ease;
+    transition: opacity 1.5s ease-in;
     width: 100%;
     height: 100%;
     background-image: url(../img/gif/inicio.gif);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    animation: backgroundPulse 3s ease-in-out infinite alternate;
 }
 .contenido-lateral-izquierdo{
     height: 100vh;   
@@ -56,7 +57,7 @@ body{
     height: 10%;
 }
 .contenedor-bt-Empezar{
-    transition: all 1 ease;
+    transition: all 0.3s ease;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -69,9 +70,24 @@ body{
     outline: none;
     font-size: 65px;
     color: red;
-   font-family: 'Creepster';
-   text-shadow: 0px 0px 2px red;
-   cursor: pointer;
+    font-family: 'Creepster';
+    text-shadow: 0px 0px 2px red, 0px 0px 10px rgba(255, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    position: relative;
+}
+
+.contenedor-bt-Empezar button:hover{
+    color: #ff4444;
+    text-shadow: 0px 0px 5px red, 0px 0px 20px rgba(255, 0, 0, 0.8);
+    transform: scale(1.05);
+    animation: textGlow 1s ease-in-out infinite alternate;
+}
+
+.contenedor-bt-Empezar button:active{
+    transform: scale(0.95);
+    color: #cc0000;
 }
 
 
@@ -84,15 +100,73 @@ body{
     justify-content: center;
     align-items: center;
     opacity: 1;
-  transition: opacity 1s ease;
+    transition: opacity 1.5s ease-out;
+    animation: logoEntrance 2s ease-out;
 }
+
 .container-logo-inicio div img{
     width: 100%;
     height: 100%;
     border-radius: 100px;
+    transition: transform 0.3s ease;
+    animation: logoFloat 3s ease-in-out infinite alternate;
 }
+
 .container-logo-inicio div:nth-child(2) h1{
- font-size: 60px;
- color: #7B3312 !important;
- text-shadow: 0px 0px 5px  white;
+    font-size: 60px;
+    color: #7B3312 !important;
+    text-shadow: 0px 0px 5px white, 0px 0px 15px rgba(255, 255, 255, 0.5);
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+/* Animaciones CSS */
+@keyframes logoEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(-50px);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes logoFloat {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    100% {
+        transform: translateY(-10px) scale(1.02);
+    }
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 0px 0px 5px white, 0px 0px 15px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0px 0px 10px white, 0px 0px 25px rgba(255, 255, 255, 0.8);
+    }
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0px 0px 5px red, 0px 0px 20px rgba(255, 0, 0, 0.8);
+    }
+    100% {
+        text-shadow: 0px 0px 10px red, 0px 0px 30px rgba(255, 0, 0, 1);
+    }
+}
+
+@keyframes backgroundPulse {
+    0% {
+        filter: brightness(1) contrast(1);
+    }
+    100% {
+        filter: brightness(1.1) contrast(1.1);
+    }
 }
