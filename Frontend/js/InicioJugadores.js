@@ -14,7 +14,10 @@
             '../img/foto/ballons.jpg',    // Withered (marrón)
             '../img/foto/nomeacuerdo.jpg'   // Springtrap (verde/dorado)
         ];
-
+        window.onload = function() {
+            const audio = document.getElementById("miAudio");
+            audio.play();
+        };
         // Objeto para rastrear el índice actual de avatar de cada jugador
         let indicesAvatares = {};
 

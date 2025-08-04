@@ -1,4 +1,8 @@
 // Utilidades optimizadas para Sala.html
+window.onload = function() {
+  const audio = document.getElementById("miAudio");
+  audio.play();
+};
 class SalaOptimizada {
     constructor() {
         this.cartas = [];

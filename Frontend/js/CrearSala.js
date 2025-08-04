@@ -18,7 +18,10 @@ function confirmarSalir() {
     // puedes redirigir a otra página o mostrar un mensaje
     // window.location.href = 'about:blank';
 }
-
+window.onload = function() {
+  const audio = document.getElementById("miAudio");
+  audio.play();
+};
 // Función para cancelar salida
 function cancelarSalir() {
     const modal = document.getElementById('modalSalir');

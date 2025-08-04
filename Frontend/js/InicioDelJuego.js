@@ -21,6 +21,18 @@ function usuarioPresente() {
 
  
 }
+window.onload = function() {
+  const audio = document.getElementById("miAudio");
+  audio.play();
+};
+
+
+ const boton = document.getElementById("miBoton");
+  const audio = document.getElementById("miAudio2");
+
+  boton.addEventListener("mouseenter", function() {
+    audio.play();
+  });
 
 let yaEjecutado = false;
 
