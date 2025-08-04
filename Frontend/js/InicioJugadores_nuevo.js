@@ -1,3 +1,12 @@
+// Función para ir a la pantalla de transición antes de volver a crear sala
+function irTransmision() {
+    // Guardamos la URL de destino en el almacenamiento local
+    localStorage.setItem("urlDestino", "./CrearSala.html");
+    
+    // Redirigimos a la página de transición
+    window.location.href = '../html/Pantalla.html';
+}
+
 // ===== VARIABLES GLOBALES =====
 let contadorJugadores = 2; // Empezamos con 2 jugadores
 let maxJugadores = 7; // Máximo de 7 jugadores permitidos

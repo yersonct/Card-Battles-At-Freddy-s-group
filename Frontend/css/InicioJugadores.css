@@ -16,6 +16,62 @@
             background-attachment: fixed;
         }
 
+        /* Botón triangular para volver */
+        .boton-volver {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .boton-volver:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .triangulo-volver {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 20px solid #ffffff;
+            margin-left: -3px; /* Centrar visualmente el triángulo */
+            transition: all 0.3s ease;
+        }
+
+        .boton-volver:hover .triangulo-volver {
+            border-right-color: #ff6b35;
+            transform: translateX(-2px);
+        }
+
+        /* Efecto adicional para el botón volver */
+        .boton-volver::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .boton-volver:hover::before {
+            opacity: 1;
+        }
+
         /* Contenedor principal */
         .container-jugadores{
             width: 100vw;
@@ -242,11 +298,39 @@
                 font-size: 24px;
                 padding: 15px 35px;
             }
+
+            /* Botón volver responsive */
+            .boton-volver {
+                width: 50px;
+                height: 50px;
+                top: 20px;
+                left: 20px;
+            }
+
+            .triangulo-volver {
+                border-top: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-right: 16px solid #ffffff;
+            }
         }
 
         @media (max-width: 480px) {
             .contenedor-avatares{
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+
+            /* Botón volver para móviles pequeños */
+            .boton-volver {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                left: 15px;
+            }
+
+            .triangulo-volver {
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+                border-right: 14px solid #ffffff;
             }
         }
