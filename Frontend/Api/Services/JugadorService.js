@@ -38,9 +38,8 @@ class JugadorService extends BaseApiService {
                 avatar: avatar,
                 idPartida: partidaId,
                 posicionTurno: posicionTurno,
-                puntosAcumulados: 0,
-                estado: true,
-                fechaCreacion: new Date().toISOString()
+                puntosAcumulados: 0
+                // Removemos active por ahora para evitar problemas de mapeo
             };
 
             const jugadorCreado = await this.create(jugadorData);

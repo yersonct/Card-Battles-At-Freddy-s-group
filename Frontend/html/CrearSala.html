@@ -17,7 +17,7 @@
             <video src="../img/video/New Project.mp4" autoplay loop muted></video>
         </div>
         <div class="contenedor-contexto">
-            <div  class="contexto-salida">
+            <div  class="contexto-salida" onclick="mostrarModalSalir()">
                 <div><h2>SALIR</h2></div>
             </div>
             <div class="contexto-informacion">
@@ -36,6 +36,19 @@
         </div>
         
     </div>
+
+    <!-- Modal de confirmación para salir -->
+    <div id="modalSalir" class="modal-salir">
+        <div class="modal-contenido">
+            <h2 class="modal-titulo">¿SEGURO QUE QUIEREN SALIR?</h2>
+            <div class="modal-botones">
+                <button class="boton-si" onclick="confirmarSalir()">SÍ</button>
+                <button class="boton-no" onclick="cancelarSalir()">NO</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/Pantalla.js"></script>
+    <script src="../js/CrearSala.js"></script>
 </body>
 </html>

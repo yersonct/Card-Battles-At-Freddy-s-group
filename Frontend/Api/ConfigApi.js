@@ -4,7 +4,7 @@
 
 // Configuración base de la API
 const API_CONFIG = {
-    baseURL: 'https://localhost:7147/api', // Cambia esto por la URL de tu backend
+    baseURL: 'http://localhost:7147/api', // Cambiado a HTTP para evitar problemas de CORS
     timeout: 30000, // 30 segundos de timeout
     headers: {
         'Content-Type': 'application/json',

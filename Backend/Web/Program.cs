@@ -14,6 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.ListenAnyIP(7147); // HTTP en puerto 7147
+    // También configurar para HTTPS en desarrollo
+    if (builder.Environment.IsDevelopment())
+    {
+        serverOptions.ListenAnyIP(7148, listenOptions =>
+        {
+            listenOptions.UseHttps(); // HTTPS en puerto 7148
+        });
+    }
 });
 
 // Add controllers
@@ -92,7 +100,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Inicializar base de datos y aplicar migraciones
-// await InitializeDatabaseAsync(app.Services);
+await InitializeDatabaseAsync(app.Services);
 
 app.Run();
 

@@ -8,6 +8,7 @@ namespace Entity.Dto.Base
     /// </summary>
     public abstract class BaseDto
     {
-     public int Id { get; set; } // ID único del DTO
+        public int Id { get; set; } // ID único del DTO
+        public bool Active { get; set; } = true; // Indica si el registro está activo
     }
 }
