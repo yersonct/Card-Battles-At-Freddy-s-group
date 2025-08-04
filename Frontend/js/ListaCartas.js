@@ -9,7 +9,10 @@ function irTransmision() {
     // Redirigimos a la página de transición
     window.location.href = '../html/Pantalla.html';
 }
-
+window.onload = function() {
+  const audio = document.getElementById("miAudio");
+  audio.play();
+};
 // Función para voltear carta
 function voltearCarta(carta) {
     // Alternar la clase 'volteada' para activar la animación
