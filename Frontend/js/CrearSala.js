@@ -11,9 +11,8 @@ function mostrarModalSalir() {
 // Función para confirmar salida
 function confirmarSalir() {
     // Cerrar la ventana/pestaña o redirigir a otra página
-    // Puedes cambiar esto según tus necesidades
-    window.close(); // Intenta cerrar la ventana
-
+    // Redirigimos a la página de transición
+    window.location.href = '../html/InicioDelJuego.html';
     // Si window.close() no funciona (en algunos navegadores), 
     // puedes redirigir a otra página o mostrar un mensaje
     // window.location.href = 'about:blank';

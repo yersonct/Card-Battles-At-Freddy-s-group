@@ -24,6 +24,8 @@ namespace Entity.Migrations
                     Imagen = table.Column<byte[]>(type: "longblob", nullable: false),
                     Nombre = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Rareza = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Categoria = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Vida = table.Column<int>(type: "int", nullable: false),

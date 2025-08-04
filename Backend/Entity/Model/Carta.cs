@@ -11,6 +11,7 @@ namespace Entity.Model
     {
         public byte[] Imagen { get; set; } = null!; // Imagen de la carta
         public string Nombre { get; set; } // Nombre de la carta
+        public string Rareza { get; set; } // Rareza de la carta (ejemplo: "Común", "Rara", "Épica", "Legendaria")
         public string Categoria { get; set; } // Categoría de la carta (ejemplo: "1A", "1B", etc.)
         public int Vida { get; set; } // Vida de la carta
         public int Defensa { get; set; } // Defensa de la carta
