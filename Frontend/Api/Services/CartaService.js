@@ -77,10 +77,10 @@ class CartaService extends BaseApiService {
             };
 
             const cartaCreada = await this.create(carta);
-            console.log(`✅ Carta creada: ${carta.nombre}`);
+            console.log(` Carta creada: ${carta.nombre}`);
             return cartaCreada;
         } catch (error) {
-            console.error(`❌ Error al crear carta ${cartaData.nombre}:`, error);
+            console.error(` Error al crear carta ${cartaData.nombre}:`, error);
             throw error;
         }
     }

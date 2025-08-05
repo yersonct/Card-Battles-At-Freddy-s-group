@@ -125,7 +125,7 @@ async function makeRequest(url, options = {}) {
     config.signal = controller.signal;
 
     try {
-        console.log(`🚀 API Request: ${config.method} ${url}`);
+        console.log(` API Request: ${config.method} ${url}`);
         
         const response = await fetch(url, config);
         clearTimeout(timeoutId);
@@ -150,11 +150,11 @@ async function makeRequest(url, options = {}) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
-            console.log(`✅ API Response: ${config.method} ${url}`, data);
+            console.log(` API Response: ${config.method} ${url}`, data);
             return data;
         } else {
             const text = await response.text();
-            console.log(`✅ API Response: ${config.method} ${url}`, text);
+            console.log(` API Response: ${config.method} ${url}`, text);
             return text;
         }
 
@@ -162,16 +162,16 @@ async function makeRequest(url, options = {}) {
         clearTimeout(timeoutId);
         
         if (error.name === 'AbortError') {
-            console.error(`⏰ API Timeout: ${config.method} ${url}`);
+            console.error(` API Timeout: ${config.method} ${url}`);
             throw new ApiError('La petición ha excedido el tiempo límite', 408);
         }
         
         if (error instanceof ApiError) {
-            console.error(`❌ API Error: ${config.method} ${url}`, error);
+            console.error(` API Error: ${config.method} ${url}`, error);
             throw error;
         }
         
-        console.error(`💥 Network Error: ${config.method} ${url}`, error);
+        console.error(` Network Error: ${config.method} ${url}`, error);
         throw new ApiError('Error de red. Verifica tu conexión a internet.', 0, error);
     }
 }

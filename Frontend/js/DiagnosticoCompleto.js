@@ -1,4 +1,4 @@
-// 🔍 SCRIPT DE DIAGNÓSTICO COMPLETO - Card Battles At Freddy's
+//  SCRIPT DE DIAGNÓSTICO COMPLETO - Card Battles At Freddy's
 // Ejecutar desde cualquier página para verificar el estado del sistema
 
 class DiagnosticoCompleto {
@@ -13,34 +13,34 @@ class DiagnosticoCompleto {
             recomendaciones: []
         };
         
-        console.log('🔍 === INICIANDO DIAGNÓSTICO COMPLETO ===');
+        console.log(' === INICIANDO DIAGNÓSTICO COMPLETO ===');
     }
 
     // Ejecutar diagnóstico completo
     async ejecutarDiagnostico() {
         try {
-            console.log('📋 1. Verificando localStorage...');
+            console.log(' 1. Verificando localStorage...');
             this.verificarLocalStorage();
             
-            console.log('🌐 2. Verificando backend...');
+            console.log(' 2. Verificando backend...');
             await this.verificarBackend();
             
-            console.log('📜 3. Verificando archivos JavaScript...');
+            console.log(' 3. Verificando archivos JavaScript...');
             this.verificarArchivosJS();
             
-            console.log('🧭 4. Verificando navegación...');
+            console.log(' 4. Verificando navegación...');
             this.verificarNavegacion();
             
-            console.log('🔍 5. Verificando errores guardados...');
+            console.log(' 5. Verificando errores guardados...');
             this.verificarErroresGuardados();
             
-            console.log('📊 6. Generando reporte final...');
+            console.log(' 6. Generando reporte final...');
             this.generarReporteFinal();
             
             return this.resultados;
             
         } catch (error) {
-            console.error('❌ Error en diagnóstico:', error);
+            console.error(' Error en diagnóstico:', error);
             this.resultados.erroresEncontrados.push({
                 tipo: 'ERROR_DIAGNOSTICO',
                 mensaje: error.message,
@@ -51,7 +51,7 @@ class DiagnosticoCompleto {
 
     // 1. Verificar localStorage
     verificarLocalStorage() {
-        console.log('🔍 Verificando datos en localStorage...');
+        console.log(' Verificando datos en localStorage...');
         
         const datosImportantes = [
             'partidaId',
@@ -100,12 +100,12 @@ class DiagnosticoCompleto {
             this.resultados.recomendaciones.push('1. Crear una partida válida desde CrearSala');
         }
         
-        console.log('✅ localStorage verificado:', this.resultados.localStorage);
+        console.log(' localStorage verificado:', this.resultados.localStorage);
     }
 
     // 2. Verificar backend
     async verificarBackend() {
-        console.log('🔍 Verificando conexión al backend...');
+        console.log(' Verificando conexión al backend...');
         
         const endpoints = [
             'http://localhost:7147/api/partida',
@@ -124,7 +124,7 @@ class DiagnosticoCompleto {
         
         for (const endpoint of endpoints) {
             try {
-                console.log(`🌐 Probando: ${endpoint}`);
+                console.log(` Probando: ${endpoint}`);
                 
                 const response = await fetch(endpoint, {
                     method: 'GET',
@@ -142,9 +142,9 @@ class DiagnosticoCompleto {
                 
                 if (response.ok) {
                     conexionesExitosas++;
-                    console.log(`✅ ${endpointName}: OK (${response.status})`);
+                    console.log(` ${endpointName}: OK (${response.status})`);
                 } else {
-                    console.log(`⚠️ ${endpointName}: ${response.status} ${response.statusText}`);
+                    console.log(` ${endpointName}: ${response.status} ${response.statusText}`);
                 }
                 
             } catch (error) {
@@ -154,7 +154,7 @@ class DiagnosticoCompleto {
                     tipo: 'CONNECTION_ERROR'
                 };
                 
-                console.log(`❌ ${endpointName}: ${error.message}`);
+                console.log(` ${endpointName}: ${error.message}`);
                 
                 this.resultados.erroresEncontrados.push({
                     tipo: 'BACKEND_ERROR',
@@ -174,13 +174,13 @@ class DiagnosticoCompleto {
             this.resultados.recomendaciones.push('4. Algunos endpoints del backend no responden correctamente');
         } else {
             this.resultados.backend.conexionGeneral = 'EXITOSA';
-            console.log('✅ Backend funcionando correctamente');
+            console.log(' Backend funcionando correctamente');
         }
     }
 
     // 3. Verificar archivos JavaScript
     verificarArchivosJS() {
-        console.log('🔍 Verificando archivos JavaScript...');
+        console.log(' Verificando archivos JavaScript...');
         
         const clases = [
             'GameFlowController',
@@ -258,12 +258,12 @@ class DiagnosticoCompleto {
             this.resultados.recomendaciones.push(`5. Cargar los archivos JS faltantes: ${clasesRequeridas.join(', ')}`);
         }
         
-        console.log('✅ Archivos JS verificados:', this.resultados.archivosJS);
+        console.log(' Archivos JS verificados:', this.resultados.archivosJS);
     }
 
     // 4. Verificar navegación
     verificarNavegacion() {
-        console.log('🔍 Verificando estado de navegación...');
+        console.log(' Verificando estado de navegación...');
         
         this.resultados.navegacion = {
             url: window.location.href,
@@ -276,12 +276,12 @@ class DiagnosticoCompleto {
             preventRedirects: window.preventRedirects || false
         };
         
-        console.log('✅ Navegación verificada:', this.resultados.navegacion);
+        console.log(' Navegación verificada:', this.resultados.navegacion);
     }
 
     // 5. Verificar errores guardados
     verificarErroresGuardados() {
-        console.log('🔍 Verificando errores previamente guardados...');
+        console.log(' Verificando errores previamente guardados...');
         
         const erroresLS = localStorage.getItem('debugInfo_errores');
         const ultimoErrorLS = localStorage.getItem('debugInfo_ultimoError');
@@ -317,7 +317,7 @@ class DiagnosticoCompleto {
             }
         }
         
-        console.log('✅ Errores guardados verificados:', this.resultados.erroresGuardados);
+        console.log(' Errores guardados verificados:', this.resultados.erroresGuardados);
     }
 
     // Detectar página actual
@@ -332,7 +332,7 @@ class DiagnosticoCompleto {
 
     // 6. Generar reporte final
     generarReporteFinal() {
-        console.log('🔍 Generando reporte final...');
+        console.log(' Generando reporte final...');
         
         // Calcular estado general
         const tieneErroresCriticos = this.resultados.erroresEncontrados.some(e => 
@@ -345,27 +345,27 @@ class DiagnosticoCompleto {
         localStorage.setItem('diagnostico_completo', JSON.stringify(this.resultados, null, 2));
         
         // Mostrar reporte en consola
-        console.log('📊 === REPORTE FINAL ===');
-        console.log('🎯 Estado General:', this.resultados.estadoGeneral);
-        console.log('⚠️ Errores Encontrados:', this.resultados.erroresEncontrados.length);
-        console.log('💡 Recomendaciones:', this.resultados.recomendaciones.length);
+        console.log(' === REPORTE FINAL ===');
+        console.log(' Estado General:', this.resultados.estadoGeneral);
+        console.log(' Errores Encontrados:', this.resultados.erroresEncontrados.length);
+        console.log(' Recomendaciones:', this.resultados.recomendaciones.length);
         
         if (this.resultados.erroresEncontrados.length > 0) {
-            console.error('❌ ERRORES CRÍTICOS:');
+            console.error(' ERRORES CRÍTICOS:');
             this.resultados.erroresEncontrados.forEach((error, index) => {
                 console.error(`${index + 1}. ${error.tipo}: ${error.mensaje}`);
             });
         }
         
         if (this.resultados.recomendaciones.length > 0) {
-            console.warn('💡 RECOMENDACIONES:');
+            console.warn(' RECOMENDACIONES:');
             this.resultados.recomendaciones.forEach((rec, index) => {
                 console.warn(`${index + 1}. ${rec}`);
             });
         }
         
-        console.log('💾 Reporte guardado en localStorage como "diagnostico_completo"');
-        console.log('📋 Para ver reporte completo: JSON.parse(localStorage.getItem("diagnostico_completo"))');
+        console.log(' Reporte guardado en localStorage como "diagnostico_completo"');
+        console.log(' Para ver reporte completo: JSON.parse(localStorage.getItem("diagnostico_completo"))');
         
         return this.resultados;
     }
@@ -383,6 +383,6 @@ window.DiagnosticoCompleto = DiagnosticoCompleto;
 // Método rápido para consola
 window.diagnosticar = () => DiagnosticoCompleto.ejecutar();
 
-console.log('🔍 === SCRIPT DE DIAGNÓSTICO CARGADO ===');
-console.log('💡 Para ejecutar: diagnosticar() o DiagnosticoCompleto.ejecutar()');
-console.log('💡 Para ver último reporte: JSON.parse(localStorage.getItem("diagnostico_completo"))');
+console.log(' === SCRIPT DE DIAGNÓSTICO CARGADO ===');
+console.log(' Para ejecutar: diagnosticar() o DiagnosticoCompleto.ejecutar()');
+console.log(' Para ver último reporte: JSON.parse(localStorage.getItem("diagnostico_completo"))');

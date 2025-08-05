@@ -43,10 +43,10 @@ class JugadorService extends BaseApiService {
             };
 
             const jugadorCreado = await this.create(jugadorData);
-            console.log(`✅ Jugador creado: ${nombre} (Avatar: ${avatar}) en posición ${posicionTurno}`);
+            console.log(` Jugador creado: ${nombre} (Avatar: ${avatar}) en posición ${posicionTurno}`);
             return jugadorCreado;
         } catch (error) {
-            console.error(`❌ Error al crear jugador ${nombre}:`, error);
+            console.error(` Error al crear jugador ${nombre}:`, error);
             throw error;
         }
     }
@@ -59,7 +59,7 @@ class JugadorService extends BaseApiService {
      */
     async añadirJugadoresASala(jugadores, partidaId) {
         try {
-            console.log(`🎮 Añadiendo ${jugadores.length} jugadores a la sala ${partidaId}`);
+            console.log(` Añadiendo ${jugadores.length} jugadores a la sala ${partidaId}`);
             
             const jugadoresCreados = [];
             
@@ -71,10 +71,10 @@ class JugadorService extends BaseApiService {
                 jugadoresCreados.push(jugador);
             }
             
-            console.log(`✅ ${jugadoresCreados.length} jugadores añadidos exitosamente`);
+            console.log(` ${jugadoresCreados.length} jugadores añadidos exitosamente`);
             return jugadoresCreados;
         } catch (error) {
-            console.error('❌ Error al añadir jugadores a la sala:', error);
+            console.error(' Error al añadir jugadores a la sala:', error);
             throw error;
         }
     }
@@ -90,7 +90,7 @@ class JugadorService extends BaseApiService {
             const jugador = await this.getById(jugadorId);
             const nuevaPuntuacion = (jugador.puntosAcumulados || 0) + puntos;
             
-            console.log(`🏆 Sumando ${puntos} punto(s) al jugador ${jugador.nombre} (Total: ${nuevaPuntuacion})`);
+            console.log(` Sumando ${puntos} punto(s) al jugador ${jugador.nombre} (Total: ${nuevaPuntuacion})`);
             
             return await this.mergePatch(jugadorId, {
                 puntosAcumulados: nuevaPuntuacion

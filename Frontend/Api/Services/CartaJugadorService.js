@@ -46,7 +46,7 @@ class CartaJugadorService extends BaseApiService {
      */
     async asignarCartasIniciales(jugadorId, cantidadCartas = 5) {
         try {
-            console.log(`🎴 Asignando ${cantidadCartas} cartas iniciales al jugador ${jugadorId}`);
+            console.log(` Asignando ${cantidadCartas} cartas iniciales al jugador ${jugadorId}`);
             
             // Obtener todas las cartas disponibles
             const cartasDisponibles = await this.obtenerCartasParaAsignar();
@@ -65,11 +65,11 @@ class CartaJugadorService extends BaseApiService {
                 cartasAsignadas.push(cartaJugador);
             }
             
-            console.log(`✅ ${cartasAsignadas.length} cartas asignadas al jugador ${jugadorId}`);
+            console.log(` ${cartasAsignadas.length} cartas asignadas al jugador ${jugadorId}`);
             return cartasAsignadas;
             
         } catch (error) {
-            console.error(`❌ Error al asignar cartas iniciales al jugador ${jugadorId}:`, error);
+            console.error(` Error al asignar cartas iniciales al jugador ${jugadorId}:`, error);
             throw error;
         }
     }
@@ -131,7 +131,7 @@ class CartaJugadorService extends BaseApiService {
             };
 
             const cartaJugador = await this.create(cartaJugadorData);
-            console.log(`🎴 Carta ${cartaId} asignada al jugador ${jugadorId}`);
+            console.log(` Carta ${cartaId} asignada al jugador ${jugadorId}`);
             return cartaJugador;
             
         } catch (error) {
@@ -154,7 +154,7 @@ class CartaJugadorService extends BaseApiService {
             });
             
             const resultado = await makeRequest(url, { method: 'PUT' });
-            console.log(`🎯 Carta ${cartaJugadorId} jugada en jugada ${jugadaId}`);
+            console.log(` Carta ${cartaJugadorId} jugada en jugada ${jugadaId}`);
             return resultado;
             
         } catch (error) {
@@ -186,7 +186,7 @@ class CartaJugadorService extends BaseApiService {
      */
     async reasignarCartas(jugadorId, cantidadCartas = 3) {
         try {
-            console.log(`🔄 Reasignando ${cantidadCartas} cartas al jugador ${jugadorId}`);
+            console.log(` Reasignando ${cantidadCartas} cartas al jugador ${jugadorId}`);
             
             // Obtener cartas restantes en la mano del jugador
             const cartasEnMano = await this.getMazoJugador(jugadorId);
@@ -195,14 +195,14 @@ class CartaJugadorService extends BaseApiService {
             const cartasNecesarias = Math.max(0, cantidadCartas - cartasEnMano.length);
             
             if (cartasNecesarias === 0) {
-                console.log(`✅ El jugador ${jugadorId} ya tiene suficientes cartas`);
+                console.log(` El jugador ${jugadorId} ya tiene suficientes cartas`);
                 return cartasEnMano;
             }
             
             // Asignar cartas adicionales
             const nuevasCartas = await this.asignarCartasIniciales(jugadorId, cartasNecesarias);
             
-            console.log(`✅ ${nuevasCartas.length} cartas adicionales asignadas al jugador ${jugadorId}`);
+            console.log(` ${nuevasCartas.length} cartas adicionales asignadas al jugador ${jugadorId}`);
             return [...cartasEnMano, ...nuevasCartas];
             
         } catch (error) {

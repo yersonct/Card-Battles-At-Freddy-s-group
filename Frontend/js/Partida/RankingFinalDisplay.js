@@ -12,7 +12,7 @@ class RankingFinalDisplay {
         this.rankingData = [];
         this.mostrandoRanking = false;
         
-        console.log('🏆 RankingFinalDisplay inicializado');
+        console.log(' RankingFinalDisplay inicializado');
     }
 
     /**
@@ -21,10 +21,10 @@ class RankingFinalDisplay {
     async init() {
         try {
             this.crearContenedorRanking();
-            console.log('✅ RankingFinalDisplay inicializado correctamente');
+            console.log(' RankingFinalDisplay inicializado correctamente');
             
         } catch (error) {
-            console.error('❌ Error inicializando RankingFinalDisplay:', error);
+            console.error(' Error inicializando RankingFinalDisplay:', error);
             throw error;
         }
     }
@@ -66,7 +66,7 @@ class RankingFinalDisplay {
                                 <!-- Primer lugar -->
                                 <div class="posicion-podio primer-lugar">
                                     <div class="numero-posicion">1</div>
-                                    <div class="corona">👑</div>
+                                    <div class="corona">1</div>
                                     <div class="jugador-podio">
                                         <img src="" alt="" class="avatar-podio">
                                         <div class="info-podio">
@@ -158,7 +158,7 @@ class RankingFinalDisplay {
         try {
             if (this.mostrandoRanking) return;
             
-            console.log('🏆 Mostrando ranking final...');
+            console.log(' Mostrando ranking final...');
             this.mostrandoRanking = true;
             
             // Cargar datos del ranking
@@ -185,7 +185,7 @@ class RankingFinalDisplay {
             }, 100);
             
         } catch (error) {
-            console.error('❌ Error mostrando ranking:', error);
+            console.error(' Error mostrando ranking:', error);
         }
     }
 
@@ -208,10 +208,10 @@ class RankingFinalDisplay {
                 jugador.posicion = index + 1;
             });
             
-            console.log('📊 Ranking cargado:', this.rankingData);
+            console.log(' Ranking cargado:', this.rankingData);
             
         } catch (error) {
-            console.error('❌ Error cargando ranking:', error);
+            console.error(' Error cargando ranking:', error);
             // Usar datos locales como fallback
             this.rankingData = [...this.gameFlow.jugadores].sort((a, b) => 
                 (b.puntosAcumulados || 0) - (a.puntosAcumulados || 0)
@@ -437,10 +437,10 @@ class RankingFinalDisplay {
                 });
             }
             
-            console.log('✅ Ranking guardado en el sistema');
+            console.log(' Ranking guardado en el sistema');
             
         } catch (error) {
-            console.error('❌ Error guardando ranking:', error);
+            console.error(' Error guardando ranking:', error);
         }
     }
 

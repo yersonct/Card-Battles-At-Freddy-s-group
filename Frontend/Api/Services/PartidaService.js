@@ -26,7 +26,7 @@ class PartidaService extends BaseApiService {
             };
 
             const partida = await this.create(partidaData);
-            console.log(`🎮 Partida creada: ID ${partida.id} para ${cantidadJugadores} jugadores`);
+            console.log(` Partida creada: ID ${partida.id} para ${cantidadJugadores} jugadores`);
             
             // Agregar información adicional que no se guarda en BD pero es útil en frontend
             partida.nombreDisplay = nombre;
@@ -34,7 +34,7 @@ class PartidaService extends BaseApiService {
             
             return partida;
         } catch (error) {
-            console.error(`❌ Error al crear partida "${nombre}":`, error);
+            console.error(` Error al crear partida "${nombre}":`, error);
             throw error;
         }
     }
@@ -118,7 +118,7 @@ class PartidaService extends BaseApiService {
             }
 
             const resultado = await this.mergePatch(partidaId, data);
-            console.log(`📝 Estado de partida ${partidaId} actualizado a: ${nuevoEstado}`);
+            console.log(` Estado de partida ${partidaId} actualizado a: ${nuevoEstado}`);
             return resultado;
         } catch (error) {
             console.error(`Error al actualizar estado de partida ${partidaId}:`, error);

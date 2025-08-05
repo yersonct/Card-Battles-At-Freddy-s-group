@@ -231,7 +231,7 @@ function actualizarTextoJugadores(mensaje) {
 
 // Función para iniciar la partida - CONECTADA AL BACKEND
 async function iniciarPartida() {
-    console.log('🎮 Iniciando verificaciones para la partida...');
+    console.log(' Iniciando verificaciones para la partida...');
     
     // Verificar que todos los jugadores tengan nombre
     const inputs = document.querySelectorAll('.etiqueta-nombre input');
@@ -288,7 +288,7 @@ async function iniciarPartida() {
         }
     }
     
-    console.log('🎮 Datos de jugadores preparados:', jugadores);
+    console.log(' Datos de jugadores preparados:', jugadores);
     
     // Deshabilitar botón e indicar proceso
     const btnComenzar = document.querySelector('.btn-comenzar');
@@ -298,7 +298,7 @@ async function iniciarPartida() {
     }
     
     try {
-        actualizarTextoJugadores("🔗 Verificando conexión con el servidor...");
+        actualizarTextoJugadores("Verificando conexión con el servidor...");
         
         // Verificar conexión con el backend
         const responseTest = await fetch(`${API_BASE}/partida`);
@@ -306,14 +306,14 @@ async function iniciarPartida() {
             throw new Error('No se puede conectar con el servidor');
         }
         
-        actualizarTextoJugadores("✅ Servidor conectado, creando partida...");
+        actualizarTextoJugadores(" Servidor conectado, creando partida...");
         
         // Crear partida en el backend
         const crearPartidaDto = {
             Jugadores: jugadores
         };
         
-        console.log('📤 Enviando datos al servidor:', crearPartidaDto);
+        console.log(' Enviando datos al servidor:', crearPartidaDto);
         
         const response = await fetch(`${API_BASE}/partida/crear`, {
             method: 'POST',
@@ -329,7 +329,7 @@ async function iniciarPartida() {
         }
         
         const resultado = await response.json();
-        console.log('✅ Partida creada exitosamente:', resultado);
+        console.log(' Partida creada exitosamente:', resultado);
         
         if (resultado && (resultado.partidaId || resultado.PartidaId)) {
             partidaActual = resultado.partidaId || resultado.PartidaId;
@@ -341,7 +341,7 @@ async function iniciarPartida() {
             localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
             localStorage.setItem('modoOffline', 'false');
             
-            actualizarTextoJugadores(`🎉 ¡Partida creada exitosamente!`);
+            actualizarTextoJugadores(` ¡Partida creada exitosamente!`);
             
             // Mostrar información de la partida
             const infoPartida = document.getElementById('info-partida');
@@ -354,11 +354,11 @@ async function iniciarPartida() {
                 infoPartida.style.display = 'block';
             }
             
-            actualizarTextoJugadores(`📋 ID: ${partidaActual} | Código: ${codigoPartidaActual}`);
+            actualizarTextoJugadores(` ID: ${partidaActual} | Código: ${codigoPartidaActual}`);
             
             // Esperar un momento para mostrar el mensaje y luego redirigir
             setTimeout(() => {
-                actualizarTextoJugadores("🚀 Redirigiendo al juego...");
+                actualizarTextoJugadores(" Redirigiendo al juego...");
                 window.location.href = "../html/Partida.html";
             }, 2000);
             
@@ -367,8 +367,8 @@ async function iniciarPartida() {
         }
         
     } catch (error) {
-        console.error('❌ Error al crear partida:', error);
-        actualizarTextoJugadores(`❌ Error: ${error.message}`);
+        console.error(' Error al crear partida:', error);
+        actualizarTextoJugadores(` Error: ${error.message}`);
         
         // Restaurar botón
         if (btnComenzar) {
@@ -378,7 +378,7 @@ async function iniciarPartida() {
         
         // Modo offline como respaldo
         setTimeout(() => {
-            actualizarTextoJugadores("⚠️ Iniciando en modo offline...");
+            actualizarTextoJugadores(" Iniciando en modo offline...");
             localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
             localStorage.setItem('modoOffline', 'true');
             

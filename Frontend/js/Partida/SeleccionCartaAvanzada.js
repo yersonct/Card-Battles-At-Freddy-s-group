@@ -67,7 +67,7 @@ class SeleccionCartaAvanzada {
                     </div>
                     
                     <div class="selector-atributo">
-                        <h4>🎯 Selecciona el atributo para jugar:</h4>
+                        <h4> Selecciona el atributo para jugar:</h4>
                         <div class="mensaje-seleccion" id="mensaje-atributo">
                             Haz click en cualquier estadística de arriba
                         </div>
@@ -152,7 +152,7 @@ class SeleccionCartaAvanzada {
         const nombreAtributo = statItem.querySelector('.stat-label').textContent;
         const valorAtributo = statItem.querySelector('.stat-value').textContent;
         
-        mensaje.innerHTML = `✅ <strong>${nombreAtributo}: ${valorAtributo}</strong> seleccionado`;
+        mensaje.innerHTML = ` <strong>${nombreAtributo}: ${valorAtributo}</strong> seleccionado`;
         mensaje.style.color = '#4CAF50';
         
         // Habilitar botón de tirar carta
@@ -162,13 +162,13 @@ class SeleccionCartaAvanzada {
         btnTirar.classList.add('btn-habilitado');
         
         // Efecto visual en la estadística seleccionada
-        this.mostrarMensaje(`🎯 ${nombreAtributo} seleccionado: ${valorAtributo}`, 'success');
+        this.mostrarMensaje(` ${nombreAtributo} seleccionado: ${valorAtributo}`, 'success');
     }
 
     mostrarSeleccionCarta(cartaElement) {
         // Verificar que la carta no haya sido tirada
         if (cartaElement.classList.contains('carta-tirada')) {
-            this.mostrarMensaje('❌ Esta carta ya fue usada', 'warning');
+            this.mostrarMensaje(' Esta carta ya fue usada', 'warning');
             return;
         }
         
@@ -311,7 +311,7 @@ class SeleccionCartaAvanzada {
         }
         
         // Mostrar mensaje de tiempo agotado
-        this.mostrarMensaje('⏰ ¡Tiempo agotado! Se juega automáticamente.', 'warning');
+        this.mostrarMensaje(' ¡Tiempo agotado! Se juega automáticamente.', 'warning');
         
         // Auto-tirar la carta después de 1 segundo
         setTimeout(() => {
@@ -344,7 +344,7 @@ class SeleccionCartaAvanzada {
         
         // Verificar que se haya seleccionado un atributo
         if (!this.atributoSeleccionado) {
-            this.mostrarMensaje('⚠️ Debes seleccionar un atributo primero', 'warning');
+            this.mostrarMensaje(' Debes seleccionar un atributo primero', 'warning');
             return;
         }
         
@@ -365,7 +365,7 @@ class SeleccionCartaAvanzada {
         
         // Mostrar mensaje de confirmación con el atributo seleccionado
         const nombreAtributo = this.atributoSeleccionado.toUpperCase();
-        this.mostrarMensaje(`🎯 ¡Carta lanzada con ${nombreAtributo}!`, 'success');
+        this.mostrarMensaje(` ¡Carta lanzada con ${nombreAtributo}!`, 'success');
         
         // Cerrar vista después de la animación
         setTimeout(() => {
@@ -385,7 +385,7 @@ class SeleccionCartaAvanzada {
         cartaPrincipal.style.transform = 'translateY(-100vh) rotate(360deg)';
         cartaPrincipal.style.transition = 'all 1s ease-in';
         
-        this.mostrarMensaje('🎯 ¡Carta lanzada!', 'success');
+        this.mostrarMensaje(' ¡Carta lanzada!', 'success');
     }
 
     cerrarSeleccion() {
@@ -435,7 +435,6 @@ class SeleccionCartaAvanzada {
             if (!carta.classList.contains('carta-tirada')) {
                 carta.classList.remove('seleccionada');
                 // NO remover 'volteada' - mantener el estado de volteo
-                // Solo resetear transform si la carta NO está volteada
                 if (!carta.classList.contains('volteada')) {
                     carta.style.transform = '';
                 }
@@ -514,7 +513,7 @@ window.voltearCarta = function(cartaElement) {
     // Verificar que la carta no esté ya tirada
     if (cartaElement.classList.contains('carta-tirada')) {
         if (sistemaSeleccion) {
-            sistemaSeleccion.mostrarMensaje('❌ Esta carta ya fue usada', 'warning');
+            sistemaSeleccion.mostrarMensaje(' Esta carta ya fue usada', 'warning');
         }
         return;
     }

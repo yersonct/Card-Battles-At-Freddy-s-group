@@ -58,10 +58,10 @@ class RondaService extends BaseApiService {
             };
 
             const rondaCreada = await this.create(rondaData);
-            console.log(`✅ Ronda ${numero} creada para partida ${partidaId} (Atributo: ${atributoComparar})`);
+            console.log(` Ronda ${numero} creada para partida ${partidaId} (Atributo: ${atributoComparar})`);
             return rondaCreada;
         } catch (error) {
-            console.error(`❌ Error al crear ronda ${numero} para partida ${partidaId}:`, error);
+            console.error(` Error al crear ronda ${numero} para partida ${partidaId}:`, error);
             throw error;
         }
     }
@@ -80,7 +80,7 @@ class RondaService extends BaseApiService {
                 fechaFin: new Date().toISOString()
             });
             
-            console.log(`🏆 Ronda ${rondaId} finalizada, ganador: ${ganadorId}`);
+            console.log(` Ronda ${rondaId} finalizada, ganador: ${ganadorId}`);
             return rondaFinalizada;
         } catch (error) {
             console.error(`Error al finalizar ronda ${rondaId}:`, error);
