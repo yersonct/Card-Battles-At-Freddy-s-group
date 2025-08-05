@@ -6,18 +6,42 @@
 class JuegoSimple {
     constructor() {
         this.partidaId = null;
+        this.codigoPartida = null;
         this.jugadorId = null;
+        this.jugadorActual = null;
         this.estadoPartida = null;
         this.cartasJugador = [];
+        this.jugadoresPartida = [];
+        this.turnoActual = 0;
+        this.rondaActual = null;
         this.intervalCheck = null;
+        this.modoOffline = false;
         
         this.init();
     }
 
     async init() {
+        console.log('🎮 Inicializando JuegoSimple con backend integration...');
+        
         // Obtener datos de la partida creada
         this.partidaId = localStorage.getItem('partidaId');
-        this.jugadorId = localStorage.getItem('jugadorId');
+        this.codigoPartida = localStorage.getItem('codigoPartida');
+        this.modoOffline = localStorage.getItem('modoOffline') === 'true';
+        
+        const jugadoresData = localStorage.getItem('jugadoresPartida');
+        if (jugadoresData) {
+            this.jugadoresPartida = JSON.parse(jugadoresData);
+            // Usar el primer jugador como jugador actual por defecto
+            this.jugadorActual = this.jugadoresPartida[0];
+            this.jugadorId = 1; // ID temporal para el primer jugador
+        }
+        
+        console.log('📊 Datos iniciales:', {
+            partidaId: this.partidaId,
+            codigoPartida: this.codigoPartida,
+            modoOffline: this.modoOffline,
+            totalJugadores: this.jugadoresPartida.length
+        });
         
         if (!this.partidaId) {
             this.mostrarError('No hay partida activa');
@@ -26,29 +50,104 @@ class JuegoSimple {
         }
 
         try {
-            await this.cargarEstadoPartida();
-            await this.cargarCartasJugador();
+            if (!this.modoOffline) {
+                await this.cargarEstadoPartida();
+                await this.cargarCartasJugador();
+            } else {
+                console.log('⚠️ Modo offline - Generando datos de ejemplo');
+                this.generarDatosOffline();
+            }
+            
             this.actualizarInterfaz();
             this.iniciarCheckeoEstado();
             
             console.log('✅ Juego iniciado correctamente');
         } catch (error) {
-            console.error('Error al iniciar juego:', error);
-            this.mostrarError('Error al cargar el juego');
+            console.error('❌ Error al iniciar juego:', error);
+            console.log('🔄 Fallback a modo offline');
+            this.modoOffline = true;
+            this.generarDatosOffline();
+            this.actualizarInterfaz();
         }
     }
 
     // ===== COMUNICACIÓN CON BACKEND =====
     async cargarEstadoPartida() {
-        const response = await fetch(`http://localhost:7147/api/partida/${this.partidaId}/estado`);
-        if (!response.ok) throw new Error('Error al obtener estado');
-        this.estadoPartida = await response.json();
+        try {
+            console.log('📡 Cargando estado de la partida...');
+            const response = await fetch(`http://localhost:7147/api/partida/${this.partidaId}/estado`);
+            if (!response.ok) throw new Error('Error al obtener estado');
+            this.estadoPartida = await response.json();
+            
+            // Actualizar jugadores con datos del backend
+            if (this.estadoPartida.jugadores) {
+                this.jugadoresPartida = this.estadoPartida.jugadores;
+            }
+            
+            console.log('✅ Estado de partida cargado:', this.estadoPartida);
+        } catch (error) {
+            console.error('❌ Error cargando estado:', error);
+            throw error;
+        }
     }
 
     async cargarCartasJugador() {
-        const response = await fetch(`http://localhost:7147/api/partida/${this.partidaId}/jugador/${this.jugadorId}/cartas`);
-        if (!response.ok) throw new Error('Error al obtener cartas');
-        this.cartasJugador = await response.json();
+        try {
+            console.log('🃏 Cargando cartas del jugador...');
+            const response = await fetch(`http://localhost:7147/api/cartajugador/jugador/${this.jugadorId}`);
+            if (!response.ok) throw new Error('Error al obtener cartas');
+            this.cartasJugador = await response.json();
+            console.log('✅ Cartas cargadas:', this.cartasJugador.length);
+        } catch (error) {
+            console.error('❌ Error cargando cartas:', error);
+            throw error;
+        }
+    }
+
+    // ===== MODO OFFLINE =====
+    generarDatosOffline() {
+        console.log('🔧 Generando datos para modo offline...');
+        
+        // Generar estado de partida simulado
+        this.estadoPartida = {
+            id: this.partidaId,
+            estado: 'EnJuego',
+            rondaActual: 1,
+            turnoActual: 1,
+            jugadores: this.jugadoresPartida.map((jugador, index) => ({
+                id: index + 1,
+                nombre: jugador.Nombre || jugador.nombre,
+                avatar: jugador.Avatar || jugador.avatar,
+                posicionTurno: index + 1,
+                puntosAcumulados: 0
+            }))
+        };
+        
+        // Generar cartas de ejemplo
+        this.generarCartasEjemplo();
+        
+        console.log('✅ Datos offline generados');
+    }
+
+    generarCartasEjemplo() {
+        this.cartasJugador = [];
+        const personajes = ['Freddy', 'Bonnie', 'Chica', 'Foxy', 'Golden Freddy', 'Springtrap', 'Ennard', 'Circus Baby'];
+        
+        for (let i = 0; i < 8; i++) {
+            this.cartasJugador.push({
+                id: i + 1,
+                nombre: personajes[i],
+                vida: Math.floor(Math.random() * 50) + 50,
+                ataque: Math.floor(Math.random() * 40) + 30,
+                defensa: Math.floor(Math.random() * 35) + 25,
+                velocidad: Math.floor(Math.random() * 30) + 20,
+                poder: Math.floor(Math.random() * 45) + 35,
+                terror: Math.floor(Math.random() * 50) + 40,
+                usada: false
+            });
+        }
+        
+        console.log('🎴 Cartas de ejemplo generadas:', this.cartasJugador.length);
     }
 
     async elegirAtributo(atributo) {
@@ -68,19 +167,114 @@ class JuegoSimple {
     }
 
     async jugarCarta(cartaJugadorId) {
-        const response = await fetch('http://localhost:7147/api/partida/jugar-carta', {
+        console.log(`🎯 Jugando carta ${cartaJugadorId}...`);
+        
+        try {
+            if (this.modoOffline) {
+                await this.jugarCartaOffline(cartaJugadorId);
+            } else {
+                await this.jugarCartaOnline(cartaJugadorId);
+            }
+            
+            // Actualizar interfaz y cambiar turno
+            this.actualizarInterfaz();
+            this.cambiarTurno();
+            
+        } catch (error) {
+            console.error('❌ Error al jugar carta:', error);
+            this.mostrarError(`Error al jugar carta: ${error.message}`);
+        }
+    }
+
+    async jugarCartaOnline(cartaJugadorId) {
+        console.log('📡 Enviando jugada al backend...');
+        
+        const response = await fetch('http://localhost:7147/api/jugada', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                partidaId: this.partidaId,
-                jugadorId: this.jugadorId,
-                cartaJugadorId: cartaJugadorId
+                IdRonda: this.rondaActual?.id || 1,
+                IdJugador: this.jugadorId,
+                IdCartaJugador: cartaJugadorId
             })
         });
         
-        if (!response.ok) throw new Error('Error al jugar carta');
-        await this.cargarCartasJugador();
-        await this.verificarRonda();
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Backend error: ${response.status} - ${errorText}`);
+        }
+        
+        const resultado = await response.json();
+        console.log('✅ Carta jugada en backend:', resultado);
+        
+        // Marcar carta como usada localmente
+        const carta = this.cartasJugador.find(c => (c.id || c.Id) === cartaJugadorId);
+        if (carta) {
+            carta.usada = true;
+        }
+        
+        // Actualizar estado desde backend
+        await this.cargarEstadoPartida();
+    }
+
+    async jugarCartaOffline(cartaJugadorId) {
+        console.log('🔧 Simulando jugada offline...');
+        
+        // Marcar carta como usada
+        const carta = this.cartasJugador.find(c => c.id === cartaJugadorId);
+        if (carta) {
+            carta.usada = true;
+            console.log(`✅ Carta ${carta.nombre} marcada como usada`);
+        }
+        
+        // Simular respuesta
+        this.mostrarMensaje(`🎴 ${carta?.nombre || 'Carta'} jugada por ${this.getJugadorActualNombre()}`);
+    }
+
+    // ===== SISTEMA DE TURNOS =====
+    cambiarTurno() {
+        if (!this.jugadoresPartida || this.jugadoresPartida.length === 0) {
+            console.warn('⚠️ No hay jugadores para cambiar turno');
+            return;
+        }
+        
+        // Cambiar al siguiente jugador
+        this.turnoActual = (this.turnoActual + 1) % this.jugadoresPartida.length;
+        
+        const jugadorActual = this.jugadoresPartida[this.turnoActual];
+        const nombreJugador = jugadorActual?.Nombre || jugadorActual?.nombre || `Jugador ${this.turnoActual + 1}`;
+        
+        console.log(`🔄 Turno cambiado a: ${nombreJugador} (${this.turnoActual + 1}/${this.jugadoresPartida.length})`);
+        
+        // Actualizar interfaz visual del turno
+        this.actualizarIndicadorTurno();
+        
+        // Mostrar mensaje del turno
+        this.mostrarMensaje(`🎮 Turno de ${nombreJugador}`);
+    }
+
+    actualizarIndicadorTurno() {
+        // Actualizar indicadores visuales de turno
+        const indicadores = document.querySelectorAll('.iconos-1, .iconos-2');
+        
+        indicadores.forEach((indicador, index) => {
+            if (index === this.turnoActual) {
+                indicador.style.backgroundColor = 'rgba(255, 140, 0, 0.3)';
+                indicador.style.border = '2px solid #ff8c00';
+            } else {
+                indicador.style.backgroundColor = 'transparent';
+                indicador.style.border = 'none';
+            }
+        });
+    }
+
+    getJugadorActualNombre() {
+        const jugador = this.jugadoresPartida[this.turnoActual];
+        return jugador?.Nombre || jugador?.nombre || `Jugador ${this.turnoActual + 1}`;
+    }
+
+    esElTurnoDelJugador(jugadorIndex) {
+        return jugadorIndex === this.turnoActual;
     }
 
     async verificarRonda() {
@@ -117,70 +311,101 @@ class JuegoSimple {
 
     // ===== INTERFAZ DE USUARIO =====
     actualizarInterfaz() {
+        console.log('🎨 Actualizando interfaz del juego...');
         this.mostrarInfoPartida();
-        this.mostrarJugadores();
+        this.mostrarJugadoresReales();
         this.mostrarCartas();
-        this.mostrarControles();
+        this.actualizarIndicadorTurno();
     }
 
     mostrarInfoPartida() {
-        const container = document.getElementById('infoPartida');
-        if (!container) return;
+        // Actualizar ronda en el display principal
+        const numeroRonda = document.querySelector('.texto-terror .numero');
+        if (numeroRonda) {
+            const ronda = this.estadoPartida?.rondaActual || 1;
+            numeroRonda.textContent = ronda;
+        }
 
-        const esMiTurno = this.esMiTurno();
-        
-        container.innerHTML = `
-            <div class="info-partida">
-                <h2>Ronda ${this.estadoPartida.rondaActual}/8</h2>
-                <div class="estado">${this.estadoPartida.estado}</div>
-                ${esMiTurno ? '<div class="mi-turno">¡TU TURNO!</div>' : '<div class="esperando">Esperando...</div>'}
-                ${this.estadoPartida.atributoElegido ? 
-                    `<div class="atributo">Atributo: <strong>${this.estadoPartida.atributoElegido}</strong></div>` 
-                    : ''
-                }
-            </div>
-        `;
+        // Mostrar información de la partida en consola
+        console.log('📊 Info partida:', {
+            partida: this.partidaId,
+            codigo: this.codigoPartida,
+            ronda: this.estadoPartida?.rondaActual || 1,
+            turno: this.turnoActual + 1,
+            jugadorActual: this.getJugadorActualNombre()
+        });
     }
 
-    mostrarJugadores() {
-        const container = document.getElementById('jugadores');
-        if (!container) return;
-
-        const html = this.estadoPartida.jugadores.map(jugador => `
-            <div class="jugador ${jugador.posicionTurno === this.estadoPartida.turnoActual ? 'activo' : ''}">
-                <img src="../img/avatars/${jugador.avatar}" alt="${jugador.nombre}">
-                <div class="nombre">${jugador.nombre}</div>
-                <div class="puntos">${jugador.puntosAcumulados} pts</div>
-            </div>
-        `).join('');
-
-        container.innerHTML = html;
+    mostrarJugadoresReales() {
+        console.log('👥 Actualizando interfaz de jugadores...');
+        
+        // Obtener contenedores de jugadores en la interfaz
+        const contenedoresJugadores = document.querySelectorAll('.iconos-1, .iconos-2');
+        
+        // Actualizar solo los jugadores reales
+        this.jugadoresPartida.forEach((jugador, index) => {
+            if (index < contenedoresJugadores.length) {
+                const contenedor = contenedoresJugadores[index];
+                const input = contenedor.querySelector('input');
+                const h4 = contenedor.querySelector('h4');
+                
+                // Mostrar el contenedor
+                contenedor.style.display = 'block';
+                
+                // Actualizar nombre del jugador
+                if (input) {
+                    input.value = jugador.Nombre || jugador.nombre || `Jugador ${index + 1}`;
+                }
+                
+                // Actualizar etiqueta del turno
+                if (h4) {
+                    h4.textContent = `J${index + 1}`;
+                }
+                
+                // Resaltar jugador activo
+                if (index === this.turnoActual) {
+                    contenedor.style.backgroundColor = 'rgba(255, 140, 0, 0.3)';
+                    contenedor.style.border = '2px solid #ff8c00';
+                    contenedor.style.borderRadius = '10px';
+                } else {
+                    contenedor.style.backgroundColor = 'transparent';
+                    contenedor.style.border = 'none';
+                }
+            }
+        });
+        
+        // Ocultar contenedores de jugadores extra
+        for (let i = this.jugadoresPartida.length; i < contenedoresJugadores.length; i++) {
+            if (contenedoresJugadores[i]) {
+                contenedoresJugadores[i].style.display = 'none';
+            }
+        }
+        
+        console.log(`✅ Interfaz actualizada para ${this.jugadoresPartida.length} jugadores`);
     }
 
     mostrarCartas() {
         const container = document.getElementById('misCartas');
         if (!container) return;
 
+        // Limpiar contenedor
+        container.innerHTML = '';
+
+        // Obtener cartas disponibles del jugador actual
         const cartasDisponibles = this.cartasJugador.filter(c => !c.usada);
         
-        const html = cartasDisponibles.map(cartaJugador => {
-            const carta = cartaJugador.carta;
-            return `
-                <div class="carta" onclick="juegoSimple.seleccionarCarta(${cartaJugador.id})">
-                    <div class="nombre">${carta.nombre}</div>
-                    <div class="stats">
-                        <div>❤️ ${carta.vida}</div>
-                        <div>⚔️ ${carta.ataque}</div>
-                        <div>🛡️ ${carta.defensa}</div>
-                        <div>⚡ ${carta.velocidad}</div>
-                        <div>💪 ${carta.poder}</div>
-                        <div>😱 ${carta.terror}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
+        if (cartasDisponibles.length === 0) {
+            container.innerHTML = '<div class="mensaje">No tienes cartas disponibles</div>';
+            return;
+        }
 
-        container.innerHTML = html;
+        // Crear elementos de cartas usando la función mejorada
+        cartasDisponibles.forEach(cartaJugador => {
+            const elementoCarta = this.crearElementoCarta(cartaJugador);
+            container.appendChild(elementoCarta);
+        });
+
+        console.log(`✅ Mostradas ${cartasDisponibles.length} cartas del jugador`);
     }
 
     mostrarControles() {

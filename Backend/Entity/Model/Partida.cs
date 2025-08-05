@@ -7,6 +7,9 @@ namespace Entity.Model
 {
     public class Partida : BaseModel
     {
+        [MaxLength(10)]
+        public string Codigo { get; set; } = GenerarCodigo(); // Código único de 6 caracteres para identificar la partida
+
         public DateTime FechaInicio { get; set; } = DateTime.Now;
         public DateTime? FechaFin { get; set; }
         
@@ -26,5 +29,20 @@ namespace Entity.Model
         // Navegación
         public ICollection<Jugador> Jugadores { get; set; } = new List<Jugador>();
         public ICollection<Ronda> Rondas { get; set; } = new List<Ronda>();
+
+        // Método estático para generar código único
+        private static string GenerarCodigo()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var codigo = new char[6];
+            
+            for (int i = 0; i < 6; i++)
+            {
+                codigo[i] = chars[random.Next(chars.Length)];
+            }
+            
+            return new string(codigo);
+        }
     }
 }

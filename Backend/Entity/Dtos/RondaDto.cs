@@ -10,11 +10,12 @@ namespace Entity.Dto
     public class RondaDto : BaseDto
     {
         public int IdPartida { get; set; } // ID de la partida a la que pertenece la ronda
-        public int IdJugada { get; set; } // ID de la jugada a la que pertenece la ronda
-        public int IdJugador { get; set; } // ID del jugador que realiza la ronda
         public int NumeroRonda { get; set; } // Número de la ronda
         public string AtributoCompetido { get; set; } = string.Empty; // Ejemplo: "Ataque", "Defensa", etc.
+        public int? IdJugadorQueElige { get; set; } // Jugador que eligió el atributo (opcional)
+        public int? IdGanador { get; set; } // ID del jugador ganador de la ronda
         public string Estado { get; set; } = "Esperando"; // Esperando, EnProgreso, Finalizada
-
+        public DateTime? FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
     }
 }

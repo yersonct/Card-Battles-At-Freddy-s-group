@@ -18,10 +18,49 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Endpoint básico para verificar conectividad del servicio
+        /// </summary>
+        /// <returns>Estado del servicio</returns>
+        [HttpGet]
+        public IActionResult GetStatus()
+        {
+            return Ok(new { 
+                Status = "API funcionando correctamente", 
+                Timestamp = DateTime.UtcNow,
+                Service = "PartidaController"
+            });
+        }
+
+        /// <summary>
+        /// Obtiene información básica del servicio (sin acceso a datos)
+        /// </summary>
+        /// <returns>Información básica</returns>
+        [HttpGet("list")]
+        public IActionResult GetPartidas()
+        {
+            try
+            {
+                return Ok(new { 
+                    Message = "Servicio de partidas disponible",
+                    Endpoints = new[] {
+                        "POST /api/partida/crear - Crear partida",
+                        "GET /api/partida/{id}/estado - Obtener estado",
+                        "POST /api/partida/elegir-atributo - Elegir atributo"
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener información de partidas");
+                return StatusCode(500, new { Error = "Error interno del servidor" });
+            }
+        }
+
+        /// <summary>
         /// Crea una nueva partida con los jugadores especificados
         /// </summary>
         /// <param name="crearPartidaDto">Datos de los jugadores</param>
-        /// <returns>ID de la partida creada</returns>
+        /// <returns>Información de la partida creada incluyendo ID y código</returns>
         [HttpPost("crear")]
         public async Task<IActionResult> CrearPartida([FromBody] CrearPartidaDto crearPartidaDto)
         {
@@ -32,8 +71,8 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var partidaId = await _partidaBusiness.CrearPartidaAsync(crearPartidaDto);
-                return Ok(new { PartidaId = partidaId, Mensaje = "Partida creada exitosamente" });
+                var respuesta = await _partidaBusiness.CrearPartidaAsync(crearPartidaDto);
+                return Ok(respuesta);
             }
             catch (ArgumentException ex)
             {
@@ -42,6 +81,30 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear partida");
+                return StatusCode(500, new { Error = "Error interno del servidor" });
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el estado actual de una partida por su código
+        /// </summary>
+        /// <param name="codigo">Código único de la partida</param>
+        /// <returns>Estado actual de la partida</returns>
+        [HttpGet("codigo/{codigo}")]
+        public async Task<IActionResult> ObtenerPartidaPorCodigo(string codigo)
+        {
+            try
+            {
+                var partida = await _partidaBusiness.ObtenerPartidaPorCodigoAsync(codigo);
+                if (partida == null)
+                {
+                    return NotFound(new { Error = "No se encontró una partida con ese código" });
+                }
+                return Ok(partida);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar partida por código: {Codigo}", codigo);
                 return StatusCode(500, new { Error = "Error interno del servidor" });
             }
         }
