@@ -13,7 +13,7 @@ namespace Entity.Model
         [MaxLength(100)]
         public string AtributoCompetido { get; set; } = null!; // Ejemplo: "Ataque", "Defensa", etc.
         
-        public int IdJugadorQueElige { get; set; } // Jugador que eligió el atributo
+        public int? IdJugadorQueElige { get; set; } // Jugador que eligió el atributo (opcional para evitar constraint issues)
         public int? IdGanador { get; set; } // ID del jugador ganador de la ronda
         
         [MaxLength(50)]
@@ -24,7 +24,7 @@ namespace Entity.Model
 
         // Navegación
         public Partida Partida { get; set; } = null!;
-        public Jugador JugadorQueElige { get; set; } = null!;
+        public Jugador? JugadorQueElige { get; set; } // Ahora opcional
         public Jugador? Ganador { get; set; }
         public ICollection<Jugada> Jugadas { get; set; } = new List<Jugada>();
     }

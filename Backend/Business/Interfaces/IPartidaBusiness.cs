@@ -8,12 +8,17 @@ namespace Business.Interfaces
         /// <summary>
         /// Crea una nueva partida con los jugadores especificados y les asigna sus mazos
         /// </summary>
-        Task<int> CrearPartidaAsync(CrearPartidaDto crearPartidaDto);
+        Task<CrearPartidaResponseDto> CrearPartidaAsync(CrearPartidaDto crearPartidaDto);
 
         /// <summary>
         /// Obtiene el estado actual de una partida
         /// </summary>
         Task<PartidaEstadoDto> ObtenerEstadoPartidaAsync(int partidaId);
+
+        /// <summary>
+        /// Obtiene una partida por su código único
+        /// </summary>
+        Task<PartidaDto?> ObtenerPartidaPorCodigoAsync(string codigo);
 
         /// <summary>
         /// El jugador que tiene el turno elige el atributo para competir

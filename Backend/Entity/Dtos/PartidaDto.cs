@@ -11,6 +11,7 @@ namespace Entity.Dto
     /// </summary>
     public class PartidaDto : BaseDto
     {
+        public string Codigo { get; set; } = null!; // Código único de 6 caracteres para identificar la partida
         public DateTime FechaInicio { get; set; } = DateTime.Now;
         public DateTime? FechaFin { get; set; }
         public string Estado { get; set; } = "Esperando"; // Esperando, EnJuego, Finalizada
@@ -28,6 +29,13 @@ namespace Entity.Dto
         [MinLength(2)]
         [MaxLength(7)]
         public List<JugadorRegistroDto> Jugadores { get; set; } = new List<JugadorRegistroDto>();
+    }
+
+    public class CrearPartidaResponseDto
+    {
+        public int PartidaId { get; set; }
+        public string Codigo { get; set; } = null!;
+        public string Mensaje { get; set; } = null!;
     }
 
     public class JugadorRegistroDto

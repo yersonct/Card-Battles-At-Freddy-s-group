@@ -19,7 +19,7 @@ namespace Business.Implements
             _logger = logger;
         }
 
-        public async Task<int> CrearPartidaAsync(CrearPartidaDto crearPartidaDto)
+        public async Task<CrearPartidaResponseDto> CrearPartidaAsync(CrearPartidaDto crearPartidaDto)
         {
             try
             {
@@ -29,9 +29,17 @@ namespace Business.Implements
                     throw new ArgumentException("El número de jugadores debe ser entre 2 y 7");
                 }
 
+                // Generar código único para la partida
+                string codigoUnico;
+                do
+                {
+                    codigoUnico = GenerarCodigoUnico();
+                } while (await _context.Partidas.AnyAsync(p => p.Codigo == codigoUnico));
+
                 // Crear la partida
                 var partida = new Partida
                 {
+                    Codigo = codigoUnico,
                     FechaInicio = DateTime.Now,
                     Estado = "Esperando",
                     NumeroJugadores = crearPartidaDto.Jugadores.Count,
@@ -67,14 +75,34 @@ namespace Business.Implements
                 partida.Estado = "EnJuego";
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"Partida {partida.Id} creada con {jugadores.Count} jugadores");
-                return partida.Id;
+                _logger.LogInformation($"Partida {partida.Id} (Código: {partida.Codigo}) creada con {jugadores.Count} jugadores");
+                
+                return new CrearPartidaResponseDto
+                {
+                    PartidaId = partida.Id,
+                    Codigo = partida.Codigo,
+                    Mensaje = "Partida creada exitosamente"
+                };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear partida");
                 throw;
             }
+        }
+
+        private string GenerarCodigoUnico()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var codigo = new char[6];
+            
+            for (int i = 0; i < 6; i++)
+            {
+                codigo[i] = chars[random.Next(chars.Length)];
+            }
+            
+            return new string(codigo);
         }
 
         private async Task AsignarMazosAsync(List<Jugador> jugadores)
@@ -154,6 +182,41 @@ namespace Business.Implements
                     Estado = rondaActual.Estado
                 } : null
             };
+        }
+
+        public async Task<PartidaDto?> ObtenerPartidaPorCodigoAsync(string codigo)
+        {
+            try
+            {
+                var partida = await _context.Partidas
+                    .Include(p => p.Jugadores)
+                    .FirstOrDefaultAsync(p => p.Codigo == codigo && p.Active);
+
+                if (partida == null)
+                {
+                    return null;
+                }
+
+                return new PartidaDto
+                {
+                    Id = partida.Id,
+                    Codigo = partida.Codigo,
+                    FechaInicio = partida.FechaInicio,
+                    FechaFin = partida.FechaFin,
+                    Estado = partida.Estado,
+                    RondaActual = partida.RondaActual,
+                    TurnoActual = partida.TurnoActual,
+                    JugadorQueElige = partida.JugadorQueElige,
+                    AtributoElegido = partida.AtributoElegido,
+                    NumeroJugadores = partida.NumeroJugadores,
+                    MaximoRondas = partida.MaximoRondas
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar partida por código: {Codigo}", codigo);
+                throw;
+            }
         }
 
         public async Task<bool> ElegirAtributoAsync(ElegirAtributoDto elegirAtributoDto)

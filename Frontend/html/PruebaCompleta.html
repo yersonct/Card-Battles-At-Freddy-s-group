@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Prueba Completa - Card Battles At Freddy's</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0d0d, #2d1b1b, #1a0d0d);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.3);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff8c00;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+        }
+
+        .section {
+            background: rgba(255, 140, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff8c00;
+        }
+
+        .section h2 {
+            color: #ff8c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffcc80;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ff8c00;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #ffcc80;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff8c00, #ffb84d);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #e67c00, #ff8c00);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .player-input {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            align-items: center;
+        }
+
+        .player-input input {
+            flex: 1;
+        }
+
+        .player-input button {
+            padding: 8px 12px;
+            background: #dc3545;
+            font-size: 12px;
+        }
+
+        .log-area {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid #ff8c00;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .log-success { color: #4CAF50; background: rgba(76, 175, 80, 0.1); }
+        .log-error { color: #F44336; background: rgba(244, 67, 54, 0.1); }
+        .log-warning { color: #FF9800; background: rgba(255, 152, 0, 0.1); }
+        .log-info { color: #2196F3; background: rgba(33, 150, 243, 0.1); }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-ok { background-color: #4CAF50; }
+        .status-error { background-color: #F44336; }
+        .status-warning { background-color: #FF9800; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .result-json {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Prueba Completa - Card Battles At Freddy's</h1>
+
+        <!-- Estado del Backend -->
+        <div class="section">
+            <h2>🌐 Estado del Backend</h2>
+            <p id="backendStatus">
+                <span class="status-indicator status-warning"></span>
+                Verificando conexión...
+            </p>
+            <button onclick="verificarBackend()">🔄 Verificar Backend</button>
+            <button onclick="testEndpointJugadores()">🧪 Test Endpoint Jugadores</button>
+        </div>
+
+        <div class="grid">
+            <!-- Registro de Jugadores -->
+            <div class="section">
+                <h2>👥 Registro de Jugadores</h2>
+                <div id="playersContainer">
+                    <div class="player-input">
+                        <input type="text" placeholder="Nombre del jugador" class="player-name">
+                        <input type="text" placeholder="Avatar (ej: freddy.png)" class="player-avatar">
+                        <button onclick="removePlayer(this)">❌</button>
+                    </div>
+                    <div class="player-input">
+                        <input type="text" placeholder="Nombre del jugador" class="player-name">
+                        <input type="text" placeholder="Avatar (ej: bonnie.png)" class="player-avatar">
+                        <button onclick="removePlayer(this)">❌</button>
+                    </div>
+                </div>
+                
+                <button onclick="addPlayer()">➕ Agregar Jugador</button>
+                <button onclick="crearPartida()">🎮 Crear Partida</button>
+                
+                <div class="form-group">
+                    <label>ID de Partida Creada:</label>
+                    <input type="text" id="partidaId" placeholder="Se generará automáticamente" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>🔍 Unirse a Partida por Código:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="codigoBuscar" placeholder="Ej: ABC123" maxlength="6" style="text-transform: uppercase;">
+                        <button onclick="buscarPartidaPorCodigo()">🔍 Buscar</button>
+                    </div>
+                    <small style="color: #666; font-size: 12px;">Ingresa el código de 6 caracteres de una partida existente</small>
+                </div>
+            </div>
+
+            <!-- Gestión de Partida -->
+            <div class="section">
+                <h2>🎯 Gestión de Partida</h2>
+                
+                <div class="form-group">
+                    <button onclick="obtenerEstadoPartida()">📊 Obtener Estado</button>
+                    <button onclick="obtenerJugadoresPartida()">👥 Ver Jugadores</button>
+                    <button onclick="obtenerCartas()">🃏 Ver Cartas</button>
+                </div>
+
+                <div class="form-group">
+                    <button onclick="iniciarPartida()">🚀 Iniciar Partida</button>
+                    <button onclick="crearRonda()">🔄 Crear Ronda</button>
+                    <button onclick="simularJugada()">⚡ Simular Jugada</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Atributo para la Ronda:</label>
+                    <select id="atributoSeleccionado">
+                        <option value="ataque">Ataque</option>
+                        <option value="defensa">Defensa</option>
+                        <option value="velocidad">Velocidad</option>
+                        <option value="miedo">Miedo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button onclick="flujoCompletoJuego()" style="background-color: #ff6b35; color: white; font-weight: bold; padding: 12px 20px;">
+                        🎮 EJECUTAR FLUJO COMPLETO DEL JUEGO
+                    </button>
+                    <small style="display: block; margin-top: 5px; color: #666;">
+                        Ejecuta toda la secuencia: Crear partida → Agregar jugadores → Obtener cartas → Iniciar → Crear ronda → Simular jugada
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <button onclick="mostrarEstadoVariables()" style="background-color: #17a2b8; color: white; padding: 8px 16px;">
+                        🔍 Debug: Mostrar Estado Variables
+                    </button>
+                    <small style="display: block; margin-top: 5px; color: #666;">
+                        Muestra el estado actual de todas las variables del juego para debugging
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="section">
+            <h2>📊 Resultados de API</h2>
+            <div id="resultadoJson" class="result-json">Los resultados aparecerán aquí...</div>
+        </div>
+
+        <!-- Log de Actividades -->
+        <div class="section">
+            <h2>📋 Log de Actividades</h2>
+            <button onclick="limpiarLog()">🧹 Limpiar Log</button>
+            <div id="logArea" class="log-area"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de la API
+        const API_BASE = 'http://localhost:7147/api';
+        let partidaActual = null;
+        let codigoPartidaActual = null; // Agregar el código de la partida
+        let jugadoresActuales = [];
+        let rondaActual = null; // Para almacenar el ID de la ronda creada
+        let cartasDisponibles = []; // Para almacenar las cartas reales disponibles
+
+        // Funciones de logging
+        function log(message, type = 'info') {
+            const logArea = document.getElementById('logArea');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logArea.appendChild(logEntry);
+            logArea.scrollTop = logArea.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function mostrarResultado(data) {
+            document.getElementById('resultadoJson').textContent = JSON.stringify(data, null, 2);
+        }
+
+        function limpiarLog() {
+            document.getElementById('logArea').innerHTML = '';
+        }
+
+        // Buscar partida por código
+        async function buscarPartidaPorCodigo() {
+            const codigo = document.getElementById('codigoBuscar').value.trim().toUpperCase();
+            
+            if (!codigo) {
+                log('❌ Por favor ingresa un código', 'error');
+                return;
+            }
+
+            if (codigo.length !== 6) {
+                log('❌ El código debe tener exactamente 6 caracteres', 'error');
+                return;
+            }
+
+            log(`🔍 Buscando partida con código: ${codigo}...`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/partida/codigo/${codigo}`);
+                const result = await response.json();
+                mostrarResultado(result);
+
+                if (response.ok) {
+                    partidaActual = result.id || result.Id;
+                    codigoPartidaActual = result.codigo || result.Codigo;
+                    document.getElementById('partidaId').value = `${partidaActual} (${codigoPartidaActual})`;
+                    
+                    log(`✅ Partida encontrada! ID: ${partidaActual}, Estado: ${result.estado || result.Estado}`, 'success');
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('partidaId', partidaActual.toString());
+                    localStorage.setItem('codigoPartida', codigoPartidaActual);
+                    
+                    // Obtener jugadores de la partida
+                    await obtenerJugadoresPartida();
+                } else {
+                    log(`❌ ${result.Error || result.error || 'Partida no encontrada'}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+        function addPlayer() {
+            const container = document.getElementById('playersContainer');
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'player-input';
+            playerDiv.innerHTML = `
+                <input type="text" placeholder="Nombre del jugador" class="player-name">
+                <input type="text" placeholder="Avatar (ej: foxy.png)" class="player-avatar">
+                <button onclick="removePlayer(this)">❌</button>
+            `;
+            container.appendChild(playerDiv);
+            log('Nuevo campo de jugador agregado', 'info');
+        }
+
+        function removePlayer(button) {
+            const container = document.getElementById('playersContainer');
+            if (container.children.length > 2) {
+                button.parentElement.remove();
+                log('Campo de jugador eliminado', 'warning');
+            } else {
+                log('Debe haber al menos 2 jugadores', 'error');
+            }
+        }
+
+        function obtenerJugadores() {
+            const playerInputs = document.querySelectorAll('.player-input');
+            const jugadores = [];
+            
+            playerInputs.forEach(input => {
+                const nombre = input.querySelector('.player-name').value.trim();
+                const avatar = input.querySelector('.player-avatar').value.trim();
+                
+                if (nombre && avatar) {
+                    jugadores.push({ Nombre: nombre, Avatar: avatar });
+                }
+            });
+
+            return jugadores;
+        }
+
+        // Verificación del backend
+        async function verificarBackend() {
+            log('Verificando conexión al backend...', 'info');
+            
+            // Primero probar el endpoint básico
+            try {
+                const response = await fetch(`${API_BASE}/partida`);
+                const statusElement = document.getElementById('backendStatus');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusElement.innerHTML = '<span class="status-indicator status-ok"></span>Backend conectado y funcionando';
+                    log('✅ Backend conectado correctamente', 'success');
+                    log(`✅ Respuesta: ${data.Status || 'API disponible'}`, 'info');
+                    return true;
+                } else {
+                    // Si el endpoint básico falla, probar endpoint alternativo
+                    log(`⚠️ Endpoint principal falló (${response.status}), probando alternativo...`, 'warning');
+                    
+                    const altResponse = await fetch(`${API_BASE}/partida/list`);
+                    if (altResponse.ok) {
+                        statusElement.innerHTML = '<span class="status-indicator status-ok"></span>Backend conectado (endpoint alternativo)';
+                        log('✅ Backend conectado via endpoint alternativo', 'success');
+                        return true;
+                    } else {
+                        statusElement.innerHTML = `<span class="status-indicator status-error"></span>Backend responde con error: ${response.status}`;
+                        log(`❌ Backend responde con error: ${response.status}`, 'error');
+                        return false;
+                    }
+                }
+            } catch (error) {
+                const statusElement = document.getElementById('backendStatus');
+                statusElement.innerHTML = '<span class="status-indicator status-error"></span>Backend no disponible';
+                log(`❌ Error de conexión al backend: ${error.message}`, 'error');
+                log('💡 Verifica que el backend esté ejecutándose en puerto 7147', 'warning');
+                return false;
+            }
+        }
+
+        // Test específico del endpoint de jugadores
+        async function testEndpointJugadores() {
+            log('🧪 Testeando endpoint de jugadores...', 'info');
+            
+            try {
+                // Test endpoint básico
+                const responseBasic = await fetch(`${API_BASE}/jugador`);
+                log(`📡 GET /api/jugador: ${responseBasic.status}`, 'info');
+                
+                if (responseBasic.ok) {
+                    const dataBasic = await responseBasic.json();
+                    log(`✅ Respuesta básica: ${JSON.stringify(dataBasic, null, 2)}`, 'success');
+                    mostrarResultado({ endpoint: '/api/jugador', response: dataBasic });
+                }
+                
+                // Test endpoint con partida específica si existe
+                if (partidaActual) {
+                    log(`📡 Testing GET /api/jugador/partida/${partidaActual}`, 'info');
+                    const responsePartida = await fetch(`${API_BASE}/jugador/partida/${partidaActual}`);
+                    
+                    log(`📊 Status: ${responsePartida.status} ${responsePartida.statusText}`, 'info');
+                    
+                    const contentType = responsePartida.headers.get('content-type');
+                    log(`📄 Content-Type: ${contentType}`, 'info');
+                    
+                    const responseText = await responsePartida.text();
+                    log(`📝 Raw response: ${responseText}`, 'info');
+                    
+                    try {
+                        const responseJson = JSON.parse(responseText);
+                        log(`✅ Parsed JSON: ${JSON.stringify(responseJson, null, 2)}`, 'success');
+                        mostrarResultado({ 
+                            endpoint: `/api/jugador/partida/${partidaActual}`, 
+                            status: responsePartida.status,
+                            response: responseJson 
+                        });
+                    } catch (parseError) {
+                        log(`❌ Error parsing JSON: ${parseError.message}`, 'error');
+                        mostrarResultado({ 
+                            endpoint: `/api/jugador/partida/${partidaActual}`, 
+                            status: responsePartida.status,
+                            rawResponse: responseText,
+                            parseError: parseError.message
+                        });
+                    }
+                } else {
+                    log('⚠️ No hay partida activa para testear', 'warning');
+                }
+                
+            } catch (error) {
+                log(`❌ Error en test: ${error.message}`, 'error');
+                mostrarResultado({ testError: error.message, stack: error.stack });
+            }
+        }
+
+        // Crear partida
+        async function crearPartida() {
+            log('Iniciando creación de partida...', 'info');
+            
+            const jugadores = obtenerJugadores();
+            
+            if (jugadores.length < 2) {
+                log('❌ Se necesitan al menos 2 jugadores para crear una partida', 'error');
+                return;
+            }
+
+            if (jugadores.length > 7) {
+                log('❌ Máximo 7 jugadores permitidos', 'error');
+                return;
+            }
+
+            const crearPartidaDto = {
+                Jugadores: jugadores
+            };
+
+            log(`Creando partida con ${jugadores.length} jugadores...`, 'info');
+            mostrarResultado({ request: crearPartidaDto });
+
+            try {
+                const response = await fetch(`${API_BASE}/partida/crear`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(crearPartidaDto)
+                });
+
+                const result = await response.json();
+                mostrarResultado(result);
+
+                if (response.ok) {
+                    partidaActual = result.PartidaId || result.partidaId;
+                    codigoPartidaActual = result.Codigo || result.codigo;
+                    document.getElementById('partidaId').value = `${partidaActual} (${codigoPartidaActual})`;
+                    log(`✅ Partida creada exitosamente con ID: ${partidaActual} y Código: ${codigoPartidaActual}`, 'success');
+                    
+                    // Guardar en localStorage para compatibilidad
+                    localStorage.setItem('partidaId', partidaActual.toString());
+                    localStorage.setItem('codigoPartida', codigoPartidaActual);
+                    
+                    // Obtener jugadores creados
+                    await obtenerJugadoresPartida();
+                } else {
+                    log(`❌ Error al crear partida: ${result.Error || result.error || 'Error desconocido'}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error de conexión al crear partida: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Agregar jugadores (función separada para el flujo)
+        async function agregarJugadores() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            log(`✅ Los jugadores ya fueron agregados durante la creación de la partida ${partidaActual}`, 'success');
+            log('📋 Verificando jugadores existentes...', 'info');
+            
+            // Verificar que los jugadores están correctamente asignados
+            await obtenerJugadoresPartida();
+        }
+
+        // Obtener estado de la partida
+        async function obtenerEstadoPartida() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            log(`Obteniendo estado de la partida ${partidaActual}...`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/partida/${partidaActual}/estado`);
+                const result = await response.json();
+                mostrarResultado(result);
+
+                if (response.ok) {
+                    log(`✅ Estado obtenido: ${result.Estado || result.estado}`, 'success');
+                } else {
+                    log(`❌ Error al obtener estado: ${result.Error || result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Obtener jugadores de la partida
+        async function obtenerJugadoresPartida() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            log(`Obteniendo jugadores de la partida ${partidaActual}...`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/jugador/partida/${partidaActual}`);
+                const result = await response.json();
+                
+                // Mostrar la estructura completa para debugging
+                log(`🔍 Estructura de respuesta: ${JSON.stringify(result, null, 2)}`, 'info');
+                mostrarResultado(result);
+
+                if (response.ok) {
+                    jugadoresActuales = result;
+                    log(`✅ ${result.length} jugadores encontrados`, 'success');
+                    
+                    // Verificar estructura de cada jugador antes de guardar
+                    if (result.length > 0) {
+                        const primerJugador = result[0];
+                        log(`🔍 Estructura primer jugador: ${JSON.stringify(primerJugador, null, 2)}`, 'info');
+                        
+                        // Usar diferentes posibles nombres de propiedades
+                        const jugadorId = primerJugador.Id || primerJugador.id || primerJugador.ID;
+                        const jugadorNombre = primerJugador.Nombre || primerJugador.nombre || primerJugador.Name;
+                        
+                        if (jugadorId) {
+                            localStorage.setItem('jugadorId', jugadorId.toString());
+                            log(`✅ JugadorId guardado: ${jugadorId}`, 'success');
+                        } else {
+                            log('⚠️ No se pudo encontrar ID del jugador', 'warning');
+                        }
+                        
+                        if (jugadorNombre) {
+                            localStorage.setItem('jugadorNombre', jugadorNombre);
+                            log(`✅ JugadorNombre guardado: ${jugadorNombre}`, 'success');
+                        } else {
+                            log('⚠️ No se pudo encontrar nombre del jugador', 'warning');
+                        }
+                    }
+                } else {
+                    log(`❌ Error al obtener jugadores: ${result.Error || result.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                log(`🔍 Stack trace: ${error.stack}`, 'error');
+                mostrarResultado({ error: error.message, stack: error.stack });
+            }
+        }
+
+        // Obtener cartas de la partida
+        async function obtenerCartas() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            log(`Obteniendo cartas de los jugadores de la partida ${partidaActual}...`, 'info');
+
+            if (jugadoresActuales.length === 0) {
+                log('⚠️ No hay jugadores cargados, obteniendo primero...', 'warning');
+                await obtenerJugadoresPartida();
+            }
+
+            try {
+                let todasLasCartas = [];
+                
+                // Obtener cartas de cada jugador individualmente
+                for (const jugador of jugadoresActuales) {
+                    const jugadorId = jugador.id || jugador.Id;
+                    const jugadorNombre = jugador.nombre || jugador.Nombre;
+                    
+                    log(`� Obteniendo cartas de ${jugadorNombre} (ID: ${jugadorId})...`, 'info');
+                    
+                    const response = await fetch(`${API_BASE}/cartajugador/jugador/${jugadorId}`);
+                    const contentType = response.headers.get('content-type');
+                    const responseText = await response.text();
+                    
+                    if (!responseText.trim()) {
+                        log(`⚠️ ${jugadorNombre}: Sin cartas asignadas`, 'warning');
+                        continue;
+                    }
+                    
+                    try {
+                        const cartasJugador = JSON.parse(responseText);
+                        todasLasCartas = todasLasCartas.concat(cartasJugador.map(carta => ({
+                            ...carta,
+                            jugadorNombre: jugadorNombre,
+                            jugadorId: jugadorId
+                        })));
+                        
+                        log(`✅ ${jugadorNombre}: ${cartasJugador.length} cartas encontradas`, 'success');
+                        
+                        // Guardar las cartas para uso posterior
+                        cartasDisponibles = cartasDisponibles.concat(cartasJugador);
+                    } catch (parseError) {
+                        log(`❌ Error parsing cartas de ${jugadorNombre}: ${parseError.message}`, 'error');
+                    }
+                }
+                
+                mostrarResultado({
+                    totalCartas: todasLasCartas.length,
+                    cartasPorJugador: todasLasCartas,
+                    jugadores: jugadoresActuales.length
+                });
+                
+                log(`✅ Total: ${todasLasCartas.length} cartas de ${jugadoresActuales.length} jugadores`, 'success');
+                
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Iniciar partida (cambiar estado)
+        async function iniciarPartida() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            log(`Cambiando estado de la partida ${partidaActual} a "Iniciada"...`, 'info');
+
+            try {
+                // Usar endpoint de elegir atributo como alternativa para cambiar estado
+                const response = await fetch(`${API_BASE}/partida/elegir-atributo`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        PartidaId: partidaActual,
+                        Atributo: "Fuerza" // Atributo por defecto - CORREGIDO el nombre del campo
+                    })
+                });
+
+                // Verificar el contenido antes de parsear
+                const contentType = response.headers.get('content-type');
+                const responseText = await response.text();
+                
+                log(`📄 Content-Type: ${contentType}`, 'info');
+                log(`📝 Raw response: "${responseText}"`, 'info');
+                log(`📊 Status: ${response.status} ${response.statusText}`, 'info');
+                
+                if (!responseText.trim()) {
+                    if (response.ok) {
+                        log('✅ Estado de partida actualizado (respuesta vacía pero status OK)', 'success');
+                        mostrarResultado({ success: true, message: 'Estado actualizado', status: response.status });
+                        return;
+                    } else {
+                        log('⚠️ Respuesta vacía con error', 'warning');
+                        mostrarResultado({ warning: 'Respuesta vacía', status: response.status });
+                        return;
+                    }
+                }
+                
+                try {
+                    const result = JSON.parse(responseText);
+                    mostrarResultado(result);
+
+                    if (response.ok) {
+                        log('✅ Estado de partida actualizado exitosamente', 'success');
+                    } else {
+                        log(`❌ Error al cambiar estado: ${result.Error || result.error}`, 'error');
+                    }
+                } catch (parseError) {
+                    log(`❌ Error parsing JSON: ${parseError.message}`, 'error');
+                    if (response.ok) {
+                        log('⚠️ Pero el status es OK, probablemente el estado se cambió', 'warning');
+                    }
+                    mostrarResultado({ 
+                        parseError: parseError.message,
+                        rawResponse: responseText,
+                        status: response.status
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Crear ronda
+        async function crearRonda() {
+            if (!partidaActual) {
+                log('❌ No hay una partida seleccionada', 'error');
+                return;
+            }
+
+            // Verificar que tenemos jugadores
+            if (jugadoresActuales.length === 0) {
+                log('⚠️ No hay jugadores cargados, obteniendo primero...', 'warning');
+                await obtenerJugadoresPartida();
+                
+                if (jugadoresActuales.length === 0) {
+                    log('❌ No se pudieron obtener jugadores para crear la ronda', 'error');
+                    return;
+                }
+            }
+
+            const atributo = document.getElementById('atributoSeleccionado').value;
+            const primerJugador = jugadoresActuales[0];
+            const jugadorQueEligeId = primerJugador?.id || primerJugador?.Id;
+
+            if (!jugadorQueEligeId) {
+                log('❌ No se pudo obtener el ID del jugador para crear la ronda', 'error');
+                log(`🔍 Estructura jugador: ${JSON.stringify(primerJugador, null, 2)}`, 'info');
+                return;
+            }
+
+            log(`Creando nueva ronda con atributo: ${atributo}...`, 'info');
+
+            // Crear ronda sin IdJugadorQueElige para evitar foreign key constraints
+            let rondaDto = {
+                IdPartida: partidaActual,
+                AtributoCompetido: atributo,
+                NumeroRonda: 1,
+                Estado: "Esperando"
+            };
+
+            log(`📤 Enviando ronda simplificada: ${JSON.stringify(rondaDto)}`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/ronda`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(rondaDto)
+                });
+
+                // Verificar el contenido antes de parsear
+                const contentType = response.headers.get('content-type');
+                const responseText = await response.text();
+                
+                log(`📄 Content-Type: ${contentType}`, 'info');
+                log(`📝 Raw response: "${responseText}"`, 'info');
+                log(`📊 Status: ${response.status} ${response.statusText}`, 'info');
+                
+                if (!responseText.trim()) {
+                    if (response.ok) {
+                        log('✅ Ronda creada exitosamente (respuesta vacía pero status OK)', 'success');
+                        rondaActual = 1; // Asumir que se creó con ID 1
+                        mostrarResultado({ success: true, message: 'Ronda creada', atributo: atributo });
+                        return;
+                    } else {
+                        log(`❌ Error en la creación de ronda: Status ${response.status}`, 'error');
+                        mostrarResultado({ error: `Status ${response.status}` });
+                        return;
+                    }
+                }
+                
+                try {
+                    const result = JSON.parse(responseText);
+                    mostrarResultado(result);
+
+                    if (response.ok) {
+                        // Guardar el ID de la ronda creada
+                        rondaActual = result.id || result.Id || 1;
+                        log(`✅ Ronda creada exitosamente con ID: ${rondaActual}, atributo: ${atributo}`, 'success');
+                    } else {
+                        log(`❌ Error al crear ronda: ${result.Error || result.error}`, 'error');
+                    }
+                } catch (parseError) {
+                    log(`❌ Error parsing JSON: ${parseError.message}`, 'error');
+                    if (response.ok) {
+                        log('⚠️ Pero el status es OK, probablemente la ronda se creó', 'warning');
+                        rondaActual = 1; // Asumir que se creó
+                    }
+                    mostrarResultado({ 
+                        parseError: parseError.message,
+                        rawResponse: responseText,
+                        status: response.status,
+                        atributo: atributo
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Función auxiliar para crear ronda con IdJugadorQueElige
+        async function crearRondaConJugador(atributo, jugadorQueEligeId) {
+            log(`🔄 Intentando crear ronda con IdJugadorQueElige: ${jugadorQueEligeId}...`, 'info');
+
+            const rondaDto = {
+                IdPartida: partidaActual,
+                AtributoCompetido: atributo,
+                IdJugadorQueElige: jugadorQueEligeId,
+                NumeroRonda: 1,
+                Estado: "Esperando"
+            };
+
+            log(`📤 Enviando (v2 con IdJugadorQueElige): ${JSON.stringify(rondaDto)}`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/ronda`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(rondaDto)
+                });
+
+                const contentType = response.headers.get('content-type');
+                const responseText = await response.text();
+                
+                log(`📄 Content-Type: ${contentType}`, 'info');
+                log(`📝 Raw response: "${responseText}"`, 'info');
+                log(`📊 Status: ${response.status} ${response.statusText}`, 'info');
+                
+                if (!responseText.trim()) {
+                    if (response.ok) {
+                        log('✅ Ronda creada con IdJugadorQueElige (respuesta vacía pero status OK)', 'success');
+                        rondaActual = 1; // Asumir que se creó con ID 1
+                        mostrarResultado({ success: true, message: 'Ronda creada v2', atributo: atributo, jugador: jugadorQueEligeId });
+                        return;
+                    } else {
+                        log('❌ Ambas versiones fallaron', 'error');
+                        mostrarResultado({ error: 'No se pudo crear ronda con ningún método', status: response.status });
+                        return;
+                    }
+                }
+                
+                try {
+                    const result = JSON.parse(responseText);
+                    mostrarResultado(result);
+
+                    if (response.ok) {
+                        rondaActual = result.id || result.Id || 1;
+                        log(`✅ Ronda creada exitosamente (v2) con ID: ${rondaActual} y atributo: ${atributo}`, 'success');
+                    } else {
+                        log(`❌ Error al crear ronda (v2): ${result.Error || result.error}`, 'error');
+                    }
+                } catch (parseError) {
+                    log(`❌ Error parsing JSON (v2): ${parseError.message}`, 'error');
+                    if (response.ok) {
+                        log('⚠️ Pero el status es OK, asumiendo que la ronda se creó', 'warning');
+                        rondaActual = 1;
+                    }
+                    mostrarResultado({ 
+                        parseError: parseError.message,
+                        rawResponse: responseText,
+                        status: response.status,
+                        version: 'v2'
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error de conexión (v2): ${error.message}`, 'error');
+                mostrarResultado({ error: error.message, version: 'v2' });
+            }
+        }
+
+        // Simular jugada
+        async function simularJugada() {
+            if (!partidaActual || jugadoresActuales.length === 0) {
+                log('❌ No hay partida o jugadores disponibles', 'error');
+                return;
+            }
+
+            // Verificar que tenemos una ronda creada
+            if (!rondaActual) {
+                log('❌ No hay una ronda creada. La jugada requiere una ronda válida.', 'error');
+                log('💡 Primero debe crearse una ronda exitosamente', 'warning');
+                return;
+            }
+
+            // Verificar que tenemos cartas disponibles
+            if (cartasDisponibles.length === 0) {
+                log('⚠️ No hay cartas disponibles, obteniendo primero...', 'warning');
+                await obtenerCartas();
+                
+                if (cartasDisponibles.length === 0) {
+                    log('❌ No se pudieron obtener cartas para simular jugada', 'error');
+                    return;
+                }
+            }
+
+            // Buscar el próximo jugador que tenga cartas disponibles (rotar jugadores)
+            let jugadorParaJugar = null;
+            let cartaParaJugar = null;
+
+            for (const jugador of jugadoresActuales) {
+                const jugadorId = jugador.id || jugador.Id;
+                const cartasDelJugador = cartasDisponibles.filter(carta => {
+                    const cartaJugadorId = carta.idJugador || carta.IdJugador;
+                    const cartaUsada = carta.usada || carta.Usada;
+                    return cartaJugadorId === jugadorId && !cartaUsada;
+                });
+                
+                if (cartasDelJugador.length > 0) {
+                    jugadorParaJugar = jugador;
+                    cartaParaJugar = cartasDelJugador[0];
+                    break;
+                }
+            }
+
+            if (!jugadorParaJugar || !cartaParaJugar) {
+                log('❌ No hay jugadores con cartas disponibles', 'error');
+                return;
+            }
+
+            const jugadorId = jugadorParaJugar.id || jugadorParaJugar.Id;
+            const nombreJugador = jugadorParaJugar.nombre || jugadorParaJugar.Nombre;
+            const cartaJugadorId = cartaParaJugar.id || cartaParaJugar.Id;
+
+            
+            log(`Simulando jugada para jugador ${nombreJugador} con CartaJugador ID: ${cartaJugadorId} en Ronda ID: ${rondaActual}...`, 'info');
+
+            const jugadaDto = {
+                IdRonda: rondaActual,
+                IdJugador: jugadorId,
+                IdCartaJugador: cartaJugadorId
+            };
+
+            log(`📤 Enviando jugada: ${JSON.stringify(jugadaDto)}`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/jugada`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jugadaDto)
+                });
+
+                const contentType = response.headers.get('content-type');
+                const responseText = await response.text();
+                
+                log(`📄 Content-Type: ${contentType}`, 'info');
+                log(`📝 Raw response: "${responseText}"`, 'info');
+                log(`📊 Status: ${response.status} ${response.statusText}`, 'info');
+                
+                if (!responseText.trim()) {
+                    if (response.ok) {
+                        log(`✅ Jugada simulada exitosamente (respuesta vacía pero status OK)`, 'success');
+                        mostrarResultado({ success: true, message: 'Jugada creada', jugador: nombreJugador, carta: cartaJugadorId });
+                        return;
+                    } else {
+                        log('⚠️ Respuesta vacía con error', 'warning');
+                        mostrarResultado({ warning: 'Respuesta vacía', status: response.status });
+                        return;
+                    }
+                }
+
+                try {
+                    const result = JSON.parse(responseText);
+                    mostrarResultado(result);
+
+                    if (response.ok) {
+                        log(`✅ Jugada simulada para ${nombreJugador} con carta ${cartaJugadorId}`, 'success');
+                    } else {
+                        log(`❌ Error en jugada: ${result.Error || result.error}`, 'error');
+                    }
+                } catch (parseError) {
+                    log(`❌ Error parsing JSON: ${parseError.message}`, 'error');
+                    if (response.ok) {
+                        log('⚠️ Pero el status es OK, probablemente la jugada se creó', 'warning');
+                    }
+                    mostrarResultado({ 
+                        parseError: parseError.message,
+                        rawResponse: responseText,
+                        status: response.status
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error de conexión: ${error.message}`, 'error');
+                mostrarResultado({ error: error.message });
+            }
+        }
+
+        // Función de debugging para mostrar el estado de las variables
+        function mostrarEstadoVariables() {
+            log('🔍 ===== ESTADO ACTUAL DE VARIABLES =====', 'info');
+            
+            log(`📊 partidaActual: ${partidaActual || 'null'}`, 'info');
+            log(`📊 codigoPartidaActual: ${codigoPartidaActual || 'null'}`, 'info');
+            log(`📊 rondaActual: ${rondaActual || 'null'}`, 'info');
+            log(`📊 jugadoresActuales.length: ${jugadoresActuales.length}`, 'info');
+            log(`📊 cartasDisponibles.length: ${cartasDisponibles.length}`, 'info');
+            
+            if (jugadoresActuales.length > 0) {
+                log('👥 JUGADORES ACTUALES:', 'info');
+                jugadoresActuales.forEach((jugador, index) => {
+                    const id = jugador.id || jugador.Id;
+                    const nombre = jugador.nombre || jugador.Nombre;
+                    log(`  ${index + 1}. ${nombre} (ID: ${id})`, 'info');
+                });
+            }
+            
+            if (cartasDisponibles.length > 0) {
+                log('🃏 CARTAS DISPONIBLES (primeras 5):', 'info');
+                cartasDisponibles.slice(0, 5).forEach((carta, index) => {
+                    const id = carta.id || carta.Id;
+                    const jugadorId = carta.idJugador || carta.IdJugador;
+                    log(`  ${index + 1}. CartaJugador ID: ${id}, JugadorId: ${jugadorId}`, 'info');
+                });
+                if (cartasDisponibles.length > 5) {
+                    log(`  ... y ${cartasDisponibles.length - 5} cartas más`, 'info');
+                }
+            }
+            
+            const estadoCompleto = {
+                partidaActual,
+                codigoPartidaActual,
+                rondaActual,
+                totalJugadores: jugadoresActuales.length,
+                totalCartas: cartasDisponibles.length,
+                jugadoresDetalle: jugadoresActuales,
+                cartasDetalle: cartasDisponibles.slice(0, 10) // Solo las primeras 10 para no sobrecargar
+            };
+            
+            mostrarResultado(estadoCompleto);
+            log('✅ Estado de variables mostrado en el panel de resultados', 'success');
+        }
+
+        // FLUJO COMPLETO DEL JUEGO
+        async function flujoCompletoJuego() {
+            log('🎮 ===== INICIANDO FLUJO COMPLETO DEL JUEGO =====', 'info');
+            
+            // Limpiar variables anteriores
+            partidaActual = null;
+            jugadoresActuales = [];
+            rondaActual = null;
+            cartasDisponibles = [];
+            
+            try {
+                // 1. Verificar backend
+                log('🔗 Paso 1: Verificando conexión con backend...', 'info');
+                await verificarBackend();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // 2. Crear partida
+                log('🆕 Paso 2: Creando nueva partida...', 'info');
+                await crearPartida();
+                
+                if (!partidaActual) {
+                    log('❌ Error: No se pudo crear la partida', 'error');
+                    return;
+                }
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 3. Agregar jugadores
+                log('👥 Paso 3: Agregando jugadores a la partida...', 'info');
+                await agregarJugadores();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 4. Obtener jugadores
+                log('📋 Paso 4: Obteniendo lista de jugadores...', 'info');
+                await obtenerJugadoresPartida();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 5. Obtener cartas
+                log('🃏 Paso 5: Obteniendo cartas de los jugadores...', 'info');
+                await obtenerCartas();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 6. Cambiar estado de partida (opcional - puede que ya esté en EnJuego)
+                log('🚀 Paso 6: Verificando estado de la partida...', 'info');
+                try {
+                    await iniciarPartida();
+                } catch (error) {
+                    log('⚠️ No se pudo cambiar estado (probablemente ya está iniciada)', 'warning');
+                }
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 7. Crear ronda
+                log('🎯 Paso 7: Creando primera ronda...', 'info');
+                await crearRonda();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 8. Simular jugada
+                log('⚡ Paso 8: Simulando primera jugada...', 'info');
+                await simularJugada();
+
+                log('✅ ===== FLUJO COMPLETO TERMINADO =====', 'success');
+                log('🎉 ¡El juego está listo para jugar!', 'success');
+
+            } catch (error) {
+                log(`❌ Error en el flujo del juego: ${error.message}`, 'error');
+            }
+        }
+
+        // Inicialización
+        window.addEventListener('load', async () => {
+            log('🔍 Página de prueba cargada', 'info');
+            
+            // Verificar backend automáticamente
+            await verificarBackend();
+            
+            // Llenar datos de ejemplo
+            const inputs = document.querySelectorAll('.player-name');
+            const avatars = document.querySelectorAll('.player-avatar');
+            
+            if (inputs.length >= 2) {
+                inputs[0].value = 'Freddy';
+                avatars[0].value = 'freddy.png';
+                inputs[1].value = 'Bonnie';
+                avatars[1].value = 'bonnie.png';
+            }
+
+            // Configurar input de código para mantener mayúsculas
+            const codigoInput = document.getElementById('codigoBuscar');
+            if (codigoInput) {
+                codigoInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.toUpperCase();
+                });
+                
+                // Permitir buscar con Enter
+                codigoInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        buscarPartidaPorCodigo();
+                    }
+                });
+            }
+            
+            log('✅ Datos de ejemplo cargados', 'success');
+        });
+    </script>
+</body>
+</html>

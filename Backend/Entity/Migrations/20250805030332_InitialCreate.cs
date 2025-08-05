@@ -48,6 +48,8 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Codigo = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     FechaFin = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Estado = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, defaultValue: "Esperando")
@@ -155,7 +157,7 @@ namespace Entity.Migrations
                     NumeroRonda = table.Column<int>(type: "int", nullable: false),
                     AtributoCompetido = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdJugadorQueElige = table.Column<int>(type: "int", nullable: false),
+                    IdJugadorQueElige = table.Column<int>(type: "int", nullable: true),
                     IdGanador = table.Column<int>(type: "int", nullable: true),
                     Estado = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, defaultValue: "Esperando")
                         .Annotation("MySql:CharSet", "utf8mb4"),

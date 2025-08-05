@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250804192700_InitialCreate")]
+    [Migration("20250805030332_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -204,6 +204,11 @@ namespace Entity.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -306,7 +311,7 @@ namespace Entity.Migrations
                     b.Property<int?>("IdGanador")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdJugadorQueElige")
+                    b.Property<int?>("IdJugadorQueElige")
                         .HasColumnType("int");
 
                     b.Property<int>("IdPartida")
@@ -394,8 +399,7 @@ namespace Entity.Migrations
                     b.HasOne("Entity.Model.Jugador", "JugadorQueElige")
                         .WithMany("RondasQueElige")
                         .HasForeignKey("IdJugadorQueElige")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Entity.Model.Partida", "Partida")
                         .WithMany("Rondas")

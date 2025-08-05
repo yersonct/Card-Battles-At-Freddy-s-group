@@ -1,19 +1,293 @@
-// Controlador de Sala conectado al Backend
+// Controlador de Sala conectado al Backend - INTEGRADO CON GAME FLOW
+
+// ===== CONFIGURACIÓN DEL BACKEND =====
+const API_BASE = 'http://localhost:7147/api';
+let partidaBackendId = null;
+let codigoPartidaBackend = null;
+let jugadoresBackend = [];
+let modoOfflineActivo = false;
+
+// ===== INICIALIZACIÓN DEL BACKEND =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎮 Inicializando integración con backend...');
+    inicializarBackendIntegration();
+});
+
+async function inicializarBackendIntegration() {
+    try {
+        // Recuperar datos del localStorage
+        partidaBackendId = localStorage.getItem('partidaId');
+        codigoPartidaBackend = localStorage.getItem('codigoPartida');
+        const jugadoresData = localStorage.getItem('jugadoresPartida');
+        modoOfflineActivo = localStorage.getItem('modoOffline') === 'true';
+        
+        console.log('📊 Datos del backend recuperados:', {
+            partidaId: partidaBackendId,
+            codigo: codigoPartidaBackend,
+            modoOffline: modoOfflineActivo,
+            jugadores: jugadoresData ? 'Disponible' : 'No disponible'
+        });
+        
+        if (jugadoresData) {
+            jugadoresBackend = JSON.parse(jugadoresData);
+            console.log('👥 Jugadores registrados:', jugadoresBackend);
+            
+            // Actualizar el sistema de juego con los jugadores reales
+            actualizarSistemaConJugadoresReales();
+        }
+        
+        if (!modoOfflineActivo && partidaBackendId) {
+            await conectarConBackendReal();
+        }
+        
+    } catch (error) {
+        console.error('❌ Error en inicialización del backend:', error);
+        modoOfflineActivo = true;
+    }
+}
+
+async function conectarConBackendReal() {
+    try {
+        console.log('🔗 Conectando con backend real...');
+        
+        // Verificar estado de la partida
+        const response = await fetch(`${API_BASE}/partida/${partidaBackendId}/estado`);
+        
+        if (response.ok) {
+            const estadoPartida = await response.json();
+            console.log('✅ Conectado con backend - Estado:', estadoPartida);
+            
+            // Actualizar datos del juego
+            if (estadoPartida.jugadores) {
+                jugadoresBackend = estadoPartida.jugadores;
+            }
+        } else {
+            throw new Error('No se pudo conectar con el backend');
+        }
+        
+    } catch (error) {
+        console.error('⚠️ Backend no disponible, continuando en modo offline:', error);
+        modoOfflineActivo = true;
+    }
+}
+
+function actualizarSistemaConJugadoresReales() {
+    console.log('🔄 Actualizando sistema con jugadores reales...');
+    
+    // Actualizar la variable global de jugadores del sistema existente
+    if (window.jugadoresPartida && jugadoresBackend.length > 0) {
+        // Mapear jugadores del backend al formato esperado por el juego
+        window.jugadoresPartida = jugadoresBackend.map((jugador, index) => ({
+            id: index + 1,
+            nombre: jugador.Nombre || jugador.nombre,
+            avatar: jugador.Avatar || jugador.avatar,
+            cartas: [], // Se llenará después
+            turno: index === 0 // El primer jugador empieza
+        }));
+        
+        console.log('✅ Jugadores actualizados en el sistema:', window.jugadoresPartida);
+        
+        // Actualizar interfaz de jugadores
+        actualizarInterfazJugadores();
+    }
+}
+
+function actualizarInterfazJugadores() {
+    // Ocultar jugadores extra y mostrar solo los reales
+    const contenedoresJugadores = document.querySelectorAll('.iconos-1, .iconos-2');
+    
+    contenedoresJugadores.forEach((contenedor, index) => {
+        if (index < jugadoresBackend.length) {
+            // Mostrar jugador real
+            contenedor.style.display = 'block';
+            const input = contenedor.querySelector('input');
+            const h4 = contenedor.querySelector('h4');
+            
+            if (input && jugadoresBackend[index]) {
+                input.value = jugadoresBackend[index].Nombre || jugadoresBackend[index].nombre;
+            }
+            if (h4) {
+                h4.textContent = `J${index + 1}`;
+            }
+        } else {
+            // Ocultar jugadores extra
+            contenedor.style.display = 'none';
+        }
+    });
+    
+    console.log('🎨 Interfaz de jugadores actualizada');
+}
+
+// 🔍 VARIABLE GLOBAL PARA DEBUGGING - ACCESIBLE DESDE CONSOLA Y LOCALSTORAGE
+window.debugInfo = {
+    errores: [],
+    partidaData: {},
+    dependencias: {},
+    localStorage: {},
+    ultimoError: null,
+    
+    // Cargar errores desde localStorage
+    cargarDesdeLocalStorage: function() {
+        try {
+            const erroresGuardados = localStorage.getItem('debugInfo_errores');
+            const ultimoErrorGuardado = localStorage.getItem('debugInfo_ultimoError');
+            const partidaDataGuardada = localStorage.getItem('debugInfo_partidaData');
+            
+            if (erroresGuardados) {
+                this.errores = JSON.parse(erroresGuardados);
+            }
+            if (ultimoErrorGuardado) {
+                this.ultimoError = JSON.parse(ultimoErrorGuardado);
+            }
+            if (partidaDataGuardada) {
+                this.partidaData = JSON.parse(partidaDataGuardada);
+            }
+            
+            console.log('📁 Errores cargados desde localStorage:', this.errores.length, 'errores encontrados');
+        } catch (e) {
+            console.warn('⚠️ Error cargando debug info desde localStorage:', e);
+        }
+    },
+    
+    // Guardar errores en localStorage
+    guardarEnLocalStorage: function() {
+        try {
+            localStorage.setItem('debugInfo_errores', JSON.stringify(this.errores));
+            localStorage.setItem('debugInfo_ultimoError', JSON.stringify(this.ultimoError));
+            localStorage.setItem('debugInfo_partidaData', JSON.stringify(this.partidaData));
+            localStorage.setItem('debugInfo_timestamp', new Date().toISOString());
+            
+            console.log('💾 Debug info guardado en localStorage');
+        } catch (e) {
+            console.error('❌ Error guardando debug info en localStorage:', e);
+        }
+    },
+    
+    // Limpiar errores del localStorage
+    limpiarLocalStorage: function() {
+        localStorage.removeItem('debugInfo_errores');
+        localStorage.removeItem('debugInfo_ultimoError');
+        localStorage.removeItem('debugInfo_partidaData');
+        localStorage.removeItem('debugInfo_timestamp');
+        this.errores = [];
+        this.ultimoError = null;
+        this.partidaData = {};
+        console.log('🧹 Debug info limpiado del localStorage');
+    },
+    
+    // Método para ver todos los errores
+    verErrores: function() {
+        console.table(this.errores);
+        console.log('💾 También disponible en localStorage como debugInfo_errores');
+        return this.errores;
+    },
+    
+    // Método para ver el último error en detalle
+    ultimoErrorDetalle: function() {
+        console.log('🔍 ÚLTIMO ERROR DETALLADO:', this.ultimoError);
+        console.log('💾 También disponible en localStorage como debugInfo_ultimoError');
+        return this.ultimoError;
+    },
+    
+    // Método para exportar todo para análisis
+    exportarTodo: function() {
+        const reporte = {
+            timestamp: new Date().toISOString(),
+            errores: this.errores,
+            partidaData: this.partidaData,
+            dependencias: this.dependencias,
+            localStorage: this.localStorage,
+            ultimoError: this.ultimoError
+        };
+        console.log('📋 REPORTE COMPLETO PARA ANÁLISIS:', JSON.stringify(reporte, null, 2));
+        console.log('💾 Guardando reporte en localStorage...');
+        localStorage.setItem('debugInfo_reporteCompleto', JSON.stringify(reporte, null, 2));
+        return reporte;
+    },
+    
+    // Agregar nuevo error y guardarlo
+    agregarError: function(error, partidaData, dependencias) {
+        const errorInfo = {
+            timestamp: new Date().toISOString(),
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            partidaData: partidaData || {},
+            dependencias: dependencias || {}
+        };
+        
+        this.ultimoError = errorInfo;
+        this.errores.push(errorInfo);
+        this.partidaData = partidaData || {};
+        this.dependencias = dependencias || {};
+        
+        // Guardar automáticamente en localStorage
+        this.guardarEnLocalStorage();
+        
+        console.log('💾 Error guardado en localStorage. Total errores:', this.errores.length);
+        return errorInfo;
+    }
+};
+
+// Cargar errores existentes al iniciar
+window.debugInfo.cargarDesdeLocalStorage();
+
+// 🔒 PREVENIR REDIRECCIONES NO DESEADAS DURANTE DEBUGGING
+window.debugMode = true;
+window.preventRedirects = true;
+
+// Interceptar intentos de redirección
+const originalReplace = window.location.replace;
+const originalAssign = window.location.assign;
+
+window.location.replace = function(url) {
+    if (window.preventRedirects) {
+        console.warn('🚫 REDIRECCIÓN BLOQUEADA (replace):', url);
+        console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+        return;
+    }
+    return originalReplace.call(window.location, url);
+};
+
+window.location.assign = function(url) {
+    if (window.preventRedirects) {
+        console.warn('🚫 REDIRECCIÓN BLOQUEADA (assign):', url);
+        console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+        return;
+    }
+    return originalAssign.call(window.location, url);
+};
+
+// También interceptar cambios directos de href
+Object.defineProperty(window.location, 'href', {
+    set: function(url) {
+        if (window.preventRedirects) {
+            console.warn('🚫 REDIRECCIÓN BLOQUEADA (href):', url);
+            console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+            return;
+        }
+        window.location.assign(url);
+    },
+    get: function() {
+        return window.location.toString();
+    }
+});
+
 class SalaBackend {
     constructor() {
         this.partidaId = null;
         this.jugadorId = null;
         this.jugadorNombre = null;
-        this.juegoController = null;
+        this.gameFlowController = null; // Cambio: usar GameFlowController en lugar de juegoController
         this.cartasJugador = [];
         this.estadoPartida = null;
         this.cartaSeleccionada = null;
         this.atributoSeleccionado = null;
-        
+
         // Estado de la interfaz
         this.interfazListaParaJugar = false;
-        
-        console.log('🎮 SalaBackend inicializado');
+
+        console.log('🎮 SalaBackend inicializado con GameFlowController');
     }
 
     // Inicializar la sala con datos del backend
@@ -34,96 +308,130 @@ class SalaBackend {
                 jugadorNombre: this.jugadorNombre
             });
 
-            // Inicializar el controlador del juego
-            if (typeof JuegoControllerBackend !== 'undefined') {
-                this.juegoController = new JuegoControllerBackend();
-                await this.juegoController.init(this.partidaId, this.jugadorId);
-                
-                // Suscribirse a eventos del juego
-                this.suscribirseAEventos();
+            // Inicializar el GameFlowController
+            if (typeof GameFlowController !== 'undefined') {
+                this.gameFlowController = new GameFlowController();
+                await this.gameFlowController.init(this.partidaId, this.jugadorId);
+
+                console.log('✅ GameFlowController inicializado');
             } else {
-                throw new Error('JuegoControllerBackend no está disponible');
+                throw new Error('GameFlowController no está disponible');
             }
 
-            // Cargar estado inicial
-            await this.cargarEstadoPartida();
-            
-            // Configurar interfaz
+            // Configurar interfaz inicial
             this.configurarInterfaz();
-            
+
             // Iniciar polling de estado
             this.iniciarPolling();
-            
+
             console.log('✅ Sala inicializada correctamente');
-            
+
         } catch (error) {
             console.error('❌ Error al inicializar sala:', error);
-            this.mostrarError('Error al cargar la partida: ' + error.message);
             
-            // Redirigir de vuelta a crear sala después de 3 segundos
-            setTimeout(() => {
-                window.location.href = './CrearSala.html';
-            }, 3000);
+            // GUARDAR ERROR EN VARIABLE GLOBAL Y LOCALSTORAGE PARA DEBUGGING
+            const partidaData = {
+                partidaId: this.partidaId,
+                jugadorId: this.jugadorId,
+                jugadorNombre: this.jugadorNombre
+            };
+            
+            const dependencias = {
+                GameFlowController: typeof GameFlowController !== 'undefined',
+                CardSelectionManager: typeof CardSelectionManager !== 'undefined',
+                TurnIndicator: typeof TurnIndicator !== 'undefined',
+                BattleComparator: typeof BattleComparator !== 'undefined',
+                RankingFinalDisplay: typeof RankingFinalDisplay !== 'undefined',
+                partidaService: typeof window.partidaService !== 'undefined'
+            };
+            
+            // Usar el método mejorado que guarda automáticamente en localStorage
+            const errorInfo = window.debugInfo.agregarError(error, partidaData, dependencias);
+            
+            // También guardar copia del localStorage actual
+            window.debugInfo.localStorage = { ...localStorage };
+            
+            // NO REDIRIGIR - QUEDARSE EN LA PÁGINA PARA VER ERRORES
+            // this.mostrarError('Error al cargar la partida: ' + error.message);
+            
+            // DEBUGGING COMPLETO PARA ANALIZAR PROBLEMAS
+            console.error('🔍 === ANÁLISIS COMPLETO DEL ERROR ===');
+            console.error('🔍 Stack completo del error:', error.stack);
+            console.error('🔍 Mensaje del error:', error.message);
+            console.error('🔍 Tipo de error:', error.name);
+            
+            // Verificar datos del localStorage
+            console.error('🔍 === DATOS DEL LOCALSTORAGE ===');
+            console.error('🔍 partidaId:', this.partidaId);
+            console.error('🔍 jugadorId:', this.jugadorId);
+            console.error('🔍 jugadorNombre:', this.jugadorNombre);
+            console.error('🔍 Todo el localStorage:', { ...localStorage });
+            
+            // Verificar disponibilidad de dependencias
+            console.error('🔍 === VERIFICACIÓN DE DEPENDENCIAS ===');
+            console.error('🔍 GameFlowController disponible:', typeof GameFlowController !== 'undefined');
+            console.error('🔍 window.partidaService disponible:', typeof window.partidaService !== 'undefined');
+            console.error('🔍 Todas las clases disponibles:', {
+                GameFlowController: typeof GameFlowController,
+                CardSelectionManager: typeof CardSelectionManager,
+                TurnIndicator: typeof TurnIndicator,
+                BattleComparator: typeof BattleComparator,
+                RankingFinalDisplay: typeof RankingFinalDisplay
+            });
+            
+            // Información sobre cómo acceder desde consola
+            console.error('🔍 === ACCESO DESDE CONSOLA ===');
+            console.error('💡 Para ver todos los errores: window.debugInfo.verErrores()');
+            console.error('💡 Para ver el último error: window.debugInfo.ultimoErrorDetalle()');
+            console.error('💡 Para exportar todo: window.debugInfo.exportarTodo()');
+            console.error('💡 Para acceso directo: window.debugInfo');
+            
+            console.error('🔍 === ACCESO DESDE OTRAS PÁGINAS ===');
+            console.error('💾 Los errores están guardados en localStorage:');
+            console.error('• localStorage.getItem("debugInfo_errores") - Todos los errores');
+            console.error('• localStorage.getItem("debugInfo_ultimoError") - Último error');
+            console.error('• localStorage.getItem("debugInfo_partidaData") - Datos de partida');
+            console.error('• localStorage.getItem("debugInfo_reporteCompleto") - Reporte completo');
+            
+            console.error('🔍 === DESDE CREAR SALA EJECUTA ===');
+            console.error('💡 JSON.parse(localStorage.getItem("debugInfo_errores"))');
+            console.error('💡 JSON.parse(localStorage.getItem("debugInfo_ultimoError"))');
+            
+            console.error('🔍 === PARA LIMPIAR ERRORES ===');
+            console.error('💡 window.debugInfo.limpiarLocalStorage() // Desde cualquier página');
+            
+            // Mostrar error persistente en pantalla (sin auto-remover)
+            this.mostrarErrorPersistente(error);
         }
     }
 
-    // Suscribirse a eventos del controlador del juego
+    // Suscribirse a eventos del controlador del juego (LEGACY - GameFlowController maneja esto)
     suscribirseAEventos() {
-        if (this.juegoController) {
-            this.juegoController.onEstadoActualizado = (estado) => {
-                this.actualizarInterfaz(estado);
-            };
-            
-            this.juegoController.onCartasActualizadas = (cartas) => {
-                this.actualizarCartas(cartas);
-            };
-            
-            this.juegoController.onFinRonda = (resultado) => {
-                this.mostrarResultadoRonda(resultado);
-            };
-            
-            this.juegoController.onFinPartida = (ranking) => {
-                this.mostrarFinPartida(ranking);
-            };
-            
-            this.juegoController.onError = (error) => {
-                this.mostrarError(error);
-            };
-        }
+        // El GameFlowController maneja sus propios eventos internamente
+        console.log('📡 Eventos manejados por GameFlowController');
     }
 
-    // Cargar estado inicial de la partida
+    // Cargar estado inicial de la partida (LEGACY - GameFlowController maneja esto)
     async cargarEstadoPartida() {
-        try {
-            if (this.juegoController) {
-                this.estadoPartida = await this.juegoController.obtenerEstadoPartida();
-                this.cartasJugador = await this.juegoController.obtenerCartasJugador();
-                
-                console.log('📊 Estado de partida cargado:', this.estadoPartida);
-                console.log('🃏 Cartas del jugador:', this.cartasJugador);
-            }
-        } catch (error) {
-            console.error('❌ Error al cargar estado:', error);
-            throw error;
-        }
+        // El GameFlowController maneja la carga de estado internamente
+        console.log('📊 Estado manejado por GameFlowController');
     }
 
-    // Configurar la interfaz inicial
+    // Configurar la interfaz inicial (simplificada - GameFlowController maneja la lógica)
     configurarInterfaz() {
-        // Actualizar información del jugador
+        console.log('🎨 Configurando interfaz inicial...');
+
+        // Solo configurar elementos básicos, el GameFlowController maneja el resto
         this.actualizarInfoJugador();
-        
-        // Configurar eventos de selección de cartas
-        this.configurarSeleccionCartas();
-        
-        // Configurar botones de atributos
-        this.configurarBotonesAtributos();
-        
-        // Configurar botón de jugar carta
-        this.configurarBotonJugarCarta();
-        
-        // Crear elementos de interfaz si no existen
-        this.crearElementosInterfaz();
+
+        // El GameFlowController ya se encarga de:
+        // - Selección de cartas
+        // - Botones de atributos  
+        // - Lógica de turnos
+        // - Comparación de cartas
+        // - Ranking final
+
+        console.log('✅ Interfaz configurada - GameFlowController activo');
     }
 
     // Actualizar información del jugador actual
@@ -133,7 +441,7 @@ class SalaBackend {
         elementosNombre.forEach(el => {
             el.textContent = this.jugadorNombre || 'Jugador';
         });
-        
+
         console.log('👤 Información del jugador actualizada');
     }
 
@@ -147,427 +455,190 @@ class SalaBackend {
         });
     }
 
-    // Configurar botones de atributos
-    configurarBotonesAtributos() {
-        const atributos = ['vida', 'ataque', 'poder', 'defensa', 'velocidad', 'terror'];
-        
-        atributos.forEach(atributo => {
-            const boton = document.getElementById(`btn-${atributo}`) || this.crearBotonAtributo(atributo);
-            if (boton) {
-                boton.addEventListener('click', () => this.seleccionarAtributo(atributo));
-            }
-        });
-    }
+    // Métodos de compatibilidad y utilidades
 
-    // Crear botón de atributo si no existe
-    crearBotonAtributo(atributo) {
-        const boton = document.createElement('button');
-        boton.id = `btn-${atributo}`;
-        boton.className = 'btn-atributo';
-        boton.textContent = atributo.toUpperCase();
-        boton.setAttribute('data-atributo', atributo);
-        
-        // Agregar al contenedor de botones
-        const contenedor = document.querySelector('.botones-atributos') || this.crearContenedorBotones();
-        contenedor.appendChild(boton);
-        
-        return boton;
-    }
-
-    // Crear contenedor de botones si no existe
-    crearContenedorBotones() {
-        const contenedor = document.createElement('div');
-        contenedor.className = 'botones-atributos';
-        contenedor.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        `;
-        
-        document.body.appendChild(contenedor);
-        return contenedor;
-    }
-
-    // Configurar botón de jugar carta
-    configurarBotonJugarCarta() {
-        let botonJugar = document.getElementById('btn-jugar-carta');
-        if (!botonJugar) {
-            botonJugar = document.createElement('button');
-            botonJugar.id = 'btn-jugar-carta';
-            botonJugar.className = 'btn-jugar-carta';
-            botonJugar.textContent = 'JUGAR CARTA';
-            botonJugar.disabled = true;
-            
-            botonJugar.style.cssText = `
-                position: fixed;
-                bottom: 80px;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 15px 30px;
-                background: #8B4513;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
-                z-index: 1000;
-            `;
-            
-            document.body.appendChild(botonJugar);
-        }
-        
-        botonJugar.addEventListener('click', () => this.jugarCarta());
-    }
-
-    // Seleccionar carta
-    seleccionarCarta(cartaElement) {
-        const cartaId = cartaElement.dataset.cartaId;
-        const carta = this.cartasJugador.find(c => c.id == cartaId);
-        
-        if (!carta) {
-            this.mostrarError('Carta no encontrada');
-            return;
+    // Obtener información del estado actual
+    getEstadoActual() {
+        if (this.gameFlowController) {
+            return this.gameFlowController.getEstadoActual();
         }
 
-        // Deseleccionar cartas anteriores
-        document.querySelectorAll('.carta.seleccionada').forEach(c => {
-            c.classList.remove('seleccionada');
-        });
-        
-        // Seleccionar nueva carta
-        cartaElement.classList.add('seleccionada');
-        this.cartaSeleccionada = carta;
-        
-        console.log('🃏 Carta seleccionada:', carta);
-        this.actualizarEstadoBotones();
+        return {
+            partidaId: this.partidaId,
+            jugadorId: this.jugadorId,
+            error: 'GameFlowController no inicializado'
+        };
     }
 
-    // Seleccionar atributo
-    async seleccionarAtributo(atributo) {
-        if (!this.validarTurnoJugador()) {
-            this.mostrarError('No es tu turno');
-            return;
-        }
-
-        try {
-            this.atributoSeleccionado = atributo;
-            
-            // Actualizar interfaz
-            document.querySelectorAll('.btn-atributo').forEach(btn => {
-                btn.classList.remove('seleccionado');
-            });
-            
-            const botonSeleccionado = document.querySelector(`[data-atributo="${atributo}"]`);
-            if (botonSeleccionado) {
-                botonSeleccionado.classList.add('seleccionado');
-            }
-
-            console.log('⚡ Atributo seleccionado:', atributo);
-
-            // Notificar al backend si es necesario
-            if (this.juegoController) {
-                await this.juegoController.elegirAtributo(atributo);
-            }
-            
-            this.actualizarEstadoBotones();
-            
-        } catch (error) {
-            console.error('❌ Error al seleccionar atributo:', error);
-            this.mostrarError('Error al seleccionar atributo: ' + error.message);
-        }
-    }
-
-    // Jugar carta
-    async jugarCarta() {
-        if (!this.cartaSeleccionada) {
-            this.mostrarError('Selecciona una carta primero');
-            return;
-        }
-
-        if (!this.validarTurnoJugador()) {
-            this.mostrarError('No es tu turno');
-            return;
-        }
-
-        try {
-            const botonJugar = document.getElementById('btn-jugar-carta');
-            if (botonJugar) {
-                botonJugar.disabled = true;
-                botonJugar.textContent = 'JUGANDO...';
-            }
-
-            console.log('🎯 Jugando carta:', this.cartaSeleccionada);
-
-            if (this.juegoController) {
-                await this.juegoController.jugarCarta(this.cartaSeleccionada.id);
-            }
-
-            // Limpiar selección
-            this.cartaSeleccionada = null;
-            document.querySelectorAll('.carta.seleccionada').forEach(c => {
-                c.classList.remove('seleccionada');
-            });
-
-            this.actualizarEstadoBotones();
-            
-        } catch (error) {
-            console.error('❌ Error al jugar carta:', error);
-            this.mostrarError('Error al jugar carta: ' + error.message);
-            
-            const botonJugar = document.getElementById('btn-jugar-carta');
-            if (botonJugar) {
-                botonJugar.disabled = false;
-                botonJugar.textContent = 'JUGAR CARTA';
-            }
-        }
-    }
-
-    // Validar si es el turno del jugador
-    validarTurnoJugador() {
-        return this.estadoPartida && 
-               this.estadoPartida.turnoActual && 
-               this.estadoPartida.turnoActual.toString() === this.jugadorId.toString();
-    }
-
-    // Actualizar estado de botones
-    actualizarEstadoBotones() {
-        const botonJugar = document.getElementById('btn-jugar-carta');
-        if (botonJugar) {
-            const puedeJugar = this.cartaSeleccionada && this.validarTurnoJugador();
-            botonJugar.disabled = !puedeJugar;
-            botonJugar.textContent = puedeJugar ? 'JUGAR CARTA' : 'ESPERA TU TURNO';
-        }
-    }
-
-    // Actualizar cartas en la interfaz
-    actualizarCartas(cartas) {
-        this.cartasJugador = cartas;
-        this.renderizarCartas();
-    }
-
-    // Renderizar cartas en la interfaz
-    renderizarCartas() {
-        const contenedor = document.querySelector('.contenedor-cartas-completo');
-        if (!contenedor) {
-            console.warn('Contenedor de cartas no encontrado');
-            return;
-        }
-
-        contenedor.innerHTML = '';
-
-        this.cartasJugador.forEach((carta, index) => {
-            const cartaElement = this.crearElementoCarta(carta, index);
-            contenedor.appendChild(cartaElement);
-        });
-
-        console.log('🃏 Cartas renderizadas:', this.cartasJugador.length);
-    }
-
-    // Crear elemento de carta
-    crearElementoCarta(carta, index) {
-        const cartaElement = document.createElement('div');
-        cartaElement.className = 'carta';
-        cartaElement.dataset.cartaId = carta.id;
-        cartaElement.innerHTML = `
-            <div class="numero-carta">${index + 1}</div>
-            <div class="nombre-carta">${carta.nombre}</div>
-            <div class="imagen-contenedor">
-                <img src="${carta.imagen || '../img/foto/1.jpg'}" 
-                     alt="${carta.nombre}" 
-                     class="imagen-personaje">
-            </div>
-            <div class="estadisticas">
-                <div class="stat">
-                    <span class="stat-label">VIDA:</span>
-                    <span class="stat-value">${carta.vida}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">ATAQUE:</span>
-                    <span class="stat-value">${carta.ataque}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">PODER:</span>
-                    <span class="stat-value">${carta.poder}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">DEFENSA:</span>
-                    <span class="stat-value">${carta.defensa}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">VELOCIDAD:</span>
-                    <span class="stat-value">${carta.velocidad}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">TERROR:</span>
-                    <span class="stat-value">${carta.terror}</span>
-                </div>
-            </div>
-        `;
-
-        return cartaElement;
-    }
-
-    // Actualizar interfaz con nuevo estado
-    actualizarInterfaz(estado) {
-        this.estadoPartida = estado;
-        
-        // Actualizar información de turno
-        this.actualizarInfoTurno();
-        
-        // Actualizar estado de botones
-        this.actualizarEstadoBotones();
-        
-        // Actualizar información de ronda
-        this.actualizarInfoRonda();
-        
-        console.log('🔄 Interfaz actualizada con estado:', estado);
-    }
-
-    // Actualizar información de turno
-    actualizarInfoTurno() {
-        const infoTurno = document.querySelector('.info-turno') || this.crearInfoTurno();
-        
-        if (this.estadoPartida && this.estadoPartida.turnoActual) {
-            const esMiTurno = this.estadoPartida.turnoActual.toString() === this.jugadorId.toString();
-            
-            infoTurno.innerHTML = `
-                <h3>${esMiTurno ? '🎯 TU TURNO' : '⏳ TURNO DEL OPONENTE'}</h3>
-                <p>Ronda: ${this.estadoPartida.rondaActual || 1}</p>
-            `;
-            
-            infoTurno.className = `info-turno ${esMiTurno ? 'mi-turno' : 'turno-oponente'}`;
-        }
-    }
-
-    // Crear elemento de información de turno
-    crearInfoTurno() {
-        const info = document.createElement('div');
-        info.className = 'info-turno';
-        info.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            z-index: 1000;
-        `;
-        
-        document.body.appendChild(info);
-        return info;
-    }
-
-    // Actualizar información de ronda
-    actualizarInfoRonda() {
-        // Implementar según diseño específico
-    }
-
-    // Iniciar polling de estado
-    iniciarPolling() {
-        if (this.juegoController) {
-            this.juegoController.iniciarPolling();
-        }
-    }
-
-    // Mostrar resultado de ronda
-    mostrarResultadoRonda(resultado) {
-        console.log('🏆 Resultado de ronda:', resultado);
-        // Implementar modal o notificación de resultado
-    }
-
-    // Mostrar fin de partida
-    mostrarFinPartida(ranking) {
-        console.log('🏁 Fin de partida:', ranking);
-        // Redirigir a página de resultados o mostrar modal
-        setTimeout(() => {
-            // window.location.href = './Resultados.html';
-        }, 3000);
-    }
-
-    // Crear elementos de interfaz necesarios
-    crearElementosInterfaz() {
-        if (!document.querySelector('.contenedor-cartas-completo')) {
-            const contenedor = document.createElement('div');
-            contenedor.className = 'contenedor-cartas-completo';
-            contenedor.style.cssText = `
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                padding: 20px;
-                justify-content: center;
-            `;
-            
-            document.body.appendChild(contenedor);
-        }
-    }
-
-    // Mostrar mensajes de error
+    // Método de compatibilidad para mostrar errores
     mostrarError(mensaje) {
         console.error('❌', mensaje);
-        
-        // Crear elemento de mensaje
-        const messageEl = document.createElement('div');
-        messageEl.className = 'mensaje-error';
-        messageEl.textContent = mensaje;
-        messageEl.style.cssText = `
+
+        // Mostrar error en la interfaz
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.cssText = `
             position: fixed;
-            top: 50%;
+            top: 20px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background: #dc3545;
+            transform: translateX(-50%);
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 9999;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        `;
+        errorDiv.textContent = mensaje;
+
+        document.body.appendChild(errorDiv);
+
+        // Auto-remover después de 5 segundos
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 5000);
+    }
+
+    // Mostrar error persistente para debugging (NO se auto-remueve)
+    mostrarErrorPersistente(error) {
+        console.error('🚨 MOSTRANDO ERROR PERSISTENTE PARA DEBUGGING');
+        
+        // Crear panel de error detallado que NO desaparece
+        const errorPanel = document.createElement('div');
+        errorPanel.className = 'error-panel-debug';
+        errorPanel.style.cssText = `
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(139, 0, 0, 0.95);
             color: white;
             padding: 20px;
             border-radius: 10px;
-            z-index: 10000;
-            font-weight: bold;
+            z-index: 99999;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid #ff0000;
         `;
         
-        document.body.appendChild(messageEl);
+        errorPanel.innerHTML = `
+            <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0; color: #ffdddd;">🚨 ERROR DE DEBUGGING - NO REDIRIGIR</h2>
+                <button onclick="this.parentElement.parentElement.remove()" 
+                        style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: auto;">
+                    ✕ Cerrar
+                </button>
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <strong>📋 DATOS DE PARTIDA:</strong><br>
+                • PartidaId: ${this.partidaId || 'NULL'}<br>
+                • JugadorId: ${this.jugadorId || 'NULL'}<br>
+                • JugadorNombre: ${this.jugadorNombre || 'NULL'}
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <strong>⚠️ ERROR:</strong><br>
+                • Mensaje: ${error.message}<br>
+                • Tipo: ${error.name}<br>
+                • GameFlowController disponible: ${typeof GameFlowController !== 'undefined' ? '✅ SÍ' : '❌ NO'}
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <strong>🔍 STACK TRACE:</strong><br>
+                <pre style="white-space: pre-wrap; font-size: 10px;">${error.stack || 'No stack disponible'}</pre>
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px;">
+                <strong>💡 INSTRUCCIONES DE DEBUGGING:</strong><br>
+                1. Revisa la consola del navegador (F12) para más detalles<br>
+                2. Verifica que todos los archivos JS estén cargados correctamente<br>
+                3. Comprueba que los datos de localStorage sean correctos<br>
+                4. Asegúrate de que el backend esté funcionando<br><br>
+                <strong>🔧 COMANDOS DE CONSOLA:</strong><br>
+                • <code>window.debugInfo.verErrores()</code> - Ver todos los errores<br>
+                • <code>window.debugInfo.ultimoErrorDetalle()</code> - Último error detallado<br>
+                • <code>window.debugInfo.exportarTodo()</code> - Exportar información completa<br>
+                • <code>window.debugInfo</code> - Acceso directo a toda la información
+            </div>
+        `;
         
-        setTimeout(() => {
-            if (messageEl.parentNode) {
-                messageEl.parentNode.removeChild(messageEl);
-            }
-        }, 3000);
-    }
-
-    // Limpiar recursos
-    destroy() {
-        if (this.juegoController) {
-            this.juegoController.destroy();
+        // Remover panel anterior si existe
+        const panelAnterior = document.querySelector('.error-panel-debug');
+        if (panelAnterior) {
+            panelAnterior.remove();
         }
+        
+        document.body.appendChild(errorPanel);
+        
+        // También mostrar en consola para copiar fácilmente
+        console.error('🚨 === COPIA ESTE ERROR PARA ANÁLISIS ===');
+        console.error(JSON.stringify({
+            partidaId: this.partidaId,
+            jugadorId: this.jugadorId,
+            jugadorNombre: this.jugadorNombre,
+            errorMessage: error.message,
+            errorName: error.name,
+            errorStack: error.stack,
+            gameFlowControllerDisponible: typeof GameFlowController !== 'undefined',
+            localStorage: { ...localStorage }
+        }, null, 2));
+    }
+
+    // Limpiar recursos al destruir
+    destroy() {
+        if (this.gameFlowController) {
+            this.gameFlowController.destroy();
+        }
+
+        console.log('🧹 SalaBackend destruido');
+    }
+
+    /* 
+    === MÉTODOS LEGACY (MANEJADOS POR GameFlowController) ===
+    Los siguientes métodos son manejados ahora por el GameFlowController:
+    - configurarSeleccionCartas()
+    - configurarBotonesAtributos() 
+    - seleccionarCarta()
+    - seleccionarAtributo()
+    - jugarCarta()
+    - actualizarEstadoBotones()
+    - mostrarBotonesAtributo()
+    - ocultarBotonesAtributo()
+    - mostrarResultadoRonda()
+    - mostrarFinPartida()
+    */
+
+    // Método auxiliar para polling (simplificado)
+    iniciarPolling() {
+        // El GameFlowController ya maneja su propio polling
+        console.log('📡 Polling delegado a GameFlowController');
     }
 }
 
-// Variables globales
-let salaBackend = null;
+// Crear instancia de SalaBackend cuando se carga la página
+document.addEventListener('DOMContentLoaded', () => {
+    // Solo crear instancia si estamos en la página de partida
+    if (window.location.pathname.includes('Partida.html')) {
+        window.salaBackend = new SalaBackend();
+        
+        // Inicializar automáticamente pero SIN REDIRECCIONES
+        window.salaBackend.init().catch(error => {
+            console.error('❌ Error en inicialización automática:', error);
+            // NO REDIRIGIR - MANTENER EN PÁGINA ACTUAL PARA DEBUGGING
+            console.error('🔒 MANTENIENDO EN PÁGINA ACTUAL PARA ANÁLISIS DE ERRORES');
+            console.error('💡 Usa window.debugInfo.verErrores() para ver los errores');
+        });
 
-// Inicializar cuando se cargue la página
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 Inicializando SalaBackend...');
-    
-    try {
-        salaBackend = new SalaBackend();
-        await salaBackend.init();
-    } catch (error) {
-        console.error('❌ Error al inicializar SalaBackend:', error);
+        console.log('🎮 SalaBackend inicializada automáticamente - SIN REDIRECCIONES');
     }
 });
 
-// Limpiar al salir
-window.addEventListener('beforeunload', () => {
-    if (salaBackend) {
-        salaBackend.destroy();
-    }
-});
+// Exportar para uso global
+window.SalaBackend = SalaBackend;
 
-// Export para uso en otros módulos
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SalaBackend;
-}

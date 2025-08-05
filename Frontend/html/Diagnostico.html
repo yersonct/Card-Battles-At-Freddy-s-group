@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico - Card Battles At Freddy's</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .diagnostico-container {
+            background: linear-gradient(135deg, #2c1810, #4a2c1a);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);
+        }
+        
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #ff8c00;
+        }
+        
+        .success { color: #4CAF50; }
+        .warning { color: #FF9800; }
+        .error { color: #F44336; }
+        .info { color: #2196F3; }
+        
+        .result-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        button {
+            background: #ff8c00;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background: #e67c00;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ok { background-color: #4CAF50; }
+        .status-warning { background-color: #FF9800; }
+        .status-error { background-color: #F44336; }
+    </style>
+</head>
+<body>
+    <div class="diagnostico-container">
+        <h1>🔍 Diagnóstico Card Battles At Freddy's</h1>
+        
+        <div class="section">
+            <h2>🎮 Controles de Diagnóstico</h2>
+            <button onclick="ejecutarDiagnosticoCompleto()">🔍 Diagnóstico Completo</button>
+            <button onclick="probarGameFlow()">🎯 Probar GameFlow</button>
+            <button onclick="verificarBackend()">🌐 Verificar Backend</button>
+            <button onclick="limpiarResultados()">🧹 Limpiar</button>
+        </div>
+
+        <div id="resultados" class="section" style="display: none;">
+            <h2>📊 Resultados</h2>
+            <div id="contenidoResultados"></div>
+        </div>
+    </div>
+
+    <!-- Scripts requeridos para el diagnóstico -->
+    <script src="../Api/ConfigApi.js"></script>
+    <script src="../Api/Services/BaseApiService.js"></script>
+    <script src="../Api/Services/PartidaBackendService.js"></script>
+    
+    <!-- Scripts de lógica del juego -->
+    <script src="../js/Partida/GameFlowController.js"></script>
+    <script src="../js/Partida/CardSelectionManager.js"></script>
+    <script src="../js/Partida/TurnIndicator.js"></script>
+    <script src="../js/Partida/BattleComparator.js"></script>
+    <script src="../js/Partida/RankingFinalDisplay.js"></script>
+    
+    <script src="../js/DiagnosticoCompleto.js"></script>
+
+    <script>
+        let diagnosticoActual = null;
+        
+        function mostrarResultados() {
+            document.getElementById('resultados').style.display = 'block';
+        }
+        
+        function limpiarResultados() {
+            document.getElementById('contenidoResultados').innerHTML = '';
+            document.getElementById('resultados').style.display = 'none';
+        }
+        
+        function agregarResultado(html) {
+            const contenedor = document.getElementById('contenidoResultados');
+            contenedor.innerHTML += html;
+            mostrarResultados();
+        }
+        
+        function crearIndicadorEstado(estado) {
+            const clases = {
+                'EXITOSO': 'status-ok',
+                'CRITICO': 'status-error',
+                'ADVERTENCIA': 'status-warning',
+                'ESTABLE': 'status-ok',
+                'FALLIDA': 'status-error',
+                'PARCIAL': 'status-warning'
+            };
+            return `<span class="status-indicator ${clases[estado] || 'status-warning'}"></span>`;
+        }
+        
+        async function ejecutarDiagnosticoCompleto() {
+            try {
+                agregarResultado('<div class="result-item info">🔍 Iniciando diagnóstico completo...</div>');
+                
+                if (typeof DiagnosticoCompleto === 'undefined') {
+                    agregarResultado('<div class="result-item error">❌ DiagnosticoCompleto no está disponible</div>');
+                    return;
+                }
+                
+                diagnosticoActual = await DiagnosticoCompleto.ejecutar();
+                
+                // Mostrar resumen del estado general
+                const estadoGeneral = diagnosticoActual.estadoGeneral;
+                agregarResultado(`
+                    <div class="result-item ${estadoGeneral === 'ESTABLE' ? 'success' : 'error'}">
+                        ${crearIndicadorEstado(estadoGeneral)}
+                        <strong>Estado General:</strong> ${estadoGeneral}
+                    </div>
+                `);
+                
+                // Mostrar errores encontrados
+                if (diagnosticoActual.erroresEncontrados.length > 0) {
+                    agregarResultado('<div class="result-item warning"><strong>⚠️ Errores Encontrados:</strong></div>');
+                    diagnosticoActual.erroresEncontrados.forEach((error, index) => {
+                        agregarResultado(`
+                            <div class="result-item error">
+                                ${index + 1}. <strong>${error.tipo}:</strong> ${error.mensaje}
+                            </div>
+                        `);
+                    });
+                }
+                
+                // Mostrar recomendaciones
+                if (diagnosticoActual.recomendaciones.length > 0) {
+                    agregarResultado('<div class="result-item info"><strong>💡 Recomendaciones:</strong></div>');
+                    diagnosticoActual.recomendaciones.forEach((rec, index) => {
+                        agregarResultado(`
+                            <div class="result-item warning">
+                                ${index + 1}. ${rec}
+                            </div>
+                        `);
+                    });
+                }
+                
+                // Mostrar detalles técnicos
+                agregarResultado(`
+                    <div class="result-item info">
+                        <strong>🔧 Detalles Técnicos:</strong>
+                        <pre>${JSON.stringify(diagnosticoActual, null, 2)}</pre>
+                    </div>
+                `);
+                
+            } catch (error) {
+                agregarResultado(`
+                    <div class="result-item error">
+                        ❌ Error en diagnóstico: ${error.message}
+                        <pre>${error.stack}</pre>
+                    </div>
+                `);
+            }
+        }
+        
+        async function probarGameFlow() {
+            try {
+                agregarResultado('<div class="result-item info">🎮 Probando GameFlowController...</div>');
+                
+                // Verificar disponibilidad
+                if (typeof GameFlowController === 'undefined') {
+                    agregarResultado('<div class="result-item error">❌ GameFlowController no está disponible</div>');
+                    return;
+                }
+                
+                // Crear instancia
+                const gameFlow = new GameFlowController();
+                agregarResultado('<div class="result-item success">✅ GameFlowController creado exitosamente</div>');
+                
+                // Verificar métodos principales
+                const metodos = ['init', 'determinarFaseActual', 'iniciarFaseSeleccionCartas'];
+                metodos.forEach(metodo => {
+                    const existe = typeof gameFlow[metodo] === 'function';
+                    const estado = existe ? '✅' : '❌';
+                    const clase = existe ? 'success' : 'error';
+                    agregarResultado(`<div class="result-item ${clase}">${estado} Método ${metodo}</div>`);
+                });
+                
+                // Verificar otras clases requeridas
+                const clasesRequeridas = ['CardSelectionManager', 'TurnIndicator', 'BattleComparator', 'RankingFinalDisplay'];
+                clasesRequeridas.forEach(clase => {
+                    const disponible = typeof window[clase] !== 'undefined';
+                    const estado = disponible ? '✅' : '❌';
+                    const claseCSS = disponible ? 'success' : 'error';
+                    agregarResultado(`<div class="result-item ${claseCSS}">${estado} ${clase}</div>`);
+                });
+                
+                // Simular datos de partida para test
+                localStorage.setItem('partidaId', '1');
+                localStorage.setItem('jugadorId', '1');
+                localStorage.setItem('jugadorNombre', 'TestPlayer');
+                
+                // Intentar inicializar
+                try {
+                    await gameFlow.init();
+                    agregarResultado('<div class="result-item success">✅ GameFlowController.init() ejecutado</div>');
+                } catch (initError) {
+                    agregarResultado(`
+                        <div class="result-item warning">
+                            ⚠️ Error en init(): ${initError.message}
+                        </div>
+                    `);
+                }
+                
+            } catch (error) {
+                agregarResultado(`
+                    <div class="result-item error">
+                        ❌ Error probando GameFlow: ${error.message}
+                        <pre>${error.stack}</pre>
+                    </div>
+                `);
+            }
+        }
+        
+        async function verificarBackend() {
+            try {
+                agregarResultado('<div class="result-item info">🌐 Verificando backend...</div>');
+                
+                const endpoints = [
+                    'http://localhost:7147/api/partida',
+                    'http://localhost:7147/api/jugador',
+                    'http://localhost:7147/api/carta'
+                ];
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(endpoint);
+                        const endpointName = endpoint.split('/').pop();
+                        const estado = response.ok ? '✅' : '⚠️';
+                        const clase = response.ok ? 'success' : 'warning';
+                        
+                        agregarResultado(`
+                            <div class="result-item ${clase}">
+                                ${estado} ${endpointName}: ${response.status} ${response.statusText}
+                            </div>
+                        `);
+                    } catch (error) {
+                        const endpointName = endpoint.split('/').pop();
+                        agregarResultado(`
+                            <div class="result-item error">
+                                ❌ ${endpointName}: ${error.message}
+                            </div>
+                        `);
+                    }
+                }
+                
+            } catch (error) {
+                agregarResultado(`
+                    <div class="result-item error">
+                        ❌ Error verificando backend: ${error.message}
+                    </div>
+                `);
+            }
+        }
+        
+        // Ejecutar diagnóstico básico al cargar
+        window.addEventListener('load', () => {
+            console.log('🔍 Página de diagnóstico cargada');
+            
+            // Verificar scripts cargados
+            const scriptsCargados = Array.from(document.scripts)
+                .filter(script => script.src)
+                .map(script => script.src.split('/').pop());
+            
+            console.log('📜 Scripts cargados:', scriptsCargados);
+            
+            // Verificar clases principales
+            const clases = ['GameFlowController', 'CardSelectionManager', 'TurnIndicator', 'BattleComparator', 'RankingFinalDisplay'];
+            clases.forEach(clase => {
+                const disponible = typeof window[clase] !== 'undefined';
+                console.log(`🎯 ${clase}: ${disponible ? '✅' : '❌'}`);
+            });
+        });
+    </script>
+</body>
+</html>

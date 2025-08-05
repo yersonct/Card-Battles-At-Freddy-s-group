@@ -10,7 +10,13 @@ function irTransmision() {
 // ===== VARIABLES GLOBALES =====
 let contadorJugadores = 2; // Empezamos con 2 jugadores
 let maxJugadores = 7; // Máximo de 7 jugadores permitidos
-let partidaBackendService = null; // Servicio para conectar al backend
+
+// Configuración del backend
+const API_BASE = 'http://localhost:7147/api';
+
+// Variables para la partida
+let partidaActual = null;
+let codigoPartidaActual = null;
 
 // Array con todas las opciones de avatares disponibles
 const opcionesAvatares = [
@@ -225,7 +231,7 @@ function actualizarTextoJugadores(mensaje) {
 
 // Función para iniciar la partida - CONECTADA AL BACKEND
 async function iniciarPartida() {
-    console.log('Iniciando verificaciones para la partida...');
+    console.log('🎮 Iniciando verificaciones para la partida...');
     
     // Verificar que todos los jugadores tengan nombre
     const inputs = document.querySelectorAll('.etiqueta-nombre input');
@@ -269,35 +275,20 @@ async function iniciarPartida() {
     const jugadores = [];
     for (let i = 1; i <= contadorJugadores; i++) {
         const input = document.querySelector(`[data-jugador="${i}"] input`);
-        const avatar = obtenerAvatarActual(i);
+        const avatarPath = obtenerAvatarActual(i);
         
-        if (input && avatar) {
+        if (input && avatarPath) {
+            // Extraer solo el nombre del archivo del avatar
+            const avatarName = avatarPath.split('/').pop().split('.')[0] + '.png';
+            
             jugadores.push({
-                nombre: input.value.trim(),
-                avatar: avatar
+                Nombre: input.value.trim(),
+                Avatar: avatarName
             });
         }
     }
     
     console.log('🎮 Datos de jugadores preparados:', jugadores);
-    
-    // Inicializar servicio backend si no existe
-    if (!partidaBackendService && typeof PartidaBackendService !== 'undefined') {
-        partidaBackendService = new PartidaBackendService();
-    }
-    
-    if (!partidaBackendService) {
-        console.warn('⚠️ PartidaBackendService no disponible, usando modo offline');
-        // Guardar jugadores en localStorage para modo offline
-        localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
-        localStorage.setItem('modoOffline', 'true');
-        
-        actualizarTextoJugadores("Iniciando partida (modo offline)...");
-        setTimeout(() => {
-            window.location.href = "../html/Partida.html";
-        }, 1000);
-        return;
-    }
     
     // Deshabilitar botón e indicar proceso
     const btnComenzar = document.querySelector('.btn-comenzar');
@@ -307,59 +298,94 @@ async function iniciarPartida() {
     }
     
     try {
-        actualizarTextoJugadores("Creando partida en el servidor...");
+        actualizarTextoJugadores("🔗 Verificando conexión con el servidor...");
+        
+        // Verificar conexión con el backend
+        const responseTest = await fetch(`${API_BASE}/partida`);
+        if (!responseTest.ok) {
+            throw new Error('No se puede conectar con el servidor');
+        }
+        
+        actualizarTextoJugadores("✅ Servidor conectado, creando partida...");
         
         // Crear partida en el backend
-        const resultado = await partidaBackendService.crearPartida(jugadores);
+        const crearPartidaDto = {
+            Jugadores: jugadores
+        };
         
+        console.log('📤 Enviando datos al servidor:', crearPartidaDto);
+        
+        const response = await fetch(`${API_BASE}/partida/crear`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(crearPartidaDto)
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error del servidor: ${response.status} - ${errorText}`);
+        }
+        
+        const resultado = await response.json();
         console.log('✅ Partida creada exitosamente:', resultado);
         
-        if (resultado && resultado.partidaId) {
+        if (resultado && (resultado.partidaId || resultado.PartidaId)) {
+            partidaActual = resultado.partidaId || resultado.PartidaId;
+            codigoPartidaActual = resultado.codigo || resultado.Codigo;
+            
             // Guardar datos de la partida en localStorage
-            localStorage.setItem('partidaId', resultado.partidaId);
+            localStorage.setItem('partidaId', partidaActual.toString());
+            localStorage.setItem('codigoPartida', codigoPartidaActual);
             localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
             localStorage.setItem('modoOffline', 'false');
             
-            // Guardar el primer jugador como jugador actual (en un juego real esto sería diferente)
-            if (resultado.jugadores && resultado.jugadores.length > 0) {
-                const primerJugador = resultado.jugadores[0];
-                localStorage.setItem('jugadorId', primerJugador.id);
-                localStorage.setItem('jugadorNombre', primerJugador.nombre);
-            } else {
-                // Fallback: usar primer jugador local
-                localStorage.setItem('jugadorId', '1');
-                localStorage.setItem('jugadorNombre', jugadores[0].nombre);
+            actualizarTextoJugadores(`🎉 ¡Partida creada exitosamente!`);
+            
+            // Mostrar información de la partida
+            const infoPartida = document.getElementById('info-partida');
+            const codigoDisplay = document.getElementById('codigo-display');
+            const idDisplay = document.getElementById('id-display');
+            
+            if (infoPartida && codigoDisplay && idDisplay) {
+                codigoDisplay.textContent = codigoPartidaActual;
+                idDisplay.textContent = partidaActual;
+                infoPartida.style.display = 'block';
             }
             
-            actualizarTextoJugadores("¡Partida creada! Iniciando juego...");
+            actualizarTextoJugadores(`📋 ID: ${partidaActual} | Código: ${codigoPartidaActual}`);
             
-            // Redirigir a la partida después de un breve delay
+            // Esperar un momento para mostrar el mensaje y luego redirigir
             setTimeout(() => {
+                actualizarTextoJugadores("🚀 Redirigiendo al juego...");
                 window.location.href = "../html/Partida.html";
-            }, 1500);
+            }, 2000);
             
         } else {
-            throw new Error('Respuesta inválida del servidor');
+            throw new Error('Respuesta del servidor inválida');
         }
         
     } catch (error) {
         console.error('❌ Error al crear partida:', error);
-        actualizarTextoJugadores("Error al crear la partida. Intentando modo offline...");
+        actualizarTextoJugadores(`❌ Error: ${error.message}`);
         
-        // Fallback a modo offline
-        localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
-        localStorage.setItem('modoOffline', 'true');
-        
-        setTimeout(() => {
-            window.location.href = "../html/Partida.html";
-        }, 2000);
-        
-    } finally {
-        // Rehabilitar botón
+        // Restaurar botón
         if (btnComenzar) {
             btnComenzar.disabled = false;
             btnComenzar.textContent = 'COMENZAR';
         }
+        
+        // Modo offline como respaldo
+        setTimeout(() => {
+            actualizarTextoJugadores("⚠️ Iniciando en modo offline...");
+            localStorage.setItem('jugadoresPartida', JSON.stringify(jugadores));
+            localStorage.setItem('modoOffline', 'true');
+            
+            setTimeout(() => {
+                window.location.href = "../html/Partida.html";
+            }, 1500);
+        }, 3000);
     }
 }
 

@@ -1,0 +1,232 @@
+/* ===== ESTILOS PARA CARTAS DE JUEGO ===== */
+.carta-juego {
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border: 2px solid #ff8c00;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 10px;
+    width: 200px;
+    min-height: 350px;
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.carta-juego:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 140, 0, 0.5);
+    border-color: #ffcc80;
+}
+
+.carta-contenido {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+}
+
+.carta-header {
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: rgba(255, 140, 0, 0.2);
+    border-radius: 8px;
+}
+
+.carta-header h3 {
+    font-family: 'Creepster', cursive;
+    color: #ff8c00;
+    font-size: 1.2em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.carta-imagen {
+    text-align: center;
+    margin: 10px 0;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.carta-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.carta-stats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.stat-label {
+    color: #cccccc;
+    font-weight: bold;
+}
+
+.stat-value {
+    color: #ff8c00;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.carta-acciones {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.btn-jugar-carta {
+    width: 100%;
+    background: linear-gradient(45deg, #ff8c00, #ffb84d);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Creepster', cursive;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
+}
+
+.btn-jugar-carta:hover {
+    background: linear-gradient(45deg, #e67c00, #ff8c00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 140, 0, 0.5);
+}
+
+.btn-jugar-carta:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(255, 140, 0, 0.3);
+}
+
+/* Contenedor de cartas */
+.contenedor-cartas-completo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    min-height: 200px;
+}
+
+/* Loading cartas */
+.loading-cartas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-family: 'Creepster', cursive;
+    color: #ff6b35;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive design para cartas */
+@media (max-width: 768px) {
+    .carta-juego {
+        width: 170px;
+        min-height: 320px;
+        margin: 8px;
+        padding: 12px;
+    }
+    
+    .carta-header h3 {
+        font-size: 1em;
+    }
+    
+    .carta-imagen {
+        height: 100px;
+    }
+    
+    .stat {
+        font-size: 0.8em;
+        padding: 2px 6px;
+    }
+    
+    .btn-jugar-carta {
+        padding: 8px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-cartas-completo {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .carta-juego {
+        width: 150px;
+        min-height: 300px;
+        margin: 5px;
+        padding: 10px;
+    }
+    
+    .carta-imagen {
+        height: 80px;
+    }
+}
+
+/* Animación de aparición de cartas */
+@keyframes cartaAparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.carta-juego {
+    animation: cartaAparecer 0.5s ease-out;
+}
+
+/* Efecto de carta seleccionada */
+.carta-juego.seleccionada {
+    border-color: #00ff00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    transform: scale(1.02);
+}
+
+.carta-juego.jugada {
+    opacity: 0.5;
+    filter: grayscale(50%);
+    pointer-events: none;
+}
+
+.carta-juego.jugada::after {
+    content: "JUGADA";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-family: 'Creepster', cursive;
+    font-size: 1.2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
