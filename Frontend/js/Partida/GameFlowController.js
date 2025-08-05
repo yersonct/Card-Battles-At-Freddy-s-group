@@ -39,7 +39,7 @@ class GameFlowController {
             this.partidaId = partidaId;
             this.jugadorActualId = jugadorActualId;
             
-            console.log('📋 Inicializando GameFlowController:', {
+            console.log(' Inicializando GameFlowController:', {
                 partidaId: this.partidaId,
                 jugadorActualId: this.jugadorActualId
             });
@@ -59,10 +59,10 @@ class GameFlowController {
             // Determinar fase inicial
             await this.determinarFaseActual();
             
-            console.log('✅ GameFlowController inicializado correctamente');
+            console.log(' GameFlowController inicializado correctamente');
             
         } catch (error) {
-            console.error('❌ Error inicializando GameFlowController:', error);
+            console.error(' Error inicializando GameFlowController:', error);
             throw error;
         }
     }
@@ -72,7 +72,7 @@ class GameFlowController {
      */
     async cargarEstadoPartida() {
         try {
-            console.log('📡 Cargando estado de partida...');
+            console.log(' Cargando estado de partida...');
             
             // Cargar información de la partida
             const partidaResponse = await fetch(`http://localhost:7147/api/partida/${this.partidaId}`);
@@ -92,14 +92,14 @@ class GameFlowController {
                 await this.cargarRondaActual();
             }
             
-            console.log('✅ Estado de partida cargado:', {
+            console.log(' Estado de partida cargado:', {
                 partida: this.estadoPartida,
                 jugadores: this.jugadores.length,
                 ronda: this.rondaActual
             });
             
         } catch (error) {
-            console.error('❌ Error cargando estado de partida:', error);
+            console.error(' Error cargando estado de partida:', error);
             throw error;
         }
     }
@@ -118,7 +118,7 @@ class GameFlowController {
                 await this.cargarCartasJugadasRonda();
             }
         } catch (error) {
-            console.error('❌ Error cargando ronda actual:', error);
+            console.error(' Error cargando ronda actual:', error);
         }
     }
 
@@ -134,7 +134,7 @@ class GameFlowController {
                 this.cartasJugadasRonda = await jugadasResponse.json();
             }
         } catch (error) {
-            console.error('❌ Error cargando cartas jugadas:', error);
+            console.error(' Error cargando cartas jugadas:', error);
         }
     }
 
@@ -167,10 +167,10 @@ class GameFlowController {
                 await this.rankingDisplay.init();
             }
             
-            console.log('✅ Controladores auxiliares inicializados');
+            console.log(' Controladores auxiliares inicializados');
             
         } catch (error) {
-            console.error('❌ Error inicializando controladores:', error);
+            console.error(' Error inicializando controladores:', error);
         }
     }
 
@@ -229,7 +229,7 @@ class GameFlowController {
             }
         }
         
-        console.log('🎯 Fase actual determinada:', this.faseActual);
+        console.log(' Fase actual determinada:', this.faseActual);
         await this.actualizarInterfazSegunFase();
     }
 
@@ -238,7 +238,7 @@ class GameFlowController {
      */
     async iniciarNuevaRonda() {
         try {
-            console.log('🆕 Iniciando nueva ronda:', this.rondaActualNumero);
+            console.log(' Iniciando nueva ronda:', this.rondaActualNumero);
             
             // Determinar quién elige el atributo (jugador del turno actual)
             const jugadorQueElige = this.jugadores[this.turnoActualIndex];
@@ -266,10 +266,10 @@ class GameFlowController {
             // Actualizar información visual
             this.actualizarInfoRonda();
             
-            console.log('✅ Nueva ronda creada:', this.rondaActual);
+            console.log(' Nueva ronda creada:', this.rondaActual);
             
         } catch (error) {
-            console.error('❌ Error iniciando nueva ronda:', error);
+            console.error(' Error iniciando nueva ronda:', error);
             throw error;
         }
     }
@@ -294,7 +294,7 @@ class GameFlowController {
      */
     async onCartaSeleccionada(cartaJugadorId, valorAtributo) {
         try {
-            console.log('🃏 Carta seleccionada:', cartaJugadorId, 'Valor:', valorAtributo);
+            console.log(' Carta seleccionada:', cartaJugadorId, 'Valor:', valorAtributo);
             
             // Crear jugada en el backend
             const jugadaData = {
@@ -319,10 +319,10 @@ class GameFlowController {
             this.faseActual = 'ESPERANDO_JUGADORES';
             await this.actualizarInterfazSegunFase();
             
-            console.log('✅ Jugada registrada correctamente');
+            console.log(' Jugada registrada correctamente');
             
         } catch (error) {
-            console.error('❌ Error procesando carta seleccionada:', error);
+            console.error(' Error procesando carta seleccionada:', error);
             throw error;
         }
     }
@@ -332,7 +332,7 @@ class GameFlowController {
      */
     async onAtributoSeleccionado(atributo) {
         try {
-            console.log('⚡ Atributo seleccionado:', atributo);
+            console.log(' Atributo seleccionado:', atributo);
             
             // Actualizar ronda con el atributo elegido
             const updateData = {
@@ -351,10 +351,10 @@ class GameFlowController {
             
             this.rondaActual = await response.json();
             
-            console.log('✅ Atributo registrado en la ronda');
+            console.log(' Atributo registrado en la ronda');
             
         } catch (error) {
-            console.error('❌ Error procesando atributo seleccionado:', error);
+            console.error(' Error procesando atributo seleccionado:', error);
             throw error;
         }
     }
@@ -364,14 +364,14 @@ class GameFlowController {
      */
     async compararCartas() {
         try {
-            console.log('⚔️ Comparando cartas de la ronda...');
+            console.log(' Comparando cartas de la ronda...');
             
             if (this.battleComparator) {
                 await this.battleComparator.mostrarComparacion(this.cartasJugadasRonda, this.rondaActual.atributoCompetido);
             }
             
         } catch (error) {
-            console.error('❌ Error comparando cartas:', error);
+            console.error(' Error comparando cartas:', error);
         }
     }
 
@@ -380,7 +380,7 @@ class GameFlowController {
      */
     async onRondaTerminada(ganadorId) {
         try {
-            console.log('🏆 Ronda terminada. Ganador:', ganadorId);
+            console.log(' Ronda terminada. Ganador:', ganadorId);
             
             // Actualizar puntos del ganador
             const ganador = this.jugadores.find(j => j.id === ganadorId);
@@ -415,7 +415,7 @@ class GameFlowController {
             }
             
         } catch (error) {
-            console.error('❌ Error procesando resultado de ronda:', error);
+            console.error(' Error procesando resultado de ronda:', error);
         }
     }
 
@@ -440,7 +440,7 @@ class GameFlowController {
      */
     async finalizarPartida() {
         try {
-            console.log('🏁 Finalizando partida...');
+            console.log(' Finalizando partida...');
             
             // Actualizar estado de partida
             const updateData = {
@@ -459,7 +459,7 @@ class GameFlowController {
             await this.mostrarRankingFinal();
             
         } catch (error) {
-            console.error('❌ Error finalizando partida:', error);
+            console.error(' Error finalizando partida:', error);
         }
     }
 
@@ -476,7 +476,7 @@ class GameFlowController {
      * Actualiza la interfaz según la fase actual
      */
     async actualizarInterfazSegunFase() {
-        console.log('🎨 Actualizando interfaz para fase:', this.faseActual);
+        console.log(' Actualizando interfaz para fase:', this.faseActual);
         
         switch (this.faseActual) {
             case 'SELECCIONANDO_CARTA':
@@ -542,7 +542,7 @@ class GameFlowController {
         const message = `Esperando a que los demás jugadores jueguen... (${this.cartasJugadasRonda.length}/${this.jugadores.length})`;
         
         // Aquí puedes mostrar el mensaje en la interfaz
-        console.log('⏳', message);
+        console.log('esperando', message);
     }
 
     /**
@@ -550,7 +550,7 @@ class GameFlowController {
      */
     async mostrarResultadoRonda() {
         // Implementar lógica para mostrar resultado
-        console.log('📊 Mostrando resultado de ronda');
+        console.log(' Mostrando resultado de ronda');
     }
 
     /**
@@ -562,7 +562,7 @@ class GameFlowController {
                 await this.cargarEstadoPartida();
                 await this.determinarFaseActual();
             } catch (error) {
-                console.error('❌ Error en polling:', error);
+                console.error(' Error en polling:', error);
             }
         }, 3000); // Cada 3 segundos
     }
@@ -598,7 +598,7 @@ class GameFlowController {
         if (this.turnIndicator) this.turnIndicator.destroy();
         if (this.rankingDisplay) this.rankingDisplay.destroy();
         
-        console.log('🧹 GameFlowController destruido');
+        console.log(' GameFlowController destruido');
     }
 }
 

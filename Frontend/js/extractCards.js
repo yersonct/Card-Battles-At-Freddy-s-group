@@ -61,4 +61,4 @@ extractedCards.forEach((card, index) => {
 // Guardar en archivo JSON actualizado
 const outputPath = path.join(__dirname, '../json/CartasCompletas.json');
 fs.writeFileSync(outputPath, JSON.stringify(extractedCards, null, 2));
-console.log(`✅ Archivo guardado en: ${outputPath}`);
+console.log(` Archivo guardado en: ${outputPath}`);

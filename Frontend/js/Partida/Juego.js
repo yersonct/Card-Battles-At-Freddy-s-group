@@ -21,7 +21,7 @@ class JuegoSimple {
     }
 
     async init() {
-        console.log('🎮 Inicializando JuegoSimple con backend integration...');
+        console.log(' Inicializando JuegoSimple con backend integration...');
         
         // Obtener datos de la partida creada
         this.partidaId = localStorage.getItem('partidaId');
@@ -36,7 +36,7 @@ class JuegoSimple {
             this.jugadorId = 1; // ID temporal para el primer jugador
         }
         
-        console.log('📊 Datos iniciales:', {
+        console.log(' Datos iniciales:', {
             partidaId: this.partidaId,
             codigoPartida: this.codigoPartida,
             modoOffline: this.modoOffline,
@@ -54,17 +54,17 @@ class JuegoSimple {
                 await this.cargarEstadoPartida();
                 await this.cargarCartasJugador();
             } else {
-                console.log('⚠️ Modo offline - Generando datos de ejemplo');
+                console.log(' Modo offline - Generando datos de ejemplo');
                 this.generarDatosOffline();
             }
             
             this.actualizarInterfaz();
             this.iniciarCheckeoEstado();
             
-            console.log('✅ Juego iniciado correctamente');
+            console.log(' Juego iniciado correctamente');
         } catch (error) {
-            console.error('❌ Error al iniciar juego:', error);
-            console.log('🔄 Fallback a modo offline');
+            console.error(' Error al iniciar juego:', error);
+            console.log(' Fallback a modo offline');
             this.modoOffline = true;
             this.generarDatosOffline();
             this.actualizarInterfaz();
@@ -74,7 +74,7 @@ class JuegoSimple {
     // ===== COMUNICACIÓN CON BACKEND =====
     async cargarEstadoPartida() {
         try {
-            console.log('📡 Cargando estado de la partida...');
+            console.log(' Cargando estado de la partida...');
             const response = await fetch(`http://localhost:7147/api/partida/${this.partidaId}/estado`);
             if (!response.ok) throw new Error('Error al obtener estado');
             this.estadoPartida = await response.json();
@@ -84,29 +84,28 @@ class JuegoSimple {
                 this.jugadoresPartida = this.estadoPartida.jugadores;
             }
             
-            console.log('✅ Estado de partida cargado:', this.estadoPartida);
+            console.log(' Estado de partida cargado:', this.estadoPartida);
         } catch (error) {
-            console.error('❌ Error cargando estado:', error);
+            console.error(' Error cargando estado:', error);
             throw error;
         }
     }
 
     async cargarCartasJugador() {
         try {
-            console.log('🃏 Cargando cartas del jugador...');
+            console.log(' Cargando cartas del jugador...');
             const response = await fetch(`http://localhost:7147/api/cartajugador/jugador/${this.jugadorId}`);
             if (!response.ok) throw new Error('Error al obtener cartas');
             this.cartasJugador = await response.json();
-            console.log('✅ Cartas cargadas:', this.cartasJugador.length);
+            console.log(' Cartas cargadas:', this.cartasJugador.length);
         } catch (error) {
-            console.error('❌ Error cargando cartas:', error);
+            console.error(' Error cargando cartas:', error);
             throw error;
         }
     }
 
-    // ===== MODO OFFLINE =====
+
     generarDatosOffline() {
-        console.log('🔧 Generando datos para modo offline...');
         
         // Generar estado de partida simulado
         this.estadoPartida = {
@@ -126,7 +125,7 @@ class JuegoSimple {
         // Generar cartas de ejemplo
         this.generarCartasEjemplo();
         
-        console.log('✅ Datos offline generados');
+        console.log(' Datos offline generados');
     }
 
     generarCartasEjemplo() {
@@ -147,7 +146,7 @@ class JuegoSimple {
             });
         }
         
-        console.log('🎴 Cartas de ejemplo generadas:', this.cartasJugador.length);
+        console.log(' Cartas de ejemplo generadas:', this.cartasJugador.length);
     }
 
     async elegirAtributo(atributo) {
@@ -167,7 +166,7 @@ class JuegoSimple {
     }
 
     async jugarCarta(cartaJugadorId) {
-        console.log(`🎯 Jugando carta ${cartaJugadorId}...`);
+        console.log(` Jugando carta ${cartaJugadorId}...`);
         
         try {
             if (this.modoOffline) {
@@ -181,13 +180,13 @@ class JuegoSimple {
             this.cambiarTurno();
             
         } catch (error) {
-            console.error('❌ Error al jugar carta:', error);
+            console.error(' Error al jugar carta:', error);
             this.mostrarError(`Error al jugar carta: ${error.message}`);
         }
     }
 
     async jugarCartaOnline(cartaJugadorId) {
-        console.log('📡 Enviando jugada al backend...');
+        console.log(' Enviando jugada al backend...');
         
         const response = await fetch('http://localhost:7147/api/jugada', {
             method: 'POST',
@@ -205,7 +204,7 @@ class JuegoSimple {
         }
         
         const resultado = await response.json();
-        console.log('✅ Carta jugada en backend:', resultado);
+        console.log(' Carta jugada en backend:', resultado);
         
         // Marcar carta como usada localmente
         const carta = this.cartasJugador.find(c => (c.id || c.Id) === cartaJugadorId);
@@ -218,23 +217,23 @@ class JuegoSimple {
     }
 
     async jugarCartaOffline(cartaJugadorId) {
-        console.log('🔧 Simulando jugada offline...');
+        console.log(' Simulando jugada offline...');
         
         // Marcar carta como usada
         const carta = this.cartasJugador.find(c => c.id === cartaJugadorId);
         if (carta) {
             carta.usada = true;
-            console.log(`✅ Carta ${carta.nombre} marcada como usada`);
+            console.log(` Carta ${carta.nombre} marcada como usada`);
         }
         
         // Simular respuesta
-        this.mostrarMensaje(`🎴 ${carta?.nombre || 'Carta'} jugada por ${this.getJugadorActualNombre()}`);
+        this.mostrarMensaje(` ${carta?.nombre || 'Carta'} jugada por ${this.getJugadorActualNombre()}`);
     }
 
     // ===== SISTEMA DE TURNOS =====
     cambiarTurno() {
         if (!this.jugadoresPartida || this.jugadoresPartida.length === 0) {
-            console.warn('⚠️ No hay jugadores para cambiar turno');
+            console.warn(' No hay jugadores para cambiar turno');
             return;
         }
         
@@ -244,13 +243,13 @@ class JuegoSimple {
         const jugadorActual = this.jugadoresPartida[this.turnoActual];
         const nombreJugador = jugadorActual?.Nombre || jugadorActual?.nombre || `Jugador ${this.turnoActual + 1}`;
         
-        console.log(`🔄 Turno cambiado a: ${nombreJugador} (${this.turnoActual + 1}/${this.jugadoresPartida.length})`);
+        console.log(` Turno cambiado a: ${nombreJugador} (${this.turnoActual + 1}/${this.jugadoresPartida.length})`);
         
         // Actualizar interfaz visual del turno
         this.actualizarIndicadorTurno();
         
         // Mostrar mensaje del turno
-        this.mostrarMensaje(`🎮 Turno de ${nombreJugador}`);
+        this.mostrarMensaje(` Turno de ${nombreJugador}`);
     }
 
     actualizarIndicadorTurno() {
@@ -311,7 +310,7 @@ class JuegoSimple {
 
     // ===== INTERFAZ DE USUARIO =====
     actualizarInterfaz() {
-        console.log('🎨 Actualizando interfaz del juego...');
+        console.log(' Actualizando interfaz del juego...');
         this.mostrarInfoPartida();
         this.mostrarJugadoresReales();
         this.mostrarCartas();
@@ -327,7 +326,7 @@ class JuegoSimple {
         }
 
         // Mostrar información de la partida en consola
-        console.log('📊 Info partida:', {
+        console.log(' Info partida:', {
             partida: this.partidaId,
             codigo: this.codigoPartida,
             ronda: this.estadoPartida?.rondaActual || 1,
@@ -337,7 +336,7 @@ class JuegoSimple {
     }
 
     mostrarJugadoresReales() {
-        console.log('👥 Actualizando interfaz de jugadores...');
+        console.log(' Actualizando interfaz de jugadores...');
         
         // Obtener contenedores de jugadores en la interfaz
         const contenedoresJugadores = document.querySelectorAll('.iconos-1, .iconos-2');
@@ -381,7 +380,7 @@ class JuegoSimple {
             }
         }
         
-        console.log(`✅ Interfaz actualizada para ${this.jugadoresPartida.length} jugadores`);
+        console.log(` Interfaz actualizada para ${this.jugadoresPartida.length} jugadores`);
     }
 
     mostrarCartas() {
@@ -405,7 +404,7 @@ class JuegoSimple {
             container.appendChild(elementoCarta);
         });
 
-        console.log(`✅ Mostradas ${cartasDisponibles.length} cartas del jugador`);
+        console.log(` Mostradas ${cartasDisponibles.length} cartas del jugador`);
     }
 
     mostrarControles() {
@@ -425,12 +424,12 @@ class JuegoSimple {
                 <div class="elegir-atributo">
                     <h3>Elige el atributo para esta ronda:</h3>
                     <div class="atributos">
-                        <button onclick="juegoSimple.elegirAtributo('Vida')">❤️ Vida</button>
-                        <button onclick="juegoSimple.elegirAtributo('Ataque')">⚔️ Ataque</button>
-                        <button onclick="juegoSimple.elegirAtributo('Defensa')">🛡️ Defensa</button>
-                        <button onclick="juegoSimple.elegirAtributo('Velocidad')">⚡ Velocidad</button>
-                        <button onclick="juegoSimple.elegirAtributo('Poder')">💪 Poder</button>
-                        <button onclick="juegoSimple.elegirAtributo('Terror')">😱 Terror</button>
+                        <button onclick="juegoSimple.elegirAtributo('Vida')"> Vida</button>
+                        <button onclick="juegoSimple.elegirAtributo('Ataque')"> Ataque</button>
+                        <button onclick="juegoSimple.elegirAtributo('Defensa')"> Defensa</button>
+                        <button onclick="juegoSimple.elegirAtributo('Velocidad')"> Velocidad</button>
+                        <button onclick="juegoSimple.elegirAtributo('Poder')"> Poder</button>
+                        <button onclick="juegoSimple.elegirAtributo('Terror')"> Terror</button>
                     </div>
                 </div>
             `;
@@ -506,7 +505,7 @@ class JuegoSimple {
             <div class="modal-content">
                 <h2>¡Ronda ${resultado.numeroRonda} Completada!</h2>
                 <div class="atributo">Atributo: <strong>${resultado.atributoCompetido}</strong></div>
-                <div class="ganador">🏆 Ganador: <strong>${resultado.nombreGanador}</strong></div>
+                <div class="ganador"> Ganador: <strong>${resultado.nombreGanador}</strong></div>
                 <div class="jugadas">
                     ${resultado.jugadas.map(j => `
                         <div class="jugada ${j.jugadorId === resultado.ganadorId ? 'ganadora' : ''}">
@@ -532,14 +531,14 @@ class JuegoSimple {
             modal.className = 'modal-ranking';
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h1>🏆 RANKING FINAL 🏆</h1>
+                    <h1> RANKING FINAL </h1>
                     <div class="ranking">
                         ${ranking.map((jugador, index) => `
                             <div class="posicion posicion-${index + 1}">
                                 <span class="numero">${jugador.posicion}°</span>
                                 <span class="nombre">${jugador.nombreJugador}</span>
                                 <span class="puntos">${jugador.puntosObtenidos} puntos</span>
-                                ${index === 0 ? '<span class="corona">👑</span>' : ''}
+                                ${index === 0 ? '<span class="corona"></span>' : ''}
                             </div>
                         `).join('')}
                     </div>

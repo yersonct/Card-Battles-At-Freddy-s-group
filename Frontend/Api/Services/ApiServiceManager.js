@@ -7,13 +7,13 @@
 
 // Verificar que la configuración esté cargada
 if (typeof API_CONFIG === 'undefined' || typeof API_ENDPOINTS === 'undefined') {
-    console.error('❌ Error: ConfigApi.js debe cargarse antes que los servicios');
+    console.error(' Error: ConfigApi.js debe cargarse antes que los servicios');
     throw new Error('ConfigApi.js no está cargado');
 }
 
 // Verificar que las funciones de utilidad estén disponibles
 if (typeof buildUrl === 'undefined' || typeof makeRequest === 'undefined') {
-    console.error('❌ Error: Las funciones de utilidad no están disponibles');
+    console.error(' Error: Las funciones de utilidad no están disponibles');
     throw new Error('Funciones de utilidad no están cargadas');
 }
 
@@ -31,7 +31,7 @@ class ApiServiceManager {
      */
     async inicializar() {
         try {
-            console.log('🚀 Inicializando servicios API...');
+            console.log(' Inicializando servicios API...');
 
             // Crear instancias de servicios individuales
             this.servicios.carta = new CartaService();
@@ -58,10 +58,10 @@ class ApiServiceManager {
             await this.verificarConectividad();
 
             this.inicializado = true;
-            console.log('✅ Servicios API inicializados correctamente');
+            console.log(' Servicios API inicializados correctamente');
 
         } catch (error) {
-            console.error('❌ Error al inicializar servicios:', error);
+            console.error(' Error al inicializar servicios:', error);
             throw error;
         }
     }
@@ -85,7 +85,7 @@ class ApiServiceManager {
         // Manager de servicios
         window.apiManager = this;
 
-        console.log('🌐 Servicios expuestos globalmente');
+        console.log(' Servicios expuestos globalmente');
     }
 
     /**
@@ -93,14 +93,14 @@ class ApiServiceManager {
      */
     async verificarConectividad() {
         try {
-            console.log('🔍 Verificando conectividad con el backend...');
+            console.log(' Verificando conectividad con el backend...');
             
             // Intentar obtener cartas para verificar conectividad
             await this.servicios.carta.getAll();
             
-            console.log('✅ Conectividad verificada');
+            console.log(' Conectividad verificada');
         } catch (error) {
-            console.warn('⚠️ No se pudo verificar conectividad:', error.message);
+            console.warn(' No se pudo verificar conectividad:', error.message);
             // No lanzar error para permitir uso offline o con backend desconectado
         }
     }
@@ -127,7 +127,7 @@ class ApiServiceManager {
      * Recarga la configuración de servicios
      */
     async recargar() {
-        console.log('🔄 Recargando servicios...');
+        console.log(' Recargando servicios...');
         this.inicializado = false;
         await this.inicializar();
     }
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.dispatchEvent(eventoServiciosListos);
         
     } catch (error) {
-        console.error('❌ Error durante la inicialización automática:', error);
+        console.error(' Error durante la inicialización automática:', error);
         
         // Disparar evento de error
         const eventoError = new CustomEvent('errorInicializacionApi', {
@@ -218,7 +218,7 @@ window.usarServiciosApi = async function(callback) {
         const servicios = await window.esperarServiciosApi();
         return await callback(servicios);
     } catch (error) {
-        console.error('❌ Error al usar servicios API:', error);
+        console.error(' Error al usar servicios API:', error);
         throw error;
     }
 };

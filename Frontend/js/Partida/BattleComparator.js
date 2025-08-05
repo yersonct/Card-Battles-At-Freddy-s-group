@@ -14,7 +14,7 @@ class BattleComparator {
         this.ganadorId = null;
         this.animacionEnProgreso = false;
         
-        console.log('⚔️ BattleComparator inicializado');
+        console.log(' BattleComparator inicializado');
     }
 
     /**
@@ -23,10 +23,10 @@ class BattleComparator {
     async init() {
         try {
             this.crearContenedorComparacion();
-            console.log('✅ BattleComparator inicializado correctamente');
+            console.log(' BattleComparator inicializado correctamente');
             
         } catch (error) {
-            console.error('❌ Error inicializando BattleComparator:', error);
+            console.error(' Error inicializando BattleComparator:', error);
             throw error;
         }
     }
@@ -88,7 +88,7 @@ class BattleComparator {
      */
     async mostrarComparacion(cartasJugadas, atributoComparar) {
         try {
-            console.log('⚔️ Iniciando comparación de cartas...');
+            console.log(' Iniciando comparación de cartas...');
             
             this.cartasEnComparacion = cartasJugadas;
             this.atributoComparar = atributoComparar;
@@ -115,7 +115,7 @@ class BattleComparator {
             }, 5000);
             
         } catch (error) {
-            console.error('❌ Error mostrando comparación:', error);
+            console.error(' Error mostrando comparación:', error);
             this.ocultarComparacion();
         }
     }
@@ -144,7 +144,7 @@ class BattleComparator {
                 }
             }
         } catch (error) {
-            console.error('❌ Error cargando información completa de cartas:', error);
+            console.error(' Error cargando información completa de cartas:', error);
         }
     }
 
@@ -314,7 +314,7 @@ class BattleComparator {
             const ganadora = this.determinarGanador();
             
             if (!ganadora) {
-                console.error('❌ No se pudo determinar ganador');
+                console.error(' No se pudo determinar ganador');
                 return;
             }
             
@@ -333,7 +333,7 @@ class BattleComparator {
             this.mostrarBotonContinuar();
             
         } catch (error) {
-            console.error('❌ Error mostrando resultado:', error);
+            console.error(' Error mostrando resultado:', error);
         }
     }
 
@@ -349,7 +349,7 @@ class BattleComparator {
         // Encontrar la carta con ese valor
         const ganadora = this.cartasEnComparacion.find(j => j.valorAtributo === valorMaximo);
         
-        console.log('🏆 Ganador determinado:', ganadora?.jugador?.nombre, 'con valor:', valorMaximo);
+        console.log(' Ganador determinado:', ganadora?.jugador?.nombre, 'con valor:', valorMaximo);
         
         return ganadora;
     }
@@ -443,7 +443,7 @@ class BattleComparator {
         this.animacionEnProgreso = false;
         
         // El GameFlowController manejará la transición a la siguiente ronda
-        console.log('➡️ Continuando juego...');
+        console.log(' Continuando juego...');
     }
 
     /**
@@ -496,7 +496,7 @@ class BattleComparator {
         this.ganadorId = null;
         this.animacionEnProgreso = false;
         
-        console.log('🧹 BattleComparator destruido');
+        console.log(' BattleComparator destruido');
     }
 }
 

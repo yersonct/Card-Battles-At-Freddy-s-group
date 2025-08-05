@@ -11,7 +11,7 @@ class TurnIndicator {
         this.jugadoresIndicadores = [];
         this.contenedorIndicadores = null;
         
-        console.log('👥 TurnIndicator inicializado');
+        console.log(' TurnIndicator inicializado');
     }
 
     /**
@@ -23,10 +23,10 @@ class TurnIndicator {
             this.crearIndicadoresJugadores();
             this.actualizarIndicadores();
             
-            console.log('✅ TurnIndicator inicializado correctamente');
+            console.log(' TurnIndicator inicializado correctamente');
             
         } catch (error) {
-            console.error('❌ Error inicializando TurnIndicator:', error);
+            console.error(' Error inicializando TurnIndicator:', error);
             throw error;
         }
     }
@@ -57,7 +57,7 @@ class TurnIndicator {
      */
     crearIndicadoresJugadores() {
         if (!this.gameFlow.jugadores || this.gameFlow.jugadores.length === 0) {
-            console.warn('⚠️ No hay jugadores para crear indicadores');
+            console.warn(' No hay jugadores para crear indicadores');
             return;
         }
         
@@ -77,7 +77,7 @@ class TurnIndicator {
             this.contenedorIndicadores.appendChild(indicador);
         });
         
-        console.log('👥 Indicadores de jugadores creados:', this.jugadoresIndicadores.length);
+        console.log(' Indicadores de jugadores creados:', this.jugadoresIndicadores.length);
     }
 
     /**
@@ -116,7 +116,7 @@ class TurnIndicator {
      */
     actualizarIndicadores() {
         if (!this.jugadoresIndicadores.length) {
-            console.warn('⚠️ No hay indicadores para actualizar');
+            console.warn(' No hay indicadores para actualizar');
             return;
         }
         
@@ -126,7 +126,7 @@ class TurnIndicator {
             this.actualizarIndicadorJugador(indicadorData, estadoJuego);
         });
         
-        console.log('🔄 Indicadores actualizados');
+        console.log(' Indicadores actualizados');
     }
 
     /**
@@ -298,7 +298,7 @@ class TurnIndicator {
             });
             
         } catch (error) {
-            console.error('❌ Error actualizando puntos:', error);
+            console.error(' Error actualizando puntos:', error);
         }
     }
 
@@ -338,7 +338,7 @@ class TurnIndicator {
             }
         });
         
-        console.log('🔄 Indicadores reseteados para nueva ronda');
+        console.log(' Indicadores reseteados para nueva ronda');
     }
 
     /**
@@ -377,7 +377,7 @@ class TurnIndicator {
         this.jugadoresIndicadores = [];
         this.contenedorIndicadores = null;
         
-        console.log('🧹 TurnIndicator destruido');
+        console.log(' TurnIndicator destruido');
     }
 }
 

@@ -17,7 +17,7 @@ class CardSelectionManager {
         this.seleccionHabilitada = false;
         this.mostrandoSeleccionAtributo = false;
         
-        console.log('🃏 CardSelectionManager inicializado');
+        console.log(' CardSelectionManager inicializado');
     }
 
     /**
@@ -29,10 +29,10 @@ class CardSelectionManager {
             this.configurarEventListeners();
             this.crearInterfazSeleccion();
             
-            console.log('✅ CardSelectionManager inicializado correctamente');
+            console.log(' CardSelectionManager inicializado correctamente');
             
         } catch (error) {
-            console.error('❌ Error inicializando CardSelectionManager:', error);
+            console.error(' Error inicializando CardSelectionManager:', error);
             throw error;
         }
     }
@@ -50,10 +50,10 @@ class CardSelectionManager {
             // Filtrar solo cartas no usadas
             this.cartasJugador = this.cartasJugador.filter(carta => !carta.usada);
             
-            console.log('📋 Cartas del jugador cargadas:', this.cartasJugador.length);
+            console.log(' Cartas del jugador cargadas:', this.cartasJugador.length);
             
         } catch (error) {
-            console.error('❌ Error cargando cartas del jugador:', error);
+            console.error(' Error cargando cartas del jugador:', error);
             throw error;
         }
     }
@@ -137,7 +137,7 @@ class CardSelectionManager {
         this.resaltarCartasDisponibles();
         this.mostrarMensajeInstruccion();
         
-        console.log('✅ Selección de cartas habilitada');
+        console.log(' Selección de cartas habilitada');
     }
 
     /**
@@ -148,7 +148,7 @@ class CardSelectionManager {
         this.quitarResaltadoCartas();
         this.ocultarMensajeInstruccion();
         
-        console.log('⏸️ Selección de cartas deshabilitada');
+        console.log(' Selección de cartas deshabilitada');
     }
 
     /**
@@ -184,10 +184,10 @@ class CardSelectionManager {
                 this.mostrarBotonConfirmar();
             }
             
-            console.log('🃏 Carta seleccionada:', cartaJugador);
+            console.log(' Carta seleccionada:', cartaJugador);
             
         } catch (error) {
-            console.error('❌ Error seleccionando carta:', error);
+            console.error(' Error seleccionando carta:', error);
             this.mostrarError('Error seleccionando carta');
         }
     }
@@ -213,10 +213,10 @@ class CardSelectionManager {
             // Mostrar botón de confirmar
             this.mostrarBotonConfirmar();
             
-            console.log('⚡ Atributo seleccionado:', atributo);
+            console.log(' Atributo seleccionado:', atributo);
             
         } catch (error) {
-            console.error('❌ Error seleccionando atributo:', error);
+            console.error(' Error seleccionando atributo:', error);
             this.mostrarError('Error seleccionando atributo');
         }
     }
@@ -251,10 +251,10 @@ class CardSelectionManager {
             // Limpiar selección
             this.limpiarSeleccion();
             
-            console.log('✅ Carta confirmada y enviada');
+            console.log(' Carta confirmada y enviada');
             
         } catch (error) {
-            console.error('❌ Error confirmando carta:', error);
+            console.error(' Error confirmando carta:', error);
             this.mostrarError('Error confirmando carta');
         }
     }
@@ -460,7 +460,7 @@ class CardSelectionManager {
      */
     mostrarError(mensaje) {
         this.mostrarMensaje(mensaje, 'error');
-        console.error('❌', mensaje);
+        console.error('', mensaje);
     }
 
     /**
@@ -503,7 +503,7 @@ class CardSelectionManager {
             if (element) element.remove();
         });
         
-        console.log('🧹 CardSelectionManager destruido');
+        console.log(' CardSelectionManager destruido');
     }
 }
 

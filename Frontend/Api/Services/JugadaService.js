@@ -56,10 +56,10 @@ class JugadaService extends BaseApiService {
             };
 
             const jugada = await this.create(jugadaData);
-            console.log(`🎯 Jugada creada: Jugador ${jugadorId} jugó carta ${cartaJugadorId} en ronda ${rondaId}`);
+            console.log(` Jugada creada: Jugador ${jugadorId} jugó carta ${cartaJugadorId} en ronda ${rondaId}`);
             return jugada;
         } catch (error) {
-            console.error(`❌ Error al crear jugada:`, error);
+            console.error(` Error al crear jugada:`, error);
             throw error;
         }
     }
@@ -72,7 +72,7 @@ class JugadaService extends BaseApiService {
      */
     async procesarRonda(rondaId, atributoComparar = 'poder') {
         try {
-            console.log(`🎲 Procesando ronda ${rondaId} comparando por ${atributoComparar}`);
+            console.log(` Procesando ronda ${rondaId} comparando por ${atributoComparar}`);
             
             // Obtener todas las jugadas de la ronda
             const jugadas = await this.getByRonda(rondaId);
@@ -132,16 +132,16 @@ class JugadaService extends BaseApiService {
             };
 
             if (hayEmpate) {
-                console.log(`⚖️ Empate en ronda ${rondaId} con valor ${jugadaGanadora.valorComparacion}`);
+                console.log(` Empate en ronda ${rondaId} con valor ${jugadaGanadora.valorComparacion}`);
                 console.log('Jugadores empatados:', jugadasConMayorValor.map(j => j.jugador.nombre));
             } else {
-                console.log(`🏆 Ganador de ronda ${rondaId}: ${jugadaGanadora.jugador.nombre} con ${jugadaGanadora.carta.nombre} (${atributoComparar}: ${jugadaGanadora.valorComparacion})`);
+                console.log(` Ganador de ronda ${rondaId}: ${jugadaGanadora.jugador.nombre} con ${jugadaGanadora.carta.nombre} (${atributoComparar}: ${jugadaGanadora.valorComparacion})`);
             }
 
             return resultado;
 
         } catch (error) {
-            console.error(`❌ Error al procesar ronda ${rondaId}:`, error);
+            console.error(` Error al procesar ronda ${rondaId}:`, error);
             throw error;
         }
     }
@@ -201,7 +201,7 @@ class JugadaService extends BaseApiService {
                 fechaCancelacion: new Date().toISOString()
             });
             
-            console.log(`❌ Jugada ${jugadaId} cancelada`);
+            console.log(` Jugada ${jugadaId} cancelada`);
             return resultado;
         } catch (error) {
             console.error(`Error al cancelar jugada ${jugadaId}:`, error);

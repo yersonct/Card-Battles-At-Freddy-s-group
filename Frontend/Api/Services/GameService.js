@@ -17,7 +17,7 @@ class GameService {
      */
     async iniciarPartidaCompleta(jugadores) {
         try {
-            console.log('🎮 Iniciando partida completa para', jugadores.length, 'jugadores');
+            console.log(' Iniciando partida completa para', jugadores.length, 'jugadores');
 
             // 1. Crear la partida
             const nombrePartida = `FNAF Battle ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
@@ -48,11 +48,11 @@ class GameService {
                 estado: 'iniciada'
             };
 
-            console.log('✅ Partida completa iniciada:', resultadoCompleto);
+            console.log(' Partida completa iniciada:', resultadoCompleto);
             return resultadoCompleto;
 
         } catch (error) {
-            console.error('❌ Error al iniciar partida completa:', error);
+            console.error(' Error al iniciar partida completa:', error);
             throw error;
         }
     }
@@ -85,11 +85,11 @@ class GameService {
             this.partidaActual = datos.partida;
             this.jugadoresActuales = datos.jugadores;
 
-            console.log('✅ Partida cargada desde storage:', datos);
+            console.log(' Partida cargada desde storage:', datos);
             return datos;
 
         } catch (error) {
-            console.error('❌ Error al cargar partida desde storage:', error);
+            console.error(' Error al cargar partida desde storage:', error);
             throw error;
         }
     }
@@ -101,9 +101,9 @@ class GameService {
         try {
             const estado = this.getEstadoActual();
             sessionStorage.setItem('estadoJuego', JSON.stringify(estado));
-            console.log('💾 Estado del juego guardado');
+            console.log(' Estado del juego guardado');
         } catch (error) {
-            console.error('❌ Error al guardar estado:', error);
+            console.error(' Error al guardar estado:', error);
         }
     }
 
@@ -129,11 +129,11 @@ class GameService {
             sessionStorage.removeItem('partidaActual');
             sessionStorage.removeItem('estadoJuego');
 
-            console.log('🏁 Partida finalizada:', resultado);
+            console.log(' Partida finalizada:', resultado);
             return resultado;
 
         } catch (error) {
-            console.error('❌ Error al finalizar partida:', error);
+            console.error(' Error al finalizar partida:', error);
             throw error;
         }
     }
@@ -152,12 +152,12 @@ class GameService {
 
         for (const servicio of serviciosRequeridos) {
             if (!window[servicio]) {
-                console.error(`❌ Servicio ${servicio} no está disponible`);
+                console.error(` Servicio ${servicio} no está disponible`);
                 return false;
             }
         }
 
-        console.log('✅ Todos los servicios requeridos están disponibles');
+        console.log(' Todos los servicios requeridos están disponibles');
         return true;
     }
 
@@ -179,10 +179,10 @@ class GameService {
             // Limpiar storage
             sessionStorage.clear();
 
-            console.log('🔄 Juego reiniciado');
+            console.log(' Juego reiniciado');
             
         } catch (error) {
-            console.error('❌ Error al reiniciar juego:', error);
+            console.error(' Error al reiniciar juego:', error);
             throw error;
         }
     }

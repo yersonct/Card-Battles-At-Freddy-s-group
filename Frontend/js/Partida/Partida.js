@@ -21,7 +21,7 @@ async function inicializarBackendIntegration() {
         const jugadoresData = localStorage.getItem('jugadoresPartida');
         modoOfflineActivo = localStorage.getItem('modoOffline') === 'true';
         
-        console.log('📊 Datos del backend recuperados:', {
+        console.log(' Datos del backend recuperados:', {
             partidaId: partidaBackendId,
             codigo: codigoPartidaBackend,
             modoOffline: modoOfflineActivo,
@@ -30,7 +30,7 @@ async function inicializarBackendIntegration() {
         
         if (jugadoresData) {
             jugadoresBackend = JSON.parse(jugadoresData);
-            console.log('👥 Jugadores registrados:', jugadoresBackend);
+            console.log(' Jugadores registrados:', jugadoresBackend);
             
             // Actualizar el sistema de juego con los jugadores reales
             actualizarSistemaConJugadoresReales();
@@ -41,21 +41,21 @@ async function inicializarBackendIntegration() {
         }
         
     } catch (error) {
-        console.error('❌ Error en inicialización del backend:', error);
+        console.error(' Error en inicialización del backend:', error);
         modoOfflineActivo = true;
     }
 }
 
 async function conectarConBackendReal() {
     try {
-        console.log('🔗 Conectando con backend real...');
+        console.log(' Conectando con backend real...');
         
         // Verificar estado de la partida
         const response = await fetch(`${API_BASE}/partida/${partidaBackendId}/estado`);
         
         if (response.ok) {
             const estadoPartida = await response.json();
-            console.log('✅ Conectado con backend - Estado:', estadoPartida);
+            console.log(' Conectado con backend - Estado:', estadoPartida);
             
             // Actualizar datos del juego
             if (estadoPartida.jugadores) {
@@ -66,13 +66,13 @@ async function conectarConBackendReal() {
         }
         
     } catch (error) {
-        console.error('⚠️ Backend no disponible, continuando en modo offline:', error);
+        console.error(' Backend no disponible, continuando en modo offline:', error);
         modoOfflineActivo = true;
     }
 }
 
 function actualizarSistemaConJugadoresReales() {
-    console.log('🔄 Actualizando sistema con jugadores reales...');
+    console.log(' Actualizando sistema con jugadores reales...');
     
     // Actualizar la variable global de jugadores del sistema existente
     if (window.jugadoresPartida && jugadoresBackend.length > 0) {
@@ -85,7 +85,7 @@ function actualizarSistemaConJugadoresReales() {
             turno: index === 0 // El primer jugador empieza
         }));
         
-        console.log('✅ Jugadores actualizados en el sistema:', window.jugadoresPartida);
+        console.log(' Jugadores actualizados en el sistema:', window.jugadoresPartida);
         
         // Actualizar interfaz de jugadores
         actualizarInterfazJugadores();
@@ -115,10 +115,10 @@ function actualizarInterfazJugadores() {
         }
     });
     
-    console.log('🎨 Interfaz de jugadores actualizada');
+    console.log(' Interfaz de jugadores actualizada');
 }
 
-// 🔍 VARIABLE GLOBAL PARA DEBUGGING - ACCESIBLE DESDE CONSOLA Y LOCALSTORAGE
+//  VARIABLE GLOBAL PARA DEBUGGING - ACCESIBLE DESDE CONSOLA Y LOCALSTORAGE
 window.debugInfo = {
     errores: [],
     partidaData: {},
@@ -143,9 +143,9 @@ window.debugInfo = {
                 this.partidaData = JSON.parse(partidaDataGuardada);
             }
             
-            console.log('📁 Errores cargados desde localStorage:', this.errores.length, 'errores encontrados');
+            console.log(' Errores cargados desde localStorage:', this.errores.length, 'errores encontrados');
         } catch (e) {
-            console.warn('⚠️ Error cargando debug info desde localStorage:', e);
+            console.warn(' Error cargando debug info desde localStorage:', e);
         }
     },
     
@@ -157,9 +157,9 @@ window.debugInfo = {
             localStorage.setItem('debugInfo_partidaData', JSON.stringify(this.partidaData));
             localStorage.setItem('debugInfo_timestamp', new Date().toISOString());
             
-            console.log('💾 Debug info guardado en localStorage');
+            console.log(' Debug info guardado en localStorage');
         } catch (e) {
-            console.error('❌ Error guardando debug info en localStorage:', e);
+            console.error(' Error guardando debug info en localStorage:', e);
         }
     },
     
@@ -172,20 +172,20 @@ window.debugInfo = {
         this.errores = [];
         this.ultimoError = null;
         this.partidaData = {};
-        console.log('🧹 Debug info limpiado del localStorage');
+        console.log(' Debug info limpiado del localStorage');
     },
     
     // Método para ver todos los errores
     verErrores: function() {
         console.table(this.errores);
-        console.log('💾 También disponible en localStorage como debugInfo_errores');
+        console.log(' También disponible en localStorage como debugInfo_errores');
         return this.errores;
     },
     
     // Método para ver el último error en detalle
     ultimoErrorDetalle: function() {
-        console.log('🔍 ÚLTIMO ERROR DETALLADO:', this.ultimoError);
-        console.log('💾 También disponible en localStorage como debugInfo_ultimoError');
+        console.log(' ÚLTIMO ERROR DETALLADO:', this.ultimoError);
+        console.log(' También disponible en localStorage como debugInfo_ultimoError');
         return this.ultimoError;
     },
     
@@ -199,8 +199,8 @@ window.debugInfo = {
             localStorage: this.localStorage,
             ultimoError: this.ultimoError
         };
-        console.log('📋 REPORTE COMPLETO PARA ANÁLISIS:', JSON.stringify(reporte, null, 2));
-        console.log('💾 Guardando reporte en localStorage...');
+        console.log(' REPORTE COMPLETO PARA ANÁLISIS:', JSON.stringify(reporte, null, 2));
+        console.log(' Guardando reporte en localStorage...');
         localStorage.setItem('debugInfo_reporteCompleto', JSON.stringify(reporte, null, 2));
         return reporte;
     },
@@ -224,7 +224,7 @@ window.debugInfo = {
         // Guardar automáticamente en localStorage
         this.guardarEnLocalStorage();
         
-        console.log('💾 Error guardado en localStorage. Total errores:', this.errores.length);
+        console.log(' Error guardado en localStorage. Total errores:', this.errores.length);
         return errorInfo;
     }
 };
@@ -242,8 +242,8 @@ const originalAssign = window.location.assign;
 
 window.location.replace = function(url) {
     if (window.preventRedirects) {
-        console.warn('🚫 REDIRECCIÓN BLOQUEADA (replace):', url);
-        console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+        console.warn(' REDIRECCIÓN BLOQUEADA (replace):', url);
+        console.warn(' Para habilitar redirecciones: window.preventRedirects = false');
         return;
     }
     return originalReplace.call(window.location, url);
@@ -251,8 +251,8 @@ window.location.replace = function(url) {
 
 window.location.assign = function(url) {
     if (window.preventRedirects) {
-        console.warn('🚫 REDIRECCIÓN BLOQUEADA (assign):', url);
-        console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+        console.warn(' REDIRECCIÓN BLOQUEADA (assign):', url);
+        console.warn(' Para habilitar redirecciones: window.preventRedirects = false');
         return;
     }
     return originalAssign.call(window.location, url);
@@ -262,8 +262,8 @@ window.location.assign = function(url) {
 Object.defineProperty(window.location, 'href', {
     set: function(url) {
         if (window.preventRedirects) {
-            console.warn('🚫 REDIRECCIÓN BLOQUEADA (href):', url);
-            console.warn('💡 Para habilitar redirecciones: window.preventRedirects = false');
+            console.warn(' REDIRECCIÓN BLOQUEADA (href):', url);
+            console.warn(' Para habilitar redirecciones: window.preventRedirects = false');
             return;
         }
         window.location.assign(url);
@@ -287,7 +287,7 @@ class SalaBackend {
         // Estado de la interfaz
         this.interfazListaParaJugar = false;
 
-        console.log('🎮 SalaBackend inicializado con GameFlowController');
+        console.log(' SalaBackend inicializado con GameFlowController');
     }
 
     // Inicializar la sala con datos del backend
@@ -302,7 +302,7 @@ class SalaBackend {
                 throw new Error('No se encontraron datos de partida');
             }
 
-            console.log('📋 Datos de partida:', {
+            console.log(' Datos de partida:', {
                 partidaId: this.partidaId,
                 jugadorId: this.jugadorId,
                 jugadorNombre: this.jugadorNombre
@@ -313,7 +313,7 @@ class SalaBackend {
                 this.gameFlowController = new GameFlowController();
                 await this.gameFlowController.init(this.partidaId, this.jugadorId);
 
-                console.log('✅ GameFlowController inicializado');
+                console.log(' GameFlowController inicializado');
             } else {
                 throw new Error('GameFlowController no está disponible');
             }
@@ -324,10 +324,10 @@ class SalaBackend {
             // Iniciar polling de estado
             this.iniciarPolling();
 
-            console.log('✅ Sala inicializada correctamente');
+            console.log(' Sala inicializada correctamente');
 
         } catch (error) {
-            console.error('❌ Error al inicializar sala:', error);
+            console.error(' Error al inicializar sala:', error);
             
             // GUARDAR ERROR EN VARIABLE GLOBAL Y LOCALSTORAGE PARA DEBUGGING
             const partidaData = {
@@ -355,23 +355,23 @@ class SalaBackend {
             // this.mostrarError('Error al cargar la partida: ' + error.message);
             
             // DEBUGGING COMPLETO PARA ANALIZAR PROBLEMAS
-            console.error('🔍 === ANÁLISIS COMPLETO DEL ERROR ===');
-            console.error('🔍 Stack completo del error:', error.stack);
-            console.error('🔍 Mensaje del error:', error.message);
-            console.error('🔍 Tipo de error:', error.name);
+            console.error(' === ANÁLISIS COMPLETO DEL ERROR ===');
+            console.error(' Stack completo del error:', error.stack);
+            console.error(' Mensaje del error:', error.message);
+            console.error(' Tipo de error:', error.name);
             
             // Verificar datos del localStorage
-            console.error('🔍 === DATOS DEL LOCALSTORAGE ===');
-            console.error('🔍 partidaId:', this.partidaId);
-            console.error('🔍 jugadorId:', this.jugadorId);
-            console.error('🔍 jugadorNombre:', this.jugadorNombre);
-            console.error('🔍 Todo el localStorage:', { ...localStorage });
+            console.error(' === DATOS DEL LOCALSTORAGE ===');
+            console.error(' partidaId:', this.partidaId);
+            console.error(' jugadorId:', this.jugadorId);
+            console.error(' jugadorNombre:', this.jugadorNombre);
+            console.error(' Todo el localStorage:', { ...localStorage });
             
             // Verificar disponibilidad de dependencias
-            console.error('🔍 === VERIFICACIÓN DE DEPENDENCIAS ===');
-            console.error('🔍 GameFlowController disponible:', typeof GameFlowController !== 'undefined');
-            console.error('🔍 window.partidaService disponible:', typeof window.partidaService !== 'undefined');
-            console.error('🔍 Todas las clases disponibles:', {
+            console.error(' === VERIFICACIÓN DE DEPENDENCIAS ===');
+            console.error(' GameFlowController disponible:', typeof GameFlowController !== 'undefined');
+            console.error(' window.partidaService disponible:', typeof window.partidaService !== 'undefined');
+            console.error(' Todas las clases disponibles:', {
                 GameFlowController: typeof GameFlowController,
                 CardSelectionManager: typeof CardSelectionManager,
                 TurnIndicator: typeof TurnIndicator,
@@ -380,25 +380,25 @@ class SalaBackend {
             });
             
             // Información sobre cómo acceder desde consola
-            console.error('🔍 === ACCESO DESDE CONSOLA ===');
-            console.error('💡 Para ver todos los errores: window.debugInfo.verErrores()');
-            console.error('💡 Para ver el último error: window.debugInfo.ultimoErrorDetalle()');
-            console.error('💡 Para exportar todo: window.debugInfo.exportarTodo()');
-            console.error('💡 Para acceso directo: window.debugInfo');
+            console.error(' === ACCESO DESDE CONSOLA ===');
+            console.error(' Para ver todos los errores: window.debugInfo.verErrores()');
+            console.error(' Para ver el último error: window.debugInfo.ultimoErrorDetalle()');
+            console.error(' Para exportar todo: window.debugInfo.exportarTodo()');
+            console.error(' Para acceso directo: window.debugInfo');
             
-            console.error('🔍 === ACCESO DESDE OTRAS PÁGINAS ===');
-            console.error('💾 Los errores están guardados en localStorage:');
+            console.error(' === ACCESO DESDE OTRAS PÁGINAS ===');
+            console.error(' Los errores están guardados en localStorage:');
             console.error('• localStorage.getItem("debugInfo_errores") - Todos los errores');
             console.error('• localStorage.getItem("debugInfo_ultimoError") - Último error');
             console.error('• localStorage.getItem("debugInfo_partidaData") - Datos de partida');
             console.error('• localStorage.getItem("debugInfo_reporteCompleto") - Reporte completo');
             
-            console.error('🔍 === DESDE CREAR SALA EJECUTA ===');
-            console.error('💡 JSON.parse(localStorage.getItem("debugInfo_errores"))');
-            console.error('💡 JSON.parse(localStorage.getItem("debugInfo_ultimoError"))');
+            console.error(' === DESDE CREAR SALA EJECUTA ===');
+            console.error(' JSON.parse(localStorage.getItem("debugInfo_errores"))');
+            console.error(' JSON.parse(localStorage.getItem("debugInfo_ultimoError"))');
             
-            console.error('🔍 === PARA LIMPIAR ERRORES ===');
-            console.error('💡 window.debugInfo.limpiarLocalStorage() // Desde cualquier página');
+            console.error(' === PARA LIMPIAR ERRORES ===');
+            console.error(' window.debugInfo.limpiarLocalStorage() // Desde cualquier página');
             
             // Mostrar error persistente en pantalla (sin auto-remover)
             this.mostrarErrorPersistente(error);
@@ -408,18 +408,18 @@ class SalaBackend {
     // Suscribirse a eventos del controlador del juego (LEGACY - GameFlowController maneja esto)
     suscribirseAEventos() {
         // El GameFlowController maneja sus propios eventos internamente
-        console.log('📡 Eventos manejados por GameFlowController');
+        console.log(' Eventos manejados por GameFlowController');
     }
 
     // Cargar estado inicial de la partida (LEGACY - GameFlowController maneja esto)
     async cargarEstadoPartida() {
         // El GameFlowController maneja la carga de estado internamente
-        console.log('📊 Estado manejado por GameFlowController');
+        console.log(' Estado manejado por GameFlowController');
     }
 
     // Configurar la interfaz inicial (simplificada - GameFlowController maneja la lógica)
     configurarInterfaz() {
-        console.log('🎨 Configurando interfaz inicial...');
+        console.log(' Configurando interfaz inicial...');
 
         // Solo configurar elementos básicos, el GameFlowController maneja el resto
         this.actualizarInfoJugador();
@@ -431,7 +431,7 @@ class SalaBackend {
         // - Comparación de cartas
         // - Ranking final
 
-        console.log('✅ Interfaz configurada - GameFlowController activo');
+        console.log(' Interfaz configurada - GameFlowController activo');
     }
 
     // Actualizar información del jugador actual
@@ -442,7 +442,7 @@ class SalaBackend {
             el.textContent = this.jugadorNombre || 'Jugador';
         });
 
-        console.log('👤 Información del jugador actualizada');
+        console.log(' Información del jugador actualizada');
     }
 
     // Configurar eventos de selección de cartas
@@ -472,7 +472,7 @@ class SalaBackend {
 
     // Método de compatibilidad para mostrar errores
     mostrarError(mensaje) {
-        console.error('❌', mensaje);
+        console.error('', mensaje);
 
         // Mostrar error en la interfaz
         const errorDiv = document.createElement('div');
@@ -504,7 +504,7 @@ class SalaBackend {
 
     // Mostrar error persistente para debugging (NO se auto-remueve)
     mostrarErrorPersistente(error) {
-        console.error('🚨 MOSTRANDO ERROR PERSISTENTE PARA DEBUGGING');
+        console.error(' MOSTRANDO ERROR PERSISTENTE PARA DEBUGGING');
         
         // Crear panel de error detallado que NO desaparece
         const errorPanel = document.createElement('div');
@@ -536,31 +536,31 @@ class SalaBackend {
             </div>
             
             <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                <strong>📋 DATOS DE PARTIDA:</strong><br>
+                <strong> DATOS DE PARTIDA:</strong><br>
                 • PartidaId: ${this.partidaId || 'NULL'}<br>
                 • JugadorId: ${this.jugadorId || 'NULL'}<br>
                 • JugadorNombre: ${this.jugadorNombre || 'NULL'}
             </div>
             
             <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                <strong>⚠️ ERROR:</strong><br>
+                <strong> ERROR:</strong><br>
                 • Mensaje: ${error.message}<br>
                 • Tipo: ${error.name}<br>
-                • GameFlowController disponible: ${typeof GameFlowController !== 'undefined' ? '✅ SÍ' : '❌ NO'}
+                • GameFlowController disponible: ${typeof GameFlowController !== 'undefined' ? ' SÍ' : ' NO'}
             </div>
             
             <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                <strong>🔍 STACK TRACE:</strong><br>
+                <strong> STACK TRACE:</strong><br>
                 <pre style="white-space: pre-wrap; font-size: 10px;">${error.stack || 'No stack disponible'}</pre>
             </div>
             
             <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px;">
-                <strong>💡 INSTRUCCIONES DE DEBUGGING:</strong><br>
+                <strong> INSTRUCCIONES DE DEBUGGING:</strong><br>
                 1. Revisa la consola del navegador (F12) para más detalles<br>
                 2. Verifica que todos los archivos JS estén cargados correctamente<br>
                 3. Comprueba que los datos de localStorage sean correctos<br>
                 4. Asegúrate de que el backend esté funcionando<br><br>
-                <strong>🔧 COMANDOS DE CONSOLA:</strong><br>
+                <strong> COMANDOS DE CONSOLA:</strong><br>
                 • <code>window.debugInfo.verErrores()</code> - Ver todos los errores<br>
                 • <code>window.debugInfo.ultimoErrorDetalle()</code> - Último error detallado<br>
                 • <code>window.debugInfo.exportarTodo()</code> - Exportar información completa<br>
@@ -577,7 +577,7 @@ class SalaBackend {
         document.body.appendChild(errorPanel);
         
         // También mostrar en consola para copiar fácilmente
-        console.error('🚨 === COPIA ESTE ERROR PARA ANÁLISIS ===');
+        console.error(' === COPIA ESTE ERROR PARA ANÁLISIS ===');
         console.error(JSON.stringify({
             partidaId: this.partidaId,
             jugadorId: this.jugadorId,
@@ -596,28 +596,13 @@ class SalaBackend {
             this.gameFlowController.destroy();
         }
 
-        console.log('🧹 SalaBackend destruido');
+        console.log(' SalaBackend destruido');
     }
-
-    /* 
-    === MÉTODOS LEGACY (MANEJADOS POR GameFlowController) ===
-    Los siguientes métodos son manejados ahora por el GameFlowController:
-    - configurarSeleccionCartas()
-    - configurarBotonesAtributos() 
-    - seleccionarCarta()
-    - seleccionarAtributo()
-    - jugarCarta()
-    - actualizarEstadoBotones()
-    - mostrarBotonesAtributo()
-    - ocultarBotonesAtributo()
-    - mostrarResultadoRonda()
-    - mostrarFinPartida()
-    */
 
     // Método auxiliar para polling (simplificado)
     iniciarPolling() {
         // El GameFlowController ya maneja su propio polling
-        console.log('📡 Polling delegado a GameFlowController');
+        console.log(' Polling delegado a GameFlowController');
     }
 }
 
@@ -629,13 +614,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Inicializar automáticamente pero SIN REDIRECCIONES
         window.salaBackend.init().catch(error => {
-            console.error('❌ Error en inicialización automática:', error);
+            console.error(' Error en inicialización automática:', error);
             // NO REDIRIGIR - MANTENER EN PÁGINA ACTUAL PARA DEBUGGING
-            console.error('🔒 MANTENIENDO EN PÁGINA ACTUAL PARA ANÁLISIS DE ERRORES');
-            console.error('💡 Usa window.debugInfo.verErrores() para ver los errores');
+            console.error(' MANTENIENDO EN PÁGINA ACTUAL PARA ANÁLISIS DE ERRORES');
+            console.error(' Usa window.debugInfo.verErrores() para ver los errores');
         });
 
-        console.log('🎮 SalaBackend inicializada automáticamente - SIN REDIRECCIONES');
+        console.log(' SalaBackend inicializada automáticamente - SIN REDIRECCIONES');
     }
 });
 

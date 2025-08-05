@@ -67,7 +67,7 @@ async function conectarConBackend() {
 // Obtener cartas del jugador desde el backend
 async function obtenerCartasJugador(jugadorId) {
     try {
-        console.log(`🃏 Obteniendo cartas del jugador ${jugadorId}...`);
+        console.log(` Obteniendo cartas del jugador ${jugadorId}...`);
         
         const response = await fetch(`${API_BASE}/cartajugador/jugador/${jugadorId}`);
         
@@ -76,7 +76,7 @@ async function obtenerCartasJugador(jugadorId) {
         }
         
         cartasJugador = await response.json();
-        console.log('✅ Cartas obtenidas:', cartasJugador);
+        console.log(' Cartas obtenidas:', cartasJugador);
         
         generarCartasEnInterfaz();
         
@@ -164,27 +164,27 @@ function crearElementoCarta(carta, index) {
             </div>
             <div class="carta-stats">
                 <div class="stat">
-                    <span class="stat-label">❤️ Vida:</span>
+                    <span class="stat-label"> Vida:</span>
                     <span class="stat-value">${vida}</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label">⚔️ Ataque:</span>
+                    <span class="stat-label"> Ataque:</span>
                     <span class="stat-value">${ataque}</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label">🛡️ Defensa:</span>
+                    <span class="stat-label"> Defensa:</span>
                     <span class="stat-value">${defensa}</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label">💨 Velocidad:</span>
+                    <span class="stat-label"> Velocidad:</span>
                     <span class="stat-value">${velocidad}</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label">⚡ Poder:</span>
+                    <span class="stat-label"> Poder:</span>
                     <span class="stat-value">${poder}</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label">👻 Terror:</span>
+                    <span class="stat-label"> Terror:</span>
                     <span class="stat-value">${terror}</span>
                 </div>
             </div>
@@ -215,7 +215,7 @@ function actualizarInterfazPartida() {
 
 async function jugarCarta(cartaId) {
     if (modoOffline) {
-        mostrarMensaje(`🎴 Carta ${cartaId} jugada (modo offline)`);
+        mostrarMensaje(` Carta ${cartaId} jugada (modo offline)`);
         return;
     }
     
@@ -236,7 +236,7 @@ async function jugarCarta(cartaId) {
             IdCartaJugador: cartaId
         };
         
-        console.log('📤 Enviando jugada:', jugadaDto);
+        console.log(' Enviando jugada:', jugadaDto);
         
         const response = await fetch(`${API_BASE}/jugada`, {
             method: 'POST',
@@ -251,7 +251,7 @@ async function jugarCarta(cartaId) {
         }
         
         const resultado = await response.json();
-        mostrarMensaje('🎉 ¡Carta jugada exitosamente!');
+        mostrarMensaje('¡Carta jugada exitosamente!');
         
     } catch (error) {
         mostrarError(`Error al jugar carta: ${error.message}`);

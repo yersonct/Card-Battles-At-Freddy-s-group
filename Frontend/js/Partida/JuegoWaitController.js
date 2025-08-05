@@ -169,7 +169,7 @@ class JuegoWaitController {
     manejarErrorFinal(error) {
         console.error('No se pudo verificar la partida después de todos los intentos:', error);
         
-        this.actualizarMensajeCarga('❌ Error de conexión - Revisa el botón de errores 🚨');
+        this.actualizarMensajeCarga(' Error de conexión - Revisa el botón de errores 🚨');
         
         // NO redirigir automáticamente si el sistema de captura está activo
         if (window.errorCapture) {
@@ -179,7 +179,7 @@ class JuegoWaitController {
                 const contenido = pantallaCarga.querySelector('.carga-contenido');
                 if (contenido) {
                     contenido.innerHTML = `
-                        <h1>🚨 Error de Conexión</h1>
+                        <h1> Error de Conexión</h1>
                         <div class="error-details">
                             <p><strong>No se pudo conectar al backend</strong></p>
                             <p>Error: ${error.message}</p>
@@ -193,7 +193,7 @@ class JuegoWaitController {
                                     cursor: pointer;
                                     margin: 5px;
                                     font-family: inherit;
-                                ">🔄 Reintentar</button>
+                                "> Reintentar</button>
                                 <button onclick="window.errorCapture.mostrarModalErrores()" style="
                                     background: #dc3545;
                                     color: white;
@@ -203,7 +203,7 @@ class JuegoWaitController {
                                     cursor: pointer;
                                     margin: 5px;
                                     font-family: inherit;
-                                ">🚨 Ver Errores</button>
+                                "> Ver Errores</button>
                                 <button onclick="window.location.href='./CrearSala.html'" style="
                                     background: #6c757d;
                                     color: white;
@@ -213,7 +213,7 @@ class JuegoWaitController {
                                     cursor: pointer;
                                     margin: 5px;
                                     font-family: inherit;
-                                ">🏠 Volver</button>
+                                "> Volver</button>
                             </div>
                         </div>
                     `;
