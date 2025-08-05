@@ -647,8 +647,8 @@
   },
   {
     "numero-carta": "7E",
-    "nombre-carta": "Phone Guy",
-    "imagen-personaje": "../img/cartas/phone_guy.png",
+    "nombre-carta": "Molten Freddy",
+    "imagen-personaje": "../img/cartas/Molten-Freddy.png",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -665,7 +665,7 @@
   {
     "numero-carta": "8E",
     "nombre-carta": "Purple Guy",
-    "imagen-personaje": "../img/cartas/PurpleGuy.png",
+    "imagen-personaje": "../img/cartas/PurpleGuy.jpeg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -716,7 +716,7 @@
   {
     "numero-carta": "3F",
     "nombre-carta": "Funtime Foxy",
-    "imagen-personaje": "../img/cartas/funtime_foxy.png",
+    "imagen-personaje": "../img/cartas/FuntimeFoxy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -733,7 +733,7 @@
   {
     "numero-carta": "4F",
     "nombre-carta": "Ballora",
-    "imagen-personaje": "../img/cartas/ballora.png",
+    "imagen-personaje": "../img/cartas/Ballora.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -750,7 +750,7 @@
   {
     "numero-carta": "5F",
     "nombre-carta": "Bidybab",
-    "imagen-personaje": "../img/cartas/bidybab.png",
+    "imagen-personaje": "../img/cartas/Bidybab.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -767,7 +767,7 @@
   {
     "numero-carta": "6F",
     "nombre-carta": "Minireena",
-    "imagen-personaje": "../img/cartas/minireena.png",
+    "imagen-personaje": "../img/cartas/Minireena.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -784,7 +784,7 @@
   {
     "numero-carta": "7F",
     "nombre-carta": "Electrobab",
-    "imagen-personaje": "../img/cartas/electrobab.png",
+    "imagen-personaje": "../img/cartas/Electrobab.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -801,7 +801,7 @@
   {
     "numero-carta": "8F",
     "nombre-carta": "Bon-Bon",
-    "imagen-personaje": "../img/cartas/bon_bon.png",
+    "imagen-personaje": "../img/cartas/Bon-bon.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -817,8 +817,8 @@
   },
   {
     "numero-carta": "1G",
-    "nombre-carta": "Molten Freddy",
-    "imagen-personaje": "../img/cartas/molten_freddy.png",
+    "nombre-carta": "Nightmare Foxy",
+    "imagen-personaje": "../img/cartas/Nightmare-Foxy.png",
     "rareza": "especial",
     "etiqueta-estadistica": [
       {
@@ -835,7 +835,7 @@
   {
     "numero-carta": "2G",
     "nombre-carta": "Scraptrap",
-    "imagen-personaje": "../img/cartas/scraptrap.png",
+    "imagen-personaje": "../img/cartas/Scraptrap.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -852,7 +852,7 @@
   {
     "numero-carta": "3G",
     "nombre-carta": "Lefty",
-    "imagen-personaje": "../img/cartas/lefty.png",
+    "imagen-personaje": "../img/cartas/Lefty.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -869,7 +869,7 @@
   {
     "numero-carta": "4G",
     "nombre-carta": "Rockstar Freddy",
-    "imagen-personaje": "../img/cartas/rockstar_freddy.png",
+    "imagen-personaje": "../img/cartas/Rockstar-Freddy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -886,7 +886,7 @@
   {
     "numero-carta": "5G",
     "nombre-carta": "Rockstar Bonnie",
-    "imagen-personaje": "../img/cartas/rockstar_bonnie.png",
+    "imagen-personaje": "../img/cartas/Rockstar-Bonnie.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -903,7 +903,7 @@
   {
     "numero-carta": "6G",
     "nombre-carta": "Bonnet",
-    "imagen-personaje": "../img/cartas/bonnet.png",
+    "imagen-personaje": "../img/cartas/Bonnet.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -920,7 +920,7 @@
   {
     "numero-carta": "7G",
     "nombre-carta": "Yenndo",
-    "imagen-personaje": "../img/cartas/yenndo.png",
+    "imagen-personaje": "../img/cartas/Yenndo.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -937,7 +937,7 @@
   {
     "numero-carta": "8G",
     "nombre-carta": "Lolbit",
-    "imagen-personaje": "../img/cartas/lolbit.png",
+    "imagen-personaje": "../img/cartas/Lolbit.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -953,8 +953,8 @@
   },
   {
     "numero-carta": "1H",
-    "nombre-carta": "Glitchtrap",
-    "imagen-personaje": "../img/cartas/glitchtrap.png",
+    "nombre-carta": "Nightmare Balloon Boy",
+    "imagen-personaje": "../img/cartas/Nightmare-BalloonBoy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -971,7 +971,7 @@
   {
     "numero-carta": "2H",
     "nombre-carta": "Vanny",
-    "imagen-personaje": "../img/cartas/vanny.png",
+    "imagen-personaje": "../img/cartas/Vanny.webp",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -988,7 +988,7 @@
   {
     "numero-carta": "3H",
     "nombre-carta": "Rockstar Chica",
-    "imagen-personaje": "../img/cartas/rockstar_chica.png",
+    "imagen-personaje": "../img/cartas/Rockstar-Chica.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -1005,7 +1005,7 @@
   {
     "numero-carta": "4H",
     "nombre-carta": "Rockstar Foxy",
-    "imagen-personaje": "../img/cartas/rockstar_foxy.png",
+    "imagen-personaje": "../img/cartas/Rockstar-Foxy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -1021,8 +1021,8 @@
   },
   {
     "numero-carta": "5H",
-    "nombre-carta": "Music Man",
-    "imagen-personaje": "../img/cartas/music_man.png",
+    "nombre-carta": "Glitchtrap",
+    "imagen-personaje": "../img/cartas/Glitchtrap.webp",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -1039,7 +1039,7 @@
   {
     "numero-carta": "6H",
     "nombre-carta": "El Chip",
-    "imagen-personaje": "../img/cartas/el_chip.png",
+    "imagen-personaje": "../img/cartas/ElChip.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -1056,7 +1056,7 @@
   {
     "numero-carta": "7H",
     "nombre-carta": "Funtime Chica",
-    "imagen-personaje": "../img/cartas/funtime_chica.png",
+    "imagen-personaje": "../img/cartas/Funtime-Chica.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -1073,7 +1073,7 @@
   {
     "numero-carta": "8H",
     "nombre-carta": "Helpy",
-    "imagen-personaje": "../img/cartas/helpy.png",
+    "imagen-personaje": "../img/cartas/Helpy.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
