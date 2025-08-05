@@ -257,7 +257,7 @@
   {
     "numero-carta": "8B",
     "nombre-carta": "Withered Freddy",
-    "imagen-personaje": "../img/cartas/withered-freddy.webp",
+    "imagen-personaje": "../img/cartas/Withered-freddy.jpg",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -444,7 +444,7 @@
   {
     "numero-carta": "3D",
     "nombre-carta": "Phantom Foxy",
-    "imagen-personaje": "../img/cartas/Phantom_foxy.jpg",
+    "imagen-personaje": "../img/cartas/Phantom-foxy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -529,7 +529,7 @@
   {
     "numero-carta": "8D",
     "nombre-carta": "Paperpals",
-    "imagen-personaje": "../img/cartas/paperpals.png",
+    "imagen-personaje": "../img/cartas/Paperpals.webp",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -562,8 +562,8 @@
   },
   {
     "numero-carta": "2E",
-    "nombre-carta": "Nightmare Mangle",
-    "imagen-personaje": "../img/cartas/nightmare_mangle.png",
+    "nombre-carta": "Ennard",
+    "imagen-personaje": "../img/cartas/Ennard.webp",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -580,7 +580,7 @@
   {
     "numero-carta": "3E",
     "nombre-carta": "Phantom Balloon Boy",
-    "imagen-personaje": "../img/cartas/phantom_balloon_boy.png",
+    "imagen-personaje": "../img/cartas/Phantom-BalloonBoy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -597,7 +597,7 @@
   {
     "numero-carta": "4E",
     "nombre-carta": "Circus Baby",
-    "imagen-personaje": "../img/cartas/circus_baby.png",
+    "imagen-personaje": "../img/cartas/CircusBaby.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -614,7 +614,7 @@
   {
     "numero-carta": "5E",
     "nombre-carta": "Funtime Freddy",
-    "imagen-personaje": "../img/cartas/funtime_freddy.png",
+    "imagen-personaje": "../img/cartas/Funtime-Freddy.jpg",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
@@ -631,7 +631,7 @@
   {
     "numero-carta": "6E",
     "nombre-carta": "Crying Child",
-    "imagen-personaje": "../img/cartas/crying_child.png",
+    "imagen-personaje": "../img/cartas/Crying-Child.webp",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -665,7 +665,7 @@
   {
     "numero-carta": "8E",
     "nombre-carta": "Purple Guy",
-    "imagen-personaje": "../img/cartas/purple_guy.png",
+    "imagen-personaje": "../img/cartas/PurpleGuy.png",
     "rareza": "comun",
     "etiqueta-estadistica": [
       {
@@ -681,8 +681,8 @@
   },
   {
     "numero-carta": "1F",
-    "nombre-carta": "Ennard",
-    "imagen-personaje": "../img/cartas/ennard.png",
+    "nombre-carta": "Nightmare Mangle",
+    "imagen-personaje": "../img/cartas/Nightmare-Mangle.png",
     "rareza": "especial",
     "etiqueta-estadistica": [
       {
@@ -699,7 +699,7 @@
   {
     "numero-carta": "2F",
     "nombre-carta": "Scrap Baby",
-    "imagen-personaje": "../img/cartas/scrap_baby.png",
+    "imagen-personaje": "../img/cartas/ScrapBaby.webp",
     "rareza": "rara",
     "etiqueta-estadistica": [
       {
