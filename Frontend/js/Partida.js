@@ -1,4 +1,3 @@
-// ===== CONFIGURACIÓN Y VARIABLES GLOBALES =====
 const API_BASE = 'http://localhost:7147/api';
 let partidaActual = null;
 let codigoPartidaActual = null;
@@ -8,57 +7,36 @@ let cartasJugador = [];
 let rondaActual = null;
 let modoOffline = false;
 
-// ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎮 Inicializando página de partida...');
     inicializarPartida();
 });
 
-// Función principal de inicialización
 async function inicializarPartida() {
     try {
-        // Recuperar datos del localStorage
         partidaActual = localStorage.getItem('partidaId');
         codigoPartidaActual = localStorage.getItem('codigoPartida');
         const jugadoresData = localStorage.getItem('jugadoresPartida');
         modoOffline = localStorage.getItem('modoOffline') === 'true';
         
-        console.log('📊 Datos recuperados:', {
-            partidaActual,
-            codigoPartidaActual,
-            modoOffline,
-            jugadoresData: jugadoresData ? 'Disponible' : 'No disponible'
-        });
-        
         if (jugadoresData) {
             jugadoresPartida = JSON.parse(jugadoresData);
-            console.log('👥 Jugadores de la partida:', jugadoresPartida);
         }
         
         if (!modoOffline && partidaActual) {
-            // Modo online - conectar con backend
             await conectarConBackend();
         } else {
-            // Modo offline - usar datos locales
-            console.log('⚠️ Iniciando en modo offline');
             inicializarModoOffline();
         }
         
-        // Actualizar interfaz
         actualizarInterfazPartida();
         
     } catch (error) {
-        console.error('❌ Error al inicializar partida:', error);
         mostrarError('Error al cargar la partida');
     }
 }
 
-// Conectar con el backend y obtener datos actualizados
 async function conectarConBackend() {
     try {
-        console.log('🔗 Conectando con el backend...');
-        
-        // Verificar estado de la partida
         const response = await fetch(`${API_BASE}/partida/${partidaActual}/estado`);
         
         if (!response.ok) {
@@ -66,26 +44,21 @@ async function conectarConBackend() {
         }
         
         const estadoPartida = await response.json();
-        console.log('✅ Estado de la partida obtenido:', estadoPartida);
         
-        // Actualizar datos locales con información del servidor
         if (estadoPartida.jugadores) {
             jugadoresPartida = estadoPartida.jugadores;
-            jugadorActual = jugadoresPartida[0]; // Por ahora usar el primer jugador
+            jugadorActual = jugadoresPartida[0];
         }
         
         if (estadoPartida.rondaEnCurso) {
             rondaActual = estadoPartida.rondaEnCurso;
         }
         
-        // Obtener cartas del jugador
         if (jugadorActual) {
             await obtenerCartasJugador(jugadorActual.id || jugadorActual.Id);
         }
         
     } catch (error) {
-        console.error('❌ Error al conectar con backend:', error);
-        console.log('⚠️ Fallback a modo offline');
         modoOffline = true;
         inicializarModoOffline();
     }
@@ -105,21 +78,14 @@ async function obtenerCartasJugador(jugadorId) {
         cartasJugador = await response.json();
         console.log('✅ Cartas obtenidas:', cartasJugador);
         
-        // Generar cartas en la interfaz
         generarCartasEnInterfaz();
         
     } catch (error) {
-        console.error('❌ Error al obtener cartas:', error);
-        // Generar cartas de ejemplo en modo offline
         generarCartasEjemplo();
     }
 }
 
-// Modo offline con datos de ejemplo
 function inicializarModoOffline() {
-    console.log('🔧 Inicializando modo offline...');
-    
-    // Usar el primer jugador como jugador actual
     if (jugadoresPartida && jugadoresPartida.length > 0) {
         jugadorActual = {
             id: 1,
@@ -128,7 +94,6 @@ function inicializarModoOffline() {
         };
     }
     
-    // Generar cartas de ejemplo
     generarCartasEjemplo();
 }
 
@@ -151,35 +116,27 @@ function generarCartasEjemplo() {
         });
     }
     
-    console.log('🎴 Cartas de ejemplo generadas:', cartasJugador);
     generarCartasEnInterfaz();
 }
 
-// Generar cartas en la interfaz
 function generarCartasEnInterfaz() {
     const contenedorCartas = document.querySelector('.contenedor-cartas-completo');
     const loading = document.querySelector('.loading-cartas');
     
     if (!contenedorCartas) {
-        console.error('❌ No se encontró el contenedor de cartas');
         return;
     }
     
-    // Ocultar loading
     if (loading) {
         loading.style.display = 'none';
     }
     
-    // Limpiar contenedor
     contenedorCartas.innerHTML = '';
     
-    // Generar cada carta
     cartasJugador.forEach((carta, index) => {
         const cartaElement = crearElementoCarta(carta, index);
         contenedorCartas.appendChild(cartaElement);
     });
-    
-    console.log('✅ Cartas generadas en la interfaz');
 }
 
 // Crear elemento HTML para una carta
@@ -242,36 +199,22 @@ function crearElementoCarta(carta, index) {
     return cartaDiv;
 }
 
-// Actualizar interfaz con información de la partida
 function actualizarInterfazPartida() {
-    // Actualizar información de la ronda
     const textoRonda = document.querySelector('.texto-terror .numero');
     if (textoRonda && rondaActual) {
         textoRonda.textContent = rondaActual.numeroRonda || rondaActual.NumeroRonda || 1;
     }
     
-    // Actualizar información del jugador
     if (jugadorActual) {
         const inputJugador = document.querySelector('.iconos-1 input');
         if (inputJugador) {
             inputJugador.value = jugadorActual.nombre || jugadorActual.Nombre || 'Jugador';
         }
     }
-    
-    // Mostrar información de la partida en consola
-    console.log('🎮 Interfaz actualizada:', {
-        jugadorActual,
-        rondaActual,
-        totalCartas: cartasJugador.length
-    });
 }
 
-// Función para jugar una carta
 async function jugarCarta(cartaId) {
-    console.log(`🎯 Intentando jugar carta ${cartaId}...`);
-    
     if (modoOffline) {
-        console.log('⚠️ Modo offline - Simulando jugada...');
         mostrarMensaje(`🎴 Carta ${cartaId} jugada (modo offline)`);
         return;
     }
@@ -308,27 +251,21 @@ async function jugarCarta(cartaId) {
         }
         
         const resultado = await response.json();
-        console.log('✅ Carta jugada exitosamente:', resultado);
         mostrarMensaje('🎉 ¡Carta jugada exitosamente!');
         
     } catch (error) {
-        console.error('❌ Error al jugar carta:', error);
         mostrarError(`Error al jugar carta: ${error.message}`);
     }
 }
 
-// Funciones de utilidad
 function mostrarMensaje(mensaje) {
-    console.log(`📢 ${mensaje}`);
-    // Aquí podrías agregar una notificación visual
+    
 }
 
 function mostrarError(mensaje) {
-    console.error(`❌ ${mensaje}`);
-    // Aquí podrías agregar una notificación de error visual
+    
 }
 
-// Función para volver al lobby
 function volverAlLobby() {
     window.location.href = './Lobby.html';
 }
