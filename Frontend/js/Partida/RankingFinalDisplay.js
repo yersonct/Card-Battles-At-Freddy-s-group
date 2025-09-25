@@ -1,9 +1,4 @@
-/**
- * Display del Ranking Final
- * Card Battles At Freddy's
- * 
- * Muestra el ranking final al terminar todas las rondas como en Figma
- */
+
 
 class RankingFinalDisplay {
     constructor(gameFlowController) {
@@ -14,10 +9,34 @@ class RankingFinalDisplay {
         
         console.log(' RankingFinalDisplay inicializado');
     }
+    resolveAvatar(avatar) {
+            if (!avatar) return '../img/foto/default-avatar.png';
+            if (String(avatar).startsWith('http') || String(avatar).startsWith('data:')) return avatar;
 
-    /**
-     * Inicializa el display del ranking
-     */
+            const API_BASE = (window.API_CONFIG?.baseURL || '').replace(/\/+$/, '');
+            const PUBLIC_BASE = API_BASE.replace(/\/api$/i, '');
+            const baseName = String(avatar).split(/[\\/]/).pop();
+            return `${PUBLIC_BASE}/img/foto/${encodeURIComponent(baseName)}`;
+    }
+
+
+
+    llenarPosicionPodio(posicionElement, jugador) {
+        const avatar = posicionElement.querySelector('.avatar-podio');
+        const nombre = posicionElement.querySelector('.nombre-podio');
+        const puntos = posicionElement.querySelector('.puntos-podio');
+
+        if (avatar) {
+            avatar.src = this.resolveAvatar(jugador.avatar);
+            avatar.alt = jugador.nombre || '';
+        }
+        if (nombre) nombre.textContent = jugador.nombre || 'Jugador';
+        if (puntos) puntos.textContent = `${jugador.puntosAcumulados || 0} puntos`;
+
+        if (Number(jugador.id) === Number(this.gameFlow.jugadorActualId)) {
+            posicionElement.classList.add('jugador-actual');
+        }
+    }
     async init() {
         try {
             this.crearContenedorRanking();
@@ -29,11 +48,7 @@ class RankingFinalDisplay {
         }
     }
 
-    /**
-     * Crea el contenedor del ranking final
-     */
     crearContenedorRanking() {
-        // Buscar si ya existe
         this.contenedorRanking = document.querySelector('.ranking-final');
         
         if (!this.contenedorRanking) {
@@ -130,14 +145,10 @@ class RankingFinalDisplay {
             
             document.body.appendChild(this.contenedorRanking);
             
-            // Configurar event listeners
             this.configurarEventListeners();
         }
     }
 
-    /**
-     * Configura los event listeners del ranking
-     */
     configurarEventListeners() {
         const btnNuevaPartida = this.contenedorRanking.querySelector('.btn-nueva-partida');
         const btnVolverLobby = this.contenedorRanking.querySelector('.btn-volver-lobby');
@@ -151,9 +162,7 @@ class RankingFinalDisplay {
         }
     }
 
-    /**
-     * Muestra el ranking final
-     */
+
     async mostrar() {
         try {
             if (this.mostrandoRanking) return;
@@ -161,25 +170,18 @@ class RankingFinalDisplay {
             console.log(' Mostrando ranking final...');
             this.mostrandoRanking = true;
             
-            // Cargar datos del ranking
             await this.cargarRankingData();
             
-            // Mostrar el contenedor
             this.contenedorRanking.style.display = 'flex';
             
-            // Llenar el podio
             this.llenarPodio();
             
-            // Llenar ranking completo
             this.llenarRankingCompleto();
             
-            // Mostrar estadísticas
             this.mostrarEstadisticasPartida();
             
-            // Iniciar cronómetro de regreso
             this.iniciarCronometroRegreso();
             
-            // Animar entrada
             setTimeout(() => {
                 this.contenedorRanking.classList.add('ranking-visible');
             }, 100);
@@ -189,39 +191,39 @@ class RankingFinalDisplay {
         }
     }
 
-    /**
-     * Carga los datos del ranking desde el backend
-     */
+   
     async cargarRankingData() {
-        try {
-            // Cargar ranking de la partida
-            const response = await fetch(`http://localhost:7147/api/jugador/partida/${this.gameFlow.partidaId}/ranking`);
-            if (!response.ok) throw new Error('Error cargando ranking');
-            
-            this.rankingData = await response.json();
-            
-            // Ordenar por puntos descendente
-            this.rankingData.sort((a, b) => (b.puntosAcumulados || 0) - (a.puntosAcumulados || 0));
-            
-            // Asignar posiciones
-            this.rankingData.forEach((jugador, index) => {
-                jugador.posicion = index + 1;
-            });
-            
-            console.log(' Ranking cargado:', this.rankingData);
-            
-        } catch (error) {
-            console.error(' Error cargando ranking:', error);
-            // Usar datos locales como fallback
-            this.rankingData = [...this.gameFlow.jugadores].sort((a, b) => 
-                (b.puntosAcumulados || 0) - (a.puntosAcumulados || 0)
-            );
-        }
+    try {
+        const url = buildUrl(API_ENDPOINTS.GF_PARTIDA_RANKING, { partidaId: this.gameFlow.partidaId });
+        const arr = await apiGet(url);
+
+        // Normaliza y ordena
+        this.rankingData = (Array.isArray(arr) ? arr : []).map(j => ({
+        id: Number(j.Id ?? j.id),
+        nombre: j.Nombre ?? j.nombre ?? 'Jugador',
+        avatar: j.Avatar ?? j.avatar ?? null,
+        puntosAcumulados: Number(j.PuntosAcumulados ?? j.puntosAcumulados ?? j.PuntosObtenidos ?? j.puntosObtenidos ?? 0),
+        })).sort((a, b) => (b.puntosAcumulados || 0) - (a.puntosAcumulados || 0))
+        .map((j, i) => ({ ...j, posicion: i + 1 }));
+
+        if (!this.rankingData.length) throw new Error('Ranking vacío');
+
+        console.log(' Ranking cargado:', this.rankingData);
+    } catch (error) {
+        console.error(' Error cargando ranking:', error);
+        // Fallback: usa jugadores del estado local
+        this.rankingData = (this.gameFlow.jugadores || [])
+        .map(j => ({
+            id: Number(j.Id ?? j.id),
+            nombre: j.Nombre ?? j.nombre ?? 'Jugador',
+            avatar: j.Avatar ?? j.avatar ?? null,
+            puntosAcumulados: Number(j.PuntosAcumulados ?? j.puntosAcumulados ?? 0),
+        }))
+        .sort((a, b) => (b.puntosAcumulados || 0) - (a.puntosAcumulados || 0))
+        .map((j, i) => ({ ...j, posicion: i + 1 }));
+    }
     }
 
-    /**
-     * Llena el podio con los primeros 3 lugares
-     */
     llenarPodio() {
         const posiciones = ['primer-lugar', 'segundo-lugar', 'tercer-lugar'];
         
@@ -240,93 +242,68 @@ class RankingFinalDisplay {
         });
     }
 
-    /**
-     * Llena una posición específica del podio
-     */
-    llenarPosicionPodio(posicionElement, jugador) {
-        const avatar = posicionElement.querySelector('.avatar-podio');
-        const nombre = posicionElement.querySelector('.nombre-podio');
-        const puntos = posicionElement.querySelector('.puntos-podio');
-        
-        if (avatar) {
-            avatar.src = jugador.avatar || '../img/foto/default-avatar.png';
-            avatar.alt = jugador.nombre;
-        }
-        
-        if (nombre) {
-            nombre.textContent = jugador.nombre;
-        }
-        
-        if (puntos) {
-            const puntosTexto = `${jugador.puntosAcumulados || 0} puntos`;
-            puntos.textContent = puntosTexto;
-        }
-        
-        // Agregar clase especial si es el jugador actual
-        if (jugador.id === parseInt(this.gameFlow.jugadorActualId)) {
-            posicionElement.classList.add('jugador-actual');
-        }
-    }
+
+
 
     /**
      * Llena el ranking completo
      */
     llenarRankingCompleto() {
-        const listaRanking = this.contenedorRanking.querySelector('.lista-ranking');
-        if (!listaRanking) return;
-        
-        listaRanking.innerHTML = '';
-        
-        this.rankingData.forEach((jugador, index) => {
-            const itemRanking = document.createElement('div');
-            itemRanking.className = `item-ranking ${jugador.id === parseInt(this.gameFlow.jugadorActualId) ? 'jugador-actual' : ''}`;
-            
-            itemRanking.innerHTML = `
-                <div class="posicion-numero">${index + 1}</div>
-                <div class="avatar-mini">
-                    <img src="${jugador.avatar || '../img/foto/default-avatar.png'}" alt="${jugador.nombre}">
-                </div>
-                <div class="info-jugador-ranking">
-                    <span class="nombre-jugador">${jugador.nombre}</span>
-                    ${jugador.id === parseInt(this.gameFlow.jugadorActualId) ? '<span class="etiqueta-tu">(Tú)</span>' : ''}
-                </div>
-                <div class="puntos-ranking">
-                    <span class="puntos-numero">${jugador.puntosAcumulados || 0}</span>
-                    <span class="puntos-texto">pts</span>
-                </div>
-            `;
-            
-            listaRanking.appendChild(itemRanking);
-        });
+    const listaRanking = this.contenedorRanking.querySelector('.lista-ranking');
+    if (!listaRanking) return;
+    listaRanking.innerHTML = '';
+
+    this.rankingData.forEach((jugador, index) => {
+        const isMe = Number(jugador.id) === Number(this.gameFlow.jugadorActualId);
+        const itemRanking = document.createElement('div');
+        itemRanking.className = `item-ranking ${isMe ? 'jugador-actual' : ''}`;
+
+        itemRanking.innerHTML = `
+        <div class="posicion-numero">${index + 1}</div>
+        <div class="avatar-mini">
+            <img src="${this.resolveAvatar(jugador.avatar)}" alt="${jugador.nombre || ''}">
+        </div>
+        <div class="info-jugador-ranking">
+            <span class="nombre-jugador">${jugador.nombre || 'Jugador'}</span>
+            ${isMe ? '<span class="etiqueta-tu">(Tú)</span>' : ''}
+        </div>
+        <div class="puntos-ranking">
+            <span class="puntos-numero">${jugador.puntosAcumulados || 0}</span>
+            <span class="puntos-texto">pts</span>
+        </div>
+        `;
+        listaRanking.appendChild(itemRanking);
+    });
     }
 
-    /**
-     * Muestra las estadísticas de la partida
-     */
+
+     
     mostrarEstadisticasPartida() {
-        // Duración de la partida
-        const duracionElement = this.contenedorRanking.querySelector('#duracion-partida');
-        if (duracionElement && this.gameFlow.estadoPartida) {
-            const duracion = this.calcularDuracionPartida();
-            duracionElement.textContent = duracion;
-        }
-        
-        // Total de jugadores
-        const totalJugadoresElement = this.contenedorRanking.querySelector('#total-jugadores');
-        if (totalJugadoresElement) {
-            totalJugadoresElement.textContent = this.gameFlow.jugadores.length.toString();
-        }
-        
-        // Total de rondas (siempre 8 en este juego)
-        const totalRondasElement = this.contenedorRanking.querySelector('#total-rondas');
-        if (totalRondasElement) {
-            totalRondasElement.textContent = '8';
-        }
+    const duracionElement = this.contenedorRanking.querySelector('#duracion-partida');
+    if (duracionElement && this.gameFlow.estadoPartida) {
+        duracionElement.textContent = this.calcularDuracionPartida();
+    }
+    const totalJugadoresElement = this.contenedorRanking.querySelector('#total-jugadores');
+    if (totalJugadoresElement) totalJugadoresElement.textContent = String(this.gameFlow.jugadores?.length || 0);
+    const totalRondasElement = this.contenedorRanking.querySelector('#total-rondas');
+    if (totalRondasElement) totalRondasElement.textContent = '8';
     }
 
-    /**
-     * Calcula la duración de la partida
-     */
+    calcularDuracionPartida() {
+    const p = this.gameFlow.estadoPartida || {};
+    const start = p.FechaInicio ?? p.fechaInicio;
+    const end = p.FechaFin ?? p.fechaFin ?? new Date().toISOString();
+    if (!start) return '--:--';
+    const inicio = new Date(start);
+    const fin = new Date(end);
+    const ms = Math.max(0, fin - inicio);
+    const mm = Math.floor(ms / 60000);
+    const ss = Math.floor((ms % 60000) / 1000);
+    return `${mm}:${String(ss).padStart(2, '0')}`;
+    }
+
+
+ 
     calcularDuracionPartida() {
         if (!this.gameFlow.estadoPartida || !this.gameFlow.estadoPartida.fechaInicio) {
             return '--:--';
@@ -344,14 +321,12 @@ class RankingFinalDisplay {
         return `${minutos}:${segundos.toString().padStart(2, '0')}`;
     }
 
-    /**
-     * Inicia el cronómetro de regreso automático
-     */
+
     iniciarCronometroRegreso() {
         const tiempoElement = this.contenedorRanking.querySelector('.tiempo-regreso');
         if (!tiempoElement) return;
         
-        let tiempoRestante = 15; // 15 segundos
+        let tiempoRestante = 15; 
         
         const intervalo = setInterval(() => {
             tiempoRestante--;
@@ -363,13 +338,10 @@ class RankingFinalDisplay {
             }
         }, 1000);
         
-        // Guardar el intervalo para poder cancelarlo
         this.intervaloRegreso = intervalo;
     }
 
-    /**
-     * Cancela el cronómetro de regreso
-     */
+  
     cancelarCronometroRegreso() {
         if (this.intervaloRegreso) {
             clearInterval(this.intervaloRegreso);
@@ -377,76 +349,57 @@ class RankingFinalDisplay {
         }
     }
 
-    /**
-     * Inicia una nueva partida
-     */
+
     nuevaPartida() {
         this.cancelarCronometroRegreso();
         
-        // Limpiar datos de la partida actual
         localStorage.removeItem('partidaId');
         localStorage.removeItem('jugadorId');
         localStorage.removeItem('jugadorNombre');
         
-        // Redirigir a crear sala
         this.irATransicion('./CrearSala.html');
     }
 
-    /**
-     * Vuelve al lobby
-     */
+
     volverLobby() {
         this.cancelarCronometroRegreso();
         
-        // Limpiar datos de la partida actual
         localStorage.removeItem('partidaId');
         localStorage.removeItem('jugadorId');
         localStorage.removeItem('jugadorNombre');
         
-        // Redirigir al lobby
         this.irATransicion('./Lobby.html');
     }
 
-    /**
-     * Navega a través de la pantalla de transición
-     */
     irATransicion(destino) {
         localStorage.setItem("urlDestino", destino);
         window.location.href = '../html/Pantalla.html';
     }
 
-    /**
-     * Guarda el ranking en el sistema (para historial)
-     */
-    async guardarRankingEnSistema() {
+
+   async guardarRankingEnSistema() {
         try {
+            if (!this.rankingData?.length) return;
+            if (!API_ENDPOINTS.RANKING_ROOT) return; 
+
             for (const jugador of this.rankingData) {
-                const rankingData = {
-                    idPartida: parseInt(this.gameFlow.partidaId),
-                    idJugador: jugador.id,
-                    nombreJugador: jugador.nombre,
-                    puntosObtenidos: jugador.puntosAcumulados || 0,
-                    posicion: jugador.posicion,
-                    fechaPartida: new Date().toISOString()
-                };
-                
-                await fetch('http://localhost:7147/api/ranking', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(rankingData)
-                });
+            const body = {
+                IdPartida: Number(this.gameFlow.partidaId),
+                IdJugador: Number(jugador.id),
+                NombreJugador: jugador.nombre,
+                PuntosObtenidos: Number(jugador.puntosAcumulados || 0),
+                Posicion: Number(jugador.posicion),
+                FechaPartida: new Date().toISOString(),
+            };
+            await apiPost(buildUrl(API_ENDPOINTS.RANKING_ROOT), body);
             }
-            
-            console.log(' Ranking guardado en el sistema');
-            
-        } catch (error) {
-            console.error(' Error guardando ranking:', error);
+        } catch (e) {
+            console.error(' Error guardando ranking:', e);
         }
     }
 
-    /**
-     * Oculta el ranking
-     */
+
+  
     ocultar() {
         this.cancelarCronometroRegreso();
         
@@ -458,9 +411,7 @@ class RankingFinalDisplay {
         this.mostrandoRanking = false;
     }
 
-    /**
-     * Obtiene información del estado del ranking
-     */
+
     getEstadoRanking() {
         return {
             mostrandoRanking: this.mostrandoRanking,
@@ -470,9 +421,7 @@ class RankingFinalDisplay {
         };
     }
 
-    /**
-     * Limpia recursos
-     */
+
     destroy() {
         this.cancelarCronometroRegreso();
         this.ocultar();
@@ -489,10 +438,8 @@ class RankingFinalDisplay {
     }
 }
 
-// Exportar para uso global
 window.RankingFinalDisplay = RankingFinalDisplay;
 
-// Export para módulos
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = RankingFinalDisplay;
 }

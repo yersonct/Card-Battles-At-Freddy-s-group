@@ -1,12 +1,18 @@
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Data.Interfaces;
-using Business.Interfaces;
+using System.Text.Json;
 using Business.Implements;
-using Web.ServiceExtension;
-using FluentValidation;
+using Business.Interfaces;
 using Data.Implements.BaseData;
+using Data.Interfaces;
 using Entity.Context;
+using FluentValidation;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Web.ServiceExtension;
+using Entity.Model;
+using Utilities.Mappers.Profiles;  // <- debe coincidir con el namespace del perfil
+using Microsoft.Extensions.DependencyInjection; // para que aparezcan las extension methods
+using AutoMapper; // no imprescindible, pero ayuda
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +49,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         case "mysql":
             var mysqlConnection = builder.Configuration.GetConnectionString("MySqlConnection") 
                 ?? builder.Configuration.GetConnectionString("DefaultConnection");
-            options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection));
+            options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection), mySql => mySql.MigrationsAssembly("Entity")); // 👈);
+            
             break;
         
         case "sqlserver":
@@ -63,16 +70,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped(typeof(IBaseModelData<>), typeof(BaseModelData<>));
 builder.Services.AddScoped(typeof(IBaseBusiness<,>), typeof(BaseBusiness<,>));
 
-// Registrar servicios específicos de Data
-
-
 // Registrar servicios específicos de Business
 builder.Services.AddScoped<IPartidaBusiness, PartidaBusiness>();
 
 // Registrar logging
 builder.Services.AddLogging();
-
+// AutoMapper: registra tus perfiles
 // AutoMapper
+builder.Services.AddAutoMapper(cfg => { }, typeof(Utilities.Mappers.Profiles.RondaProfile).Assembly);
+
+
 
 var app = builder.Build();
 
@@ -82,16 +89,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API sitema de juego");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API sistema de juego");
         c.RoutePrefix = string.Empty;
     });
 }
 
-// Usa la política de CORS completamente abierta en desarrollo
 app.UseCors("AllowAll");
-
-// Deshabilitar HTTPS redirection para desarrollo local
-// app.UseHttpsRedirection();
 
 // Autenticación y autorización
 app.UseAuthentication();
@@ -99,76 +102,182 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Inicializar base de datos y aplicar migraciones
-await InitializeDatabaseAsync(app.Services);
-
+// --- Inicializar la base de datos y ejecutar la aplicación ---
+await app.InitializeDatabaseAsync();
 app.Run();
 
+
 /// <summary>
-/// Inicializa la base de datos de manera segura, eliminando y recreando si hay conflictos
+/// Clase de extensión para encapsular la lógica de inicialización de la base de datos.
 /// </summary>
-static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider)
+public static class DatabaseInitializer
 {
-    using var scope = serviceProvider.CreateScope();
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    var configuration = services.GetRequiredService<IConfiguration>();
-    
-    try
+    public static async Task InitializeDatabaseAsync(this WebApplication app)
     {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+        var logger = services.GetRequiredService<ILogger<Program>>();
         var dbContext = services.GetRequiredService<ApplicationDbContext>();
-        var databaseProvider = configuration.GetValue<string>("DatabaseProvider") ?? "MySql";
-        
-        logger.LogInformation($"Inicializando base de datos con proveedor: {databaseProvider}");
-        
-        // Verificar si existen migraciones pendientes
-        var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
-        var appliedMigrations = await dbContext.Database.GetAppliedMigrationsAsync();
-        
-        logger.LogInformation($"Migraciones aplicadas: {appliedMigrations.Count()}");
-        logger.LogInformation($"Migraciones pendientes: {pendingMigrations.Count()}");
-        
-        if (pendingMigrations.Any())
+        var env = services.GetRequiredService<IWebHostEnvironment>();
+
+        try
         {
-            logger.LogInformation("Hay migraciones pendientes. Verificando estado de la base de datos...");
-            
-            try
+            logger.LogInformation("Iniciando inicialización de la base de datos...");
+
+            if (env.IsDevelopment())
             {
-                // Intentar aplicar migraciones normalmente
+                // En desarrollo, siempre borramos y volvemos a crear la base de datos
+                // para asegurar un estado limpio en cada ejecución.
+                logger.LogInformation("Entorno de desarrollo detectado. Recreando la base de datos...");
+                // await dbContext.Database.EnsureDeletedAsync();
                 await dbContext.Database.MigrateAsync();
-                logger.LogInformation("Migraciones aplicadas exitosamente.");
+                logger.LogInformation("Base de datos recreada y migrada con éxito.");
             }
-            catch (Exception migrationEx)
+            else
             {
-                logger.LogWarning($"Error al aplicar migraciones: {migrationEx.Message}");
-                logger.LogInformation("Eliminando y recreando la base de datos...");
-                
-                // Si hay error, eliminar y recrear la base de datos
-                await dbContext.Database.EnsureDeletedAsync();
-                logger.LogInformation("Base de datos eliminada.");
-                
-                await dbContext.Database.MigrateAsync();
-                logger.LogInformation("Base de datos recreada con éxito.");
+                // En producción, solo aplicamos migraciones pendientes.
+                if ((await dbContext.Database.GetPendingMigrationsAsync()).Any())
+                {
+                    logger.LogInformation("Aplicando migraciones pendientes...");
+                    await dbContext.Database.MigrateAsync();
+                    logger.LogInformation("Migraciones aplicadas exitosamente.");
+                }
             }
+
+            // Después de asegurar que la BD está en el estado correcto, cargamos los datos.
+            await SeedDataAsync(services);
+
+            logger.LogInformation("Inicialización de la base de datos completada.");
         }
-        else
+        catch (Exception ex)
         {
-            logger.LogInformation("No hay migraciones pendientes. Base de datos actualizada.");
-        }
-        
-        // Verificar conectividad
-        if (await dbContext.Database.CanConnectAsync())
-        {
-            logger.LogInformation($"Conexión a la base de datos {databaseProvider} verificada exitosamente.");
-        }
-        else
-        {
-            logger.LogError($"No se pudo conectar a la base de datos {databaseProvider}.");
+            // Si algo falla aquí, es un error crítico.
+            logger.LogCritical(ex, "Error crítico durante la inicialización de la base de datos. La aplicación se detendrá.");
+            throw;
         }
     }
-    catch (Exception ex)
+
+    private static async Task SeedDataAsync(IServiceProvider services)
     {
-        logger.LogError(ex, "Error crítico durante la inicialización de la base de datos.");
-        throw; // Re-lanzar para detener la aplicación si no se puede inicializar la BD
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        var webHostEnvironment = services.GetRequiredService<IWebHostEnvironment>();
+
+        // Seeding de Cartas
+        if (!await dbContext.Cartas.AnyAsync())
+        {
+            logger.LogInformation("Tabla 'Cartas' vacía. Iniciando carga de datos desde JSON...");
+            var fileProvider = webHostEnvironment.WebRootFileProvider;
+            var fileInfo = fileProvider.GetFileInfo("data/CartasCompletas.json");
+
+            if (fileInfo.Exists)
+            {
+                logger.LogInformation($"Leyendo archivo de datos desde: {fileInfo.PhysicalPath ?? "memoria"}");
+                try
+                {
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    
+                    using var stream = fileInfo.CreateReadStream();
+                    var cartasDto = await JsonSerializer.DeserializeAsync<List<CartaSeedDto>>(stream, options);
+
+                    if (cartasDto != null && cartasDto.Any())
+                    {
+                        var nuevasCartas = new List<Carta>();
+                        var processedIds = new HashSet<int>(); // Para rastrear IDs y evitar duplicados
+                        foreach (var dto in cartasDto)
+                        {
+                            // Comprobar si el ID ya ha sido procesado para evitar errores de tracking
+                            if (!processedIds.Add(dto.Id))
+                            {
+                                logger.LogWarning($"ID de carta duplicado encontrado en el archivo JSON: {dto.Id}. Se omitirá esta entrada.");
+                                continue;
+                            }
+
+                            byte[]? imagenBytes = null;
+                            if (!string.IsNullOrEmpty(dto.Imagen)) // Si el JSON tiene una ruta de imagen
+                            {
+                                // --- INICIO DE LA SOLUCIÓN ---
+                                // Normalizar la ruta de la imagen para hacerla más robusta a errores comunes en el JSON.
+                                // 1. Reemplazar barras invertidas (\) por barras normales (/).
+                                // 2. Quitar cualquier barra inicial para asegurar que la ruta sea relativa a wwwroot.
+                                var normalizedImagePath = dto.Imagen.Replace('\\', '/').TrimStart('/');
+
+                                // Usar IFileProvider también para las imágenes, es más robusto.
+                                var imageInfo = fileProvider.GetFileInfo(normalizedImagePath); // Usar la ruta normalizada
+                                if (imageInfo.Exists)
+                                {
+                                    using var imageStream = imageInfo.CreateReadStream();
+                                    using var memoryStream = new MemoryStream();
+                                    await imageStream.CopyToAsync(memoryStream);
+                                    imagenBytes = memoryStream.ToArray();
+                                }
+                                else
+                                {
+                                    // CAMBIO: Se convierte en una advertencia en lugar de un error. La carga continuará sin la imagen.
+                                    logger.LogWarning($"IMAGEN NO ENCONTRADA para la carta '{dto.Nombre}' (ID: {dto.Id}). Ruta buscada: '{normalizedImagePath}'. La carta se agregará sin imagen.");
+                                    // No se usa 'continue', se permite que la carta se agregue con imagenBytes = null.
+                                }
+                            }
+
+                            // Validar que los campos requeridos no sean nulos antes de crear la entidad
+                            if (string.IsNullOrEmpty(dto.Nombre) || string.IsNullOrEmpty(dto.Rareza) || string.IsNullOrEmpty(dto.Categoria))
+                            {
+                                logger.LogWarning($"Datos incompletos (Nombre, Rareza, Tipo/Categoria o Imagen) para la carta con ID {dto.Id} ('{dto.Nombre}'). La carta no será agregada.");
+                                continue;
+                            }
+
+                            // Crear la entidad Carta solo con las propiedades que existen en la clase
+                            nuevasCartas.Add(new Carta { Id = dto.Id, Nombre = dto.Nombre!, Ataque = dto.Ataque, Defensa = dto.Defensa, Categoria = dto.Categoria!, Rareza = dto.Rareza!, Imagen = imagenBytes, Vida = dto.Vida, Velocidad = dto.Velocidad ,Poder = dto.Poder, Terror = dto.Terror });
+                        }
+
+                        if (nuevasCartas.Any())
+                        {
+                            await dbContext.Cartas.AddRangeAsync(nuevasCartas);
+                            await dbContext.SaveChangesAsync();
+                            logger.LogInformation($"ÉXITO: Se han cargado los datos de {nuevasCartas.Count} de {cartasDto.Count} cartas a la base de datos. Revise las advertencias (warnings) si faltan imágenes.");
+                        }
+                        else
+                        {
+                            // CAMBIO: Se elimina el error crítico. Si no se carga nada, es porque todas las cartas tenían datos incompletos (Nombre, Rareza, etc.), lo cual se advierte arriba.
+                            logger.LogWarning("No se preparó ninguna carta para la carga. Verifique las advertencias anteriores sobre datos incompletos (excluyendo imágenes).");
+                        }
+                    }
+                    else
+                    {
+                        logger.LogWarning("El archivo JSON de cartas está vacío o no se pudo deserializar.");
+                    }
+                }
+                catch (JsonException jsonEx)
+                {
+                    logger.LogError(jsonEx, "Error al deserializar el archivo JSON de cartas. Verifique el formato del archivo y la estructura de CartaSeedDto.");
+                    throw;
+                }
+            }
+            else
+            {
+                logger.LogWarning("El archivo de datos para el seeding 'data/CartasCompletas.json' no se encontró en wwwroot.");
+            }
+        }
+        else
+        {
+            logger.LogInformation("La base de datos ya contiene cartas. No se necesita seeding.");
+        }
+    }
+
+    // DTO para leer los datos de las cartas desde JSON, donde la imagen es una ruta (string)
+    private class CartaSeedDto
+    {
+        public int Id { get; set; }
+        public string? Nombre { get; set; }
+        public string? Imagen { get; set; }
+        public string? Descripcion { get; set; }
+        public int Ataque { get; set; }
+        public int Defensa { get; set; }
+        public string? Categoria { get; set; } // Propiedad para mapear la categoría desde el JSON.
+        public string? Rareza { get; set; }
+        public int Vida { get; set; }
+        public int Velocidad { get; set; }
+        public int Poder { get; set; }
+        public int Terror { get; set; }
     }
 }

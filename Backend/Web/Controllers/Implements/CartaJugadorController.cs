@@ -39,27 +39,30 @@ namespace Web.Controllers.Implements
                 return StatusCode(500, "Error interno del servidor");
             }
         }
-
+        
         /// <summary>
         /// Obtiene cartas de jugador por jugada
         /// </summary>
         /// <param name="jugadaId">ID de la jugada</param>
         /// <returns>Lista de cartas usadas en la jugada especificada</returns>
+       // ❌ No uses cj.IdJugada: no existe. O elimina este endpoint,
+//   o (si quieres mantenerlo) devuélvelo vacío hasta que modeles la relación.
         [HttpGet("jugada/{jugadaId}")]
         public async Task<IActionResult> GetCartasByJugada(int jugadaId)
         {
             try
             {
-                var entities = await _business.GetAllAsync();
-                var cartasByJugada = entities.Where(cj => cj.IdJugada == jugadaId && cj.Usada == true).ToList();
-                return Ok(cartasByJugada);
+                // Sin columna IdJugada en CartaJugador no podemos filtrar aquí.
+                // Ojo: la relación está en Jugada (IdCartaJugador).
+                return Ok(new List<CartaJugadorDto>());
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error al obtener cartas por jugada {jugadaId}: {ex.Message}");
+                _logger.LogError(ex, "Error al obtener cartas por jugada {JugadaId}", jugadaId);
                 return StatusCode(500, "Error interno del servidor");
             }
         }
+
 
         /// <summary>
         /// Obtiene el mazo (cartas disponibles) de un jugador
@@ -82,7 +85,21 @@ namespace Web.Controllers.Implements
                 return StatusCode(500, "Error interno del servidor");
             }
         }
-
+        [HttpGet("partida/{partidaId}/jugador/{jugadorId}")]
+        public async Task<IActionResult> GetCartasByPartidaYJugador(int partidaId, int jugadorId)
+        {
+            try
+            {
+                var entities = await _business.GetAllAsync();
+                var list = entities.Where(cj => cj.IdJugador == jugadorId).ToList();
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener cartas del jugador {JugadorId} en partida {PartidaId}", jugadorId, partidaId);
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
         /// <summary>
         /// Jugar una carta (asignarla a una jugada)
         /// </summary>
@@ -90,25 +107,28 @@ namespace Web.Controllers.Implements
         /// <param name="jugadaId">ID de la jugada donde se usará la carta</param>
         /// <returns>Carta actualizada</returns>
         [HttpPut("{cartaJugadorId}/jugar/{jugadaId}")]
-        public async Task<IActionResult> JugarCarta(int cartaJugadorId, int jugadaId)
+        // PUT /api/CartaJugador/{cartaJugadorId}/jugar/{jugadaId}?rondaUsada=3&usada=true
+        [HttpPut("{cartaJugadorId}/jugar/{jugadaId}")]
+        public async Task<IActionResult> JugarCarta(int cartaJugadorId, int jugadaId,
+            [FromQuery] int? rondaUsada, [FromQuery] bool? usada)
         {
             try
             {
-                var cartaJugador = await _business.GetByIdAsync(cartaJugadorId);
-                if (cartaJugador == null)
-                    return NotFound($"Carta del jugador con ID {cartaJugadorId} no encontrada");
+                var carta = await _business.GetByIdAsync(cartaJugadorId);
+                if (carta == null) return NotFound($"Carta del jugador {cartaJugadorId} no encontrada");
 
-                if (cartaJugador.IdJugada != null)
-                    return BadRequest("Esta carta ya ha sido jugada");
+                // Ya no comprobamos IdJugada (esa columna no existe aquí).
+                if (carta.Usada) return BadRequest("Esta carta ya ha sido marcada como usada");
 
-                cartaJugador.IdJugada = jugadaId;
-                
-                var updatedCarta = await _business.UpdateAsync(cartaJugador);
-                return Ok(updatedCarta);
+                if (usada.HasValue) carta.Usada = usada.Value;
+                if (rondaUsada.HasValue) carta.RondaUsada = rondaUsada.Value;
+
+                var updated = await _business.UpdateAsync(carta);
+                return Ok(updated);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error al jugar carta {cartaJugadorId} en jugada {jugadaId}: {ex.Message}");
+                _logger.LogError(ex, "Error al jugar carta {CartaId} en jugada {JugadaId}", cartaJugadorId, jugadaId);
                 return StatusCode(500, "Error interno del servidor");
             }
         }
@@ -132,5 +152,6 @@ namespace Web.Controllers.Implements
                 return StatusCode(500, "Error interno del servidor");
             }
         }
+        
     }
 }

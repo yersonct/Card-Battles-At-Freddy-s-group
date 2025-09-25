@@ -1,100 +1,126 @@
 /**
- * Servicio Base para todas las operaciones CRUD
- * Card Battles At Freddy's
+ * Servicio de acceso al backend para la Partida
+ * Depende de: ConfigApi.js (API_ENDPOINTS, buildUrl, withQuery, apiGet, apiPost, apiPut, apiPatch)
  */
 
-class BaseApiService {
-    constructor(endpoint) {
-        this.endpoint = endpoint;
-    }
+(function () {
+  if (!window.API_ENDPOINTS) {
+    console.error('[PartidaBackendService] Falta cargar ConfigApi.js antes de este archivo.');
+    return;
+  }
 
-    /**
-     * Obtiene todos los elementos
-     * @returns {Promise<Array>} Lista de elementos
-     */
-    async getAll() {
-        const url = buildUrl(this.endpoint);
-        return await makeRequest(url);
-    }
+  const E = window.API_ENDPOINTS;
 
-    /**
-     * Obtiene un elemento por ID
-     * @param {number} id - ID del elemento
-     * @returns {Promise<Object>} Elemento encontrado
-     */
-    async getById(id) {
-        const url = buildUrl(`${this.endpoint}/${id}`);
-        return await makeRequest(url);
-    }
+  // -------------------- Helpers internos --------------------
+  function urlCartaById(id) {
+    return buildUrl(E.CARTA_BY_ID, { id });
+  }
+  function urlJugadorById(id) {
+    return buildUrl(E.JUGADOR_BY_ID, { id });
+  }
+  function urlPartidaById(id) {
+    return buildUrl(E.PARTIDA_BY_ID, { id });
+  }
+  function urlRondaActual(partidaId) {
+    return buildUrl(E.RONDA_ACTUAL, { partidaId });
+  }
 
-    /**
-     * Crea un nuevo elemento
-     * @param {Object} data - Datos del elemento a crear
-     * @returns {Promise<Object>} Elemento creado
-     */
-    async create(data) {
-        const url = buildUrl(this.endpoint);
-        return await makeRequest(url, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-    }
+  // Endpoints estilo “custom game flow”
+  function urlGF_EstadoPartida(id) {
+    return buildUrl(E.GF_PARTIDA_ESTADO, { id });
+  }
+  function urlGF_CartasJugador(partidaId, jugadorId) {
+    return buildUrl(E.GF_PARTIDA_CARTAS_JUGADOR, { partidaId, jugadorId });
+  }
+  function urlGF_EsTurno(partidaId, jugadorId) {
+    return buildUrl(E.GF_PARTIDA_ES_TURNO, { partidaId, jugadorId });
+  }
 
-    /**
-     * Actualiza un elemento completo
-     * @param {Object} data - Datos del elemento a actualizar
-     * @returns {Promise<Object>} Elemento actualizado
-     */
-    async update(data) {
-        const url = buildUrl(this.endpoint);
-        return await makeRequest(url, {
-            method: 'PUT',
-            body: JSON.stringify(data)
-        });
-    }
+  // -------------------- API pública --------------------
+  const service = {
+    // ===== Jugadores =====
+    async getJugadoresByPartida(partidaId, { onlyActive = true } = {}) {
+      // Dos opciones: endpoint REST por query ó endpoint REST por path.
+      // A) /Jugador?IdPartida=...&Active=1
+      const urlA = withQuery(E.JUGADOR_ROOT, {
+        IdPartida: partidaId,
+        Active: onlyActive ? 1 : undefined,
+      });
+      return apiGet(urlA);
+      // B) Si prefieres por path: return apiGet(buildUrl(E.JUGADOR_BY_PARTIDA, { partidaId }));
+    },
 
-    /**
-     * Elimina un elemento por ID
-     * @param {number} id - ID del elemento a eliminar
-     * @returns {Promise<boolean>} Resultado de la eliminación
-     */
-    async delete(id) {
-        const url = buildUrl(`${this.endpoint}/${id}`);
-        return await makeRequest(url, {
-            method: 'DELETE'
-        });
-    }
+    async getJugadorById(id) {
+      return apiGet(urlJugadorById(id));
+    },
 
-    /**
-     * Eliminación lógica de un elemento
-     * @param {number} id - ID del elemento a eliminar lógicamente
-     * @returns {Promise<boolean>} Resultado de la eliminación
-     */
-    async softDelete(id) {
-        const url = buildUrl(`${this.endpoint}/${id}/deleteLogical`);
-        return await makeRequest(url, {
-            method: 'DELETE'
-        });
-    }
+    // ===== Cartas =====
+    async getCartasCatalogo() {
+      return apiGet(E.CARTA_ROOT);
+    },
 
-    /**
-     * Actualización parcial de un elemento
-     * @param {number} id - ID del elemento a actualizar
-     * @param {Object} partialData - Datos parciales para actualizar
-     * @returns {Promise<Object>} Elemento actualizado
-     */
-    async mergePatch(id, partialData) {
-        const url = buildUrl(`${this.endpoint}/${id}/merge`);
-        return await makeRequest(url, {
-            method: 'PATCH',
-            body: JSON.stringify(partialData)
-        });
-    }
-}
+    async getCartaById(id) {
+      return apiGet(urlCartaById(id));
+    },
 
-// Exportar para uso en otros módulos
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = BaseApiService;
-} else {
-    window.BaseApiService = BaseApiService;
-}
+    // ===== CartaJugador (asignación/reparto) =====
+    // Opción 1 (recomendada): usar tu endpoint "game flow" que ya devuelve las cartas del jugador en la partida
+    async getCartasJugador(partidaId, jugadorId) {
+      // Si tienes este endpoint custom:
+      //   GET /partida/{partidaId}/jugador/{jugadorId}/cartas
+      return apiGet(urlGF_CartasJugador(partidaId, jugadorId));
+    },
+
+    // Opción 2 (alternativa): si prefieres desde /CartaJugador con query
+    async getCartasJugadorDesdeTabla(partidaId, jugadorId, { onlyActive = true } = {}) {
+      const url = withQuery(E.CARTA_JUGADOR_ROOT, {
+        partidaId,
+        jugadorId,
+        active: onlyActive ? 1 : undefined,
+      });
+      return apiGet(url);
+    },
+
+    // Marcar carta usada en una ronda (ajusta al contrato real de tu API)
+    async marcarCartaUsada(cartaJugadorId, { usada = 1, rondaUsada = null } = {}) {
+      // Si tu API acepta PUT en /CartaJugador/{id} con el body merge:
+      const url = buildUrl(E.CARTA_JUGADOR_BY_ID, { id: cartaJugadorId });
+      const body = { Usada: usada, RondaUsada: rondaUsada };
+      // Algunas APIs usan PATCH /merge:
+      // const url = buildUrl(E.CARTA_JUGADOR_MERGE, { id: cartaJugadorId });
+      return apiPut(url, body);
+    },
+
+    // ===== Partida / Ronda =====
+    async getPartidaById(id) {
+      return apiGet(urlPartidaById(id));
+    },
+
+    async getEstadoPartidaGF(id) {
+      // GET /partida/{id}/estado
+      return apiGet(urlGF_EstadoPartida(id));
+    },
+
+    async getRondaActual(partidaId) {
+      return apiGet(urlRondaActual(partidaId));
+    },
+
+    async esTurno(partidaId, jugadorId) {
+      // GET /partida/{partidaId}/jugador/{jugadorId}/es-turno
+      return apiGet(urlGF_EsTurno(partidaId, jugadorId));
+    },
+
+    // ===== Jugadas (si las usas para registrar el “lanzar”) =====
+    async crearJugada(body) {
+      // POST /Jugada  -> { IdRonda, IdJugador, IdCarta, ... }
+      return apiPost(E.JUGADA_ROOT, body);
+    },
+
+    async getJugadasByRonda(rondaId) {
+      return apiGet(buildUrl(E.JUGADA_BY_RONDA, { rondaId }));
+    },
+  };
+
+  // Export global
+  window.partidaService = service;
+})();

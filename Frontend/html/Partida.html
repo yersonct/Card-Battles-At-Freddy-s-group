@@ -1,242 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Battles At Freddy´s</title>
-    <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
-    <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
-    <link rel="stylesheet" href="../css/Partida/Partida.css">
-    <link rel="stylesheet" href="../css/Partida/SeleccionCarta.css">
-    <link rel="stylesheet" href="../css/Partida/GameLogic.css">
-    <link rel="stylesheet" href="../css/Partida/CartasJuego.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Battles At Freddy´s</title>
+  <link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet'>
+  <link rel="icon" href="../img/foto/Freddy-Fazbear-Fnaf-removebg-preview.png">
+  <link rel="stylesheet" href="../css/Partida/Partida.css">
+  <link rel="stylesheet" href="../css/Partida/SeleccionCarta.css">
+  <link rel="stylesheet" href="../css/Partida/GameLogic.css">
+  <link rel="stylesheet" href="../css/Partida/CartasJuego.css">
 </head>
 
 <body>
-    <audio id="miAudio" src="../sonidos-fondo/FNAF AR Special Delivery Main Theme Song 1 hour loop - thegamelux.mp3" autoplay loop></audio>
-    <div class="contenedor-ronda">
-        <h1 class="texto-terror">raonda:<span class="numero">1</span></h1>
-    </div>
-    <div id="cronometro-2">10</div>
-    <div class="container-bottones">
-        <button class="tirar">Lanzar</button>
-        <button class="no-tirar">No Lanzar</button>
-    </div>
-    <div class="container-completo">
-        <div class="completo-iconos-usuario">
-            <div id="cronometro">03:00</div>
+  <div class="contenedor-ronda">
+    <h1 class="texto-terror">Ronda: <span class="numero">1</span></h1>
+  </div>
+  <div id="cronometro-2">10</div>
+  <div id="turno-actual" class="turno-actual"></div>
+  <div class="container-bottones">
+    <button class="tirar">Lanzar</button>
+    <button class="no-tirar">No Lanzar</button>
+  </div>
 
-            <div class="container-icono">
-                <div class="iconos-1">
-                    <h4>T2</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-                <div class="iconos-2">
-                    <h4>T3</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-            </div>
+  <div class="container-completo">
+    <div class="completo-iconos-usuario">
+      <div id="cronometro">03:00</div>
 
-            <div class="container-icono">
-                <div class="iconos-1">
-                    <h4>T4</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-                <div class="iconos-2">
-                    <h4>T5</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-            </div>
-
-            <div class="container-icono">
-                <div class="iconos-1">
-                    <h4>T6</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-                <div class="iconos-2">
-                    <h4>T7</h4>
-                    <div class="contenedor-cantidad-cartas-jugador">
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                        <div class="cantidad-no-jugadas"></div>
-                    </div>
-                    <input type="text" readonly value="asdsad">
-                </div>
-            </div>
-
+      <!-- tus estructuras existentes -->
+      <div class="container-icono">
+        <div class="iconos-1">
+          <h4>T2</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
         </div>
-        <div class="Turno-jugador">
-            <div class="contenedor-cartas-completo">
-                <!--se generan 8 cartas -->
-                <div class="loading-cartas"
-                    style="display: flex; justify-content: center; align-items: center; min-height: 200px; font-family: 'Creepster'; color: #ff6b35;">
-                    <p>Generando cartas...</p>
-                </div>
-            </div>
-
-            <div class="iconos-jugador">
-                <div class="container-icono">
-                    <div class="iconos-1">
-                        <h4>T1</h4>
-                        <input type="text" readonly value="asdsad">
-                    </div>
-                </div>
-            </div>
+        <div class="iconos-2">
+          <h4>T3</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
         </div>
+      </div>
+
+      <div class="container-icono">
+        <div class="iconos-1">
+          <h4>T4</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
+        </div>
+        <div class="iconos-2">
+          <h4>T5</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
+        </div>
+      </div>
+
+      <div class="container-icono">
+        <div class="iconos-1">
+          <h4>T6</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
+        </div>
+        <div class="iconos-2">
+          <h4>T7</h4>
+          <div class="contenedor-cantidad-cartas-jugador">
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div><div class="cantidad-no-jugadas"></div>
+            <div class="cantidad-no-jugadas"></div>
+          </div>
+          <input type="text" readonly>
+        </div>
+      </div>
     </div>
-    <!-- ranking -->
-    <div class="container">
-        <h1>Tabla de Terror: Los Más Temidos</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Posición</th>
-                    <th>Nombre</th>
-                    <th>Avatar</th>
-                    <th>Puntuación</th>
-                    <th>Partidas Ganadas</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Morticia Blackwood</td>
-                    <td><img src="https://via.placeholder.com/50/800000/FFFFFF?text=M" alt="Avatar Morticia"
-                            class="avatar"></td>
-                    <td class="score-cell">6660</td>
-                    <td class="wins-cell">13</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Vlad el Empalador</td>
-                    <td><img src="https://via.placeholder.com/50/4B0082/FFFFFF?text=V" alt="Avatar Vlad" class="avatar">
-                    </td>
-                    <td class="score-cell">5900</td>
-                    <td class="wins-cell">10</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>El Hombre del Saco</td>
-                    <td><img src="https://via.placeholder.com/50/2F4F4F/FFFFFF?text=H" alt="Avatar Saco" class="avatar">
-                    </td>
-                    <td class="score-cell">5000</td>
-                    <td class="wins-cell">9</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>La Llorona</td>
-                    <td><img src="https://via.placeholder.com/50/006400/FFFFFF?text=L" alt="Avatar Llorona"
-                            class="avatar"></td>
-                    <td class="score-cell">4500</td>
-                    <td class="wins-cell">8</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Freddy Krueger</td>
-                    <td><img src="https://via.placeholder.com/50/8B0000/FFFFFF?text=F" alt="Avatar Freddy"
-                            class="avatar"></td>
-                    <td class="score-cell">4000</td>
-                    <td class="wins-cell">7</td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="Turno-jugador">
+    <div class="contenedor-cartas-completo">
+      <div class="loading-cartas">Generando cartas...</div>
     </div>
-    <!-- Script de demo -->
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Ocultar loading después de 2 segundos
-            setTimeout(() => {
-                const loading = document.querySelector('.loading-cartas');
-                if (loading) {
-                    loading.style.display = 'none';
-                }
-            }, 2000);
+    <div class="iconos-jugador">
+      <div class="container-icono">
+        <div class="iconos-1">
+          <h4>T1</h4>
+          <input type="text" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="container"> … </div>
+  <div class="batalla-comparacion" style="display:none"></div>
+  <div class="resultado-ronda" style="display:none"></div>
+  <div class="ranking-final" style="display:none"></div>
 
-            // Función demo para probar la selección avanzada
-            window.probarSeleccion = function () {
-                const primeraCarta = document.querySelector('.carta');
-                if (primeraCarta && typeof mostrarSeleccionAvanzada === 'function') {
-                    primeraCarta.classList.add('volteada');
-                    mostrarSeleccionAvanzada(primeraCarta);
-                }
-            };
-        });
-    </script>
+<script src="../Api/ConfigApi.js"></script>
+<script src="../js/services/PartidaService.js"></script>
 
-    <!-- Scripts de configuración y servicios backend -->
-    <script src="../Api/ConfigApi.js"></script>
-    <script src="../Api/Services/BaseApiService.js"></script>
-    <script src="../Api/Services/PartidaBackendService.js"></script>
+<!-- (Opcional) CartasFromBackend si quieres render de cabecera -->
+<!-- <script src="../js/Partida/CartasFromBackend.js"></script> -->
 
-    <!-- Scripts originales -->
-    <script src="../js/Pantalla.js"></script>
-    <!-- En Partida.html -->
-    <script src="../js/Partida/CartasRepetidas.js"></script>
-    <script src="../js/Partida/SeleccionCartaAvanzada.js"></script>
-    
-    <!-- Scripts de lógica del juego -->
-    <script src="../js/Partida/GameFlowController.js"></script>
-    <script src="../js/Partida/CardSelectionManager.js"></script>
-    <script src="../js/Partida/TurnIndicator.js"></script>
-    <script src="../js/Partida/BattleComparator.js"></script>
-    <script src="../js/Partida/RankingFinalDisplay.js"></script>
-    
-    <script src="../js/Partida/Partida.js"></script>
-    <script src="../js/Partida/Juego.js"></script>
-    
-    <!-- Script principal de conexión con backend -->
-    <script src="../js/Partida.js"></script>
+<script src="../js/Partida/CardSelectionManager.js"></script>
+<script src="../js/Partida/BattleComparator.js"></script>
+<script src="../js/Partida/TurnIndicator.js"></script>
+<script src="../js/Partida/RankingFinalDisplay.js"></script>
+<script src="../js/Partida/GameFlowController.js"></script>
+
+<!-- Debug IDs (ponerlo ANTES de crear el game) -->
+
+
+<!-- Init (al final) -->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // IDs de debug si faltan (opcional)
+  if (!localStorage.getItem('partidaId')) localStorage.setItem('partidaId', '1');
+  if (!localStorage.getItem('jugadorId')) localStorage.setItem('jugadorId', '1');
+
+  // Init del juego: URL > localStorage
+  const qs = new URLSearchParams(location.search);
+  const partidaId = Number(qs.get('partidaId')) || Number(localStorage.getItem('partidaId'));
+  const jugadorId = Number(qs.get('jugadorId'))  || Number(localStorage.getItem('jugadorId'));
+  if (!partidaId || !jugadorId) { console.warn('Falta partidaId o jugadorId'); return; }
+
+  window.game = new GameFlowController();
+  window.game.init(partidaId, jugadorId);
+
+  // Botones de acción
+  document.querySelector('.tirar')?.addEventListener('click', () => {
+    window.game?.cardSelection?.confirmarSeleccionCarta();
+  });
+  document.querySelector('.no-tirar')?.addEventListener('click', () => {
+    window.game?.cardSelection?.deshabilitarSeleccion();
+    alert('Has decidido no lanzar ahora. (Sigue el turno vigente)');
+  });
+});
+</script>
+
+
+  <script>
+    (function () {
+      const API_BASE = (window.API_CONFIG?.baseURL || 'http://localhost:7147/api').replace(/\/+$/, '');
+      const PUBLIC_BASE = API_BASE.replace(/\/api$/i, '');
+      const FRONT_IMG_BASE = '../img/foto';
+      const IMG_FALLBACK = `${FRONT_IMG_BASE}/icono.png`;
+
+      document.addEventListener('DOMContentLoaded', bootstrap);
+
+      async function bootstrap() {
+        const partidaId = Number(localStorage.getItem('partidaId')) || Number(getQS('partidaId'));
+        if (!partidaId) return;
+
+        const jugadores = await cargarJugadoresMax7(partidaId);
+        renderSlots(jugadores);
+      }
+
+      async function cargarJugadoresMax7(pid) {
+        try {
+          const r = await fetch(`${API_BASE}/Jugador/partida/${pid}`);
+          if (r.ok) return normalizar(await r.json()).slice(0, 7);
+        } catch {}
+        try {
+          const r = await fetch(`${API_BASE}/Jugador`);
+          if (r.ok) {
+            const all = await r.json();
+            return normalizar(all.filter(j => j.idPartida == pid)).slice(0, 7);
+          }
+        } catch {}
+        return [];
+      }
+
+      function normalizar(arr) {
+        return (arr || [])
+          .map(j => ({
+            id: j.id,
+            nombre: j.nombre,
+            avatar: j.avatar,
+            posicionTurno: j.posicionTurno,
+            active: j.active !== false
+          }))
+          .filter(j => j.active)
+          .sort((a, b) => (a.posicionTurno ?? 9999) - (b.posicionTurno ?? 9999));
+      }
+
+      function renderSlots(jugadores) {
+  const slots = document.querySelectorAll('.iconos-1, .iconos-2');
+  slots.forEach((slot, idx) => {
+    const j = jugadores[idx];
+    if (!j) {
+      slot.style.display = 'none';
+      slot.style.backgroundImage = ''; // limpiar si no hay jugador
+      return;
+    }
+
+    slot.style.display = 'block';
+
+    const titulo = slot.querySelector('h4');
+    if (titulo) titulo.textContent = `T${j.posicionTurno || idx + 1}`;
+
+    // Poner nombre en input
+    const input = slot.querySelector('input');
+    if (input) input.value = j.nombre || `Jugador ${idx + 1}`;
+
+    // Usar setAvatar para calcular la ruta de la imagen
+    setBackground(slot, j.avatar, IMG_FALLBACK);
+  });
+}
+function setBackground(slotEl, avatar, fallback) {
+  const raw = String(avatar || '').trim();
+  const baseName = raw.split(/[\\/]/).pop();
+  if (!baseName) {
+    slotEl.style.backgroundImage = `url(${fallback})`;
+    return;
+  }
+
+  const dot = baseName.lastIndexOf('.');
+  const name = dot > 0 ? baseName.slice(0, dot) : baseName;
+  const ext  = dot > 0 ? baseName.slice(dot).toLowerCase() : '';
+
+  const tryExts = [];
+  if (ext) tryExts.push(ext);
+  ['.jpg', '.jpeg', '.png', '.webp'].forEach(e => {
+    if (e !== ext) tryExts.push(e);
+  });
+
+  const bust = `?v=${Date.now()}`;
+  const candidates = [];
+  for (const e of tryExts) {
+    const fname = encodeURIComponent(name + e);
+    candidates.push(`${FRONT_IMG_BASE}/${fname}${bust}`);
+    candidates.push(`${PUBLIC_BASE}/img/foto/${fname}${bust}`);
+  }
+
+  let i = 0;
+  const tryNext = () => {
+    if (i >= candidates.length) {
+      slotEl.style.backgroundImage = `url(${fallback})`;
+      return;
+    }
+    const url = candidates[i++];
+    const img = new Image();
+    img.onload = () => slotEl.style.backgroundImage = `url(${url})`;
+    img.onerror = tryNext;
+    img.src = url;
+  };
+  tryNext();
+}
+
+       function setAvatar(imgEl, avatar, fallback) {
+    const raw = String(avatar || '').trim();
+    const baseName = raw.split(/[\\/]/).pop();
+    if (!baseName) { imgEl.src = fallback; return; }
+
+    const dot = baseName.lastIndexOf('.');
+    const name = dot > 0 ? baseName.slice(0, dot) : baseName;
+    const ext  = dot > 0 ? baseName.slice(dot).toLowerCase() : '';
+
+    const tryExts = [];
+    if (ext) tryExts.push(ext);
+    ['.jpg','.jpeg','.png','.webp'].forEach(e => {
+      if (e !== ext) tryExts.push(e);
+    });
+
+    const bust = `?v=${Date.now()}`;
+    const candidates = [];
+    for (const e of tryExts) {
+      const fname = encodeURIComponent(name + e);
+      candidates.push(`${FRONT_IMG_BASE}/${fname}${bust}`);
+      candidates.push(`${PUBLIC_BASE}/img/foto/${fname}${bust}`);
+    }
+
+    let i = 0;
+    const tryNext = () => {
+      if (i >= candidates.length) { imgEl.src = fallback; return; }
+      imgEl.src = candidates[i++];
+      imgEl.onerror = tryNext;
+    };
+    tryNext();
+  }
+
+      function getQS(k) { return new URLSearchParams(location.search).get(k); }
+    })();
+  </script>
+
+
+
+
+
+
 </body>
-
 </html>

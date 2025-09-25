@@ -11,7 +11,7 @@ namespace Entity.Model
         public int NumeroRonda { get; set; } // Número de la ronda
         
         [MaxLength(100)]
-        public string AtributoCompetido { get; set; } = null!; // Ejemplo: "Ataque", "Defensa", etc.
+        public string AtributoCompetido { get; set; }  // Ejemplo: "Ataque", "Defensa", etc.
         
         public int? IdJugadorQueElige { get; set; } // Jugador que eligió el atributo (opcional para evitar constraint issues)
         public int? IdGanador { get; set; } // ID del jugador ganador de la ronda

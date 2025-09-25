@@ -14,6 +14,15 @@ class TurnIndicator {
         console.log(' TurnIndicator inicializado');
     }
 
+      // 👇 PON AQUÍ EL HELPER, DENTRO DE LA CLASE
+    resolveAvatar(avatar) {
+        if (!avatar) return '../img/foto/icono.png';
+        if (String(avatar).startsWith('http') || String(avatar).startsWith('data:')) return avatar;
+        const API_BASE = (window.API_CONFIG?.baseURL || '').replace(/\/+$/, '');
+        const PUBLIC_BASE = API_BASE.replace(/\/api$/i, '');
+        const baseName = String(avatar).split(/[\\/]/).pop();
+        return `${PUBLIC_BASE}/img/foto/${encodeURIComponent(baseName)}`;
+    }
     /**
      * Inicializa el indicador de turnos
      */
@@ -55,30 +64,40 @@ class TurnIndicator {
     /**
      * Crea los indicadores individuales para cada jugador
      */
-    crearIndicadoresJugadores() {
-        if (!this.gameFlow.jugadores || this.gameFlow.jugadores.length === 0) {
-            console.warn(' No hay jugadores para crear indicadores');
-            return;
-        }
-        
-        // Limpiar indicadores existentes
-        this.contenedorIndicadores.innerHTML = '';
-        this.jugadoresIndicadores = [];
-        
-        // Crear indicador para cada jugador
-        this.gameFlow.jugadores.forEach((jugador, index) => {
-            const indicador = this.crearIndicadorJugador(jugador, index);
-            this.jugadoresIndicadores.push({
-                elemento: indicador,
-                jugador: jugador,
-                index: index
-            });
-            
-            this.contenedorIndicadores.appendChild(indicador);
-        });
-        
-        console.log(' Indicadores de jugadores creados:', this.jugadoresIndicadores.length);
-    }
+    crearIndicadorJugador(jugador, index) {
+  const id   = Number(jugador.Id ?? jugador.id);
+  const nom  = jugador.Nombre ?? jugador.nombre ?? `Jugador ${index+1}`;
+  const av   = jugador.Avatar ?? jugador.avatar ?? null;
+  const pos  = Number(jugador.PosicionTurnos ?? jugador.posicionTurno ?? (index+1));
+  const pts  = Number(jugador.PuntosAcumulados ?? jugador.puntosAcumulados ?? 0);
+
+  const indicador = document.createElement('div');
+  indicador.className = 'indicador-jugador';
+  indicador.dataset.jugadorId = String(id);
+  indicador.dataset.posicion = String(pos);
+
+  const esYo = id === Number(this.gameFlow.jugadorActualId);
+
+  indicador.innerHTML = `
+    <div class="avatar-contenedor">
+      <img src="${this.resolveAvatar(av)}" alt="${nom}" class="avatar-jugador">
+      <div class="indicador-turno"></div>
+      <div class="indicador-estado"></div>
+    </div>
+    <div class="info-jugador">
+      <div class="nombre-jugador">${nom}${esYo ? ' (Tú)' : ''}</div>
+      <div class="puntos-jugador">${pts} pts</div>
+      <div class="posicion-turno">T${pos}</div>
+    </div>
+    <div class="estado-ronda">
+      <span class="texto-estado">Esperando...</span>
+    </div>
+  `;
+  // Guarda los valores normalizados para uso posterior
+  indicador.__norm__ = { id, nom, av, pos, pts };
+  return indicador;
+}
+
 
     /**
      * Crea un indicador individual para un jugador
@@ -135,7 +154,8 @@ class TurnIndicator {
     actualizarIndicadorJugador(indicadorData, estadoJuego) {
         const { elemento, jugador } = indicadorData;
         const esJugadorDelTurno = this.esJugadorDelTurno(jugador, estadoJuego);
-        const esJugadorQueElige = jugador.id === estadoJuego.esElQueElige;
+        const esJugadorQueElige = this.esJugadorQueElige(jugador);
+
         const yaJugo = this.jugadorYaJugo(jugador.id);
         
         // Actualizar clases CSS
@@ -208,23 +228,23 @@ class TurnIndicator {
      * Verifica si un jugador es el del turno actual
      */
     esJugadorDelTurno(jugador, estadoJuego) {
-        // En la fase de selección, cualquier jugador que no haya jugado puede ser "del turno"
-        if (estadoJuego.faseActual === 'SELECCIONANDO_CARTA') {
-            return !this.jugadorYaJugo(jugador.id);
-        }
-        
-        // En otras fases, solo el jugador que elige el atributo está "en turno"
-        return jugador.id === estadoJuego.esElQueElige;
+    // En selección, es “del turno” quien NO ha jugado
+    if (estadoJuego.faseActual === 'SELECCIONANDO_CARTA') {
+        return !this.jugadorYaJugo(jugador.Id ?? jugador.id ?? jugador?.__norm__?.id);
     }
+    // En otras fases, “del turno” es el que elige
+    return this.esJugadorQueElige(jugador);
+    }
+
 
     /**
      * Verifica si un jugador ya jugó en la ronda actual
      */
     jugadorYaJugo(jugadorId) {
-        return this.gameFlow.cartasJugadasRonda.some(jugada => 
-            jugada.idJugador === parseInt(jugadorId)
-        );
+    const jid = Number(jugadorId);
+    return this.gameFlow.cartasJugadasRonda.some(j => Number(j.IdJugador ?? j.idJugador) === jid);
     }
+
 
     /**
      * Resalta el jugador que debe elegir el atributo
@@ -273,34 +293,27 @@ class TurnIndicator {
      * Actualiza la información de puntos de todos los jugadores
      */
     async actualizarPuntos() {
-        try {
-            // Recargar información de jugadores desde el backend
-            const response = await fetch(`http://localhost:7147/api/jugador/partida/${this.gameFlow.partidaId}`);
-            if (!response.ok) return;
-            
-            const jugadoresActualizados = await response.json();
-            
-            // Actualizar puntos en la interfaz
-            jugadoresActualizados.forEach(jugador => {
-                const indicador = this.jugadoresIndicadores.find(
-                    ({ jugador: j }) => j.id === jugador.id
-                );
-                
-                if (indicador) {
-                    const puntosElement = indicador.elemento.querySelector('.puntos-jugador');
-                    if (puntosElement) {
-                        puntosElement.textContent = `${jugador.puntosAcumulados || 0} pts`;
-                    }
-                    
-                    // Actualizar en memoria
-                    indicador.jugador.puntosAcumulados = jugador.puntosAcumulados;
-                }
-            });
-            
-        } catch (error) {
-            console.error(' Error actualizando puntos:', error);
-        }
-    }
+  try {
+    const partId = Number(this.gameFlow.partidaId);
+    const backend = await window.partidaService.getJugadoresByPartida(partId);
+    backend.forEach(bj => {
+      const bid = Number(bj.Id ?? bj.id);
+      const pts = Number(bj.PuntosAcumulados ?? bj.puntosAcumulados ?? 0);
+      const ind = this.jugadoresIndicadores.find(
+        ({ elemento }) => Number(elemento.__norm__?.id) === bid
+      );
+      if (ind) {
+        ind.jugador.PuntosAcumulados = pts;
+        ind.elemento.__norm__.pts = pts;
+        const el = ind.elemento.querySelector('.puntos-jugador');
+        if (el) el.textContent = `${pts} pts`;
+      }
+    });
+  } catch (e) {
+    console.error(' Error actualizando puntos:', e);
+  }
+}
+
 
     /**
      * Marca visualmente que un jugador ha completado su jugada
@@ -378,6 +391,15 @@ class TurnIndicator {
         this.contenedorIndicadores = null;
         
         console.log(' TurnIndicator destruido');
+    }
+    esJugadorQueElige(jugador) {
+      const rid = Number(this.gameFlow.rondaActual?.IdJugadorQueElige ?? this.gameFlow.rondaActual?.idJugadorQueElige);
+      const jid = Number(jugador.Id ?? jugador.id ?? jugador?.__norm__?.id);
+      if (rid) return jid === rid;
+      // Fallback: si no hay ronda, asume el de turnoActualIndex
+      const chooser = this.gameFlow.jugadores?.[this.gameFlow.turnoActualIndex];
+      const chooserId = Number(chooser?.Id ?? chooser?.id);
+      return jid && chooserId ? (jid === chooserId) : false;
     }
 }
 

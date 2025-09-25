@@ -1,1090 +1,898 @@
 [
   {
-    "numero-carta": "1A",
-    "nombre-carta": "Nightmare Fredbear",
-    "imagen-personaje": "../img/cartas/Nightmare-Fredbear.jpg",
+    "id": 1,
+    "nombre": "Nightmare Fredbear",
+    "descripcion": "Carta de Nightmare Fredbear. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-Fredbear.jpg",
+    "categoria": "1A",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "15000",
-        "ATAQUE": "30000",
-        "DEFENSA": "25000",
-        "VELOCIDAD": "8000",
-        "PODER": "28000",
-        "TERROR": "55000"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 15000,
+    "ataque": 30000,
+    "defensa": 25000,
+    "velocidad": 8000,
+    "poder": 28000,
+    "terror": 55000
   },
   {
-    "numero-carta": "2A",
-    "nombre-carta": "Springtrap",
-    "imagen-personaje": "../img/cartas/Springtrap-clasico.webp",
+    "id": 2,
+    "nombre": "Springtrap",
+    "descripcion": "Carta de Springtrap. Rareza: rara.",
+    "imagen": "img/cartas/Springtrap-clasico.webp",
+    "categoria": "2A",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8000",
-        "ATAQUE": "7500",
-        "DEFENSA": "6000",
-        "VELOCIDAD": "800",
-        "PODER": "9000",
-        "TERROR": "8500"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8000,
+    "ataque": 7500,
+    "defensa": 6000,
+    "velocidad": 800,
+    "poder": 9000,
+    "terror": 8500
   },
   {
-    "numero-carta": "3A",
-    "nombre-carta": "Freddy Fazbear",
-    "imagen-personaje": "../img/cartas/FreddyFazbear.webp",
+    "id": 3,
+    "nombre": "Freddy Fazbear",
+    "descripcion": "Carta de Freddy Fazbear. Rareza: rara.",
+    "imagen": "img/cartas/FreddyFazbear.webp",
+    "categoria": "3A",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "7500",
-        "ATAQUE": "8000",
-        "DEFENSA": "7000",
-        "VELOCIDAD": "5000",
-        "PODER": "6000",
-        "TERROR": "900"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 7500,
+    "ataque": 8000,
+    "defensa": 7000,
+    "velocidad": 5000,
+    "poder": 6000,
+    "terror": 900
   },
   {
-    "numero-carta": "4A",
-    "nombre-carta": "Bonnie",
-    "imagen-personaje": "../img/cartas/Bonnie-clasico.webp",
+    "id": 4,
+    "nombre": "Bonnie",
+    "descripcion": "Carta de Bonnie. Rareza: rara.",
+    "imagen": "img/cartas/Bonnie-clasico.webp",
+    "categoria": "4A",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "7000",
-        "ATAQUE": "7500",
-        "DEFENSA": "6500",
-        "VELOCIDAD": "6000",
-        "PODER": "5500",
-        "TERROR": "850"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 7000,
+    "ataque": 7500,
+    "defensa": 6500,
+    "velocidad": 6000,
+    "poder": 5500,
+    "terror": 850
   },
   {
-    "numero-carta": "5A",
-    "nombre-carta": "Chica",
-    "imagen-personaje": "../img/cartas/Chica-clasico.webp",
+    "id": 5,
+    "nombre": "Chica",
+    "descripcion": "Carta de Chica. Rareza: rara.",
+    "imagen": "img/cartas/Chica-clasico.webp",
+    "categoria": "5A",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8000",
-        "ATAQUE": "7000",
-        "DEFENSA": "7500",
-        "VELOCIDAD": "4500",
-        "PODER": "5800",
-        "TERROR": "880"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8000,
+    "ataque": 7000,
+    "defensa": 7500,
+    "velocidad": 4500,
+    "poder": 5800,
+    "terror": 880
   },
   {
-    "numero-carta": "6A",
-    "nombre-carta": "Toy Freddy",
-    "imagen-personaje": "../img/cartas/Toyfreddy.jpg",
+    "id": 6,
+    "nombre": "Toy Freddy",
+    "descripcion": "Carta de Toy Freddy. Rareza: comun.",
+    "imagen": "img/cartas/Toyfreddy.jpg",
+    "categoria": "6A",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "350",
-        "ATAQUE": "300",
-        "DEFENSA": "400",
-        "VELOCIDAD": "200",
-        "PODER": "250",
-        "TERROR": "450"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 350,
+    "ataque": 300,
+    "defensa": 400,
+    "velocidad": 200,
+    "poder": 250,
+    "terror": 450
   },
   {
-    "numero-carta": "7A",
-    "nombre-carta": "Toy Bonnie",
-    "imagen-personaje": "../img/cartas/Toybonnie.jpg",
+    "id": 7,
+    "nombre": "Toy Bonnie",
+    "descripcion": "Carta de Toy Bonnie. Rareza: comun.",
+    "imagen": "img/cartas/Toybonnie.jpg",
+    "categoria": "7A",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "320",
-        "ATAQUE": "330",
-        "DEFENSA": "350",
-        "VELOCIDAD": "280",
-        "PODER": "260",
-        "TERROR": "90"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 320,
+    "ataque": 330,
+    "defensa": 350,
+    "velocidad": 280,
+    "poder": 260,
+    "terror": 90
   },
   {
-    "numero-carta": "8A",
-    "nombre-carta": "Toy Chica",
-    "imagen-personaje": "../img/cartas/Toychica.webp",
+    "id": 8,
+    "nombre": "Toy Chica",
+    "descripcion": "Carta de Toy Chica. Rareza: comun.",
+    "imagen": "img/cartas/Toychica.webp",
+    "categoria": "8A",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "300",
-        "ATAQUE": "380",
-        "DEFENSA": "320",
-        "VELOCIDAD": "300",
-        "PODER": "280",
-        "TERROR": "95"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 300,
+    "ataque": 380,
+    "defensa": 320,
+    "velocidad": 300,
+    "poder": 280,
+    "terror": 95
   },
   {
-    "numero-carta": "1B",
-    "nombre-carta": "Nightmare Puppet",
-    "imagen-personaje": "../img/cartas/Nightmare-puppet.jpg",
+    "id": 9,
+    "nombre": "Nightmare Puppet",
+    "descripcion": "Carta de Nightmare Puppet. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-puppet.jpg",
+    "categoria": "1B",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "16000",
-        "ATAQUE": "29000",
-        "DEFENSA": "28000",
-        "VELOCIDAD": "12000",
-        "PODER": "30000",
-        "TERROR": "9500"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 16000,
+    "ataque": 29000,
+    "defensa": 28000,
+    "velocidad": 12000,
+    "poder": 30000,
+    "terror": 9500
   },
   {
-    "numero-carta": "2B",
-    "nombre-carta": "Golden Freddy",
-    "imagen-personaje": "../img/cartas/Golden-clasico.webp",
+    "id": 10,
+    "nombre": "Golden Freddy",
+    "descripcion": "Carta de Golden Freddy. Rareza: rara.",
+    "imagen": "img/cartas/Golden-clasico.webp",
+    "categoria": "2B",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9000",
-        "ATAQUE": "8500",
-        "DEFENSA": "7000",
-        "VELOCIDAD": "6500",
-        "PODER": "9200",
-        "TERROR": "950"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9000,
+    "ataque": 8500,
+    "defensa": 7000,
+    "velocidad": 6500,
+    "poder": 9200,
+    "terror": 950
   },
   {
-    "numero-carta": "3B",
-    "nombre-carta": "Foxy",
-    "imagen-personaje": "../img/cartas/Foxy-clasico.webp",
+    "id": 11,
+    "nombre": "Foxy",
+    "descripcion": "Carta de Foxy. Rareza: rara.",
+    "imagen": "img/cartas/Foxy-clasico.webp",
+    "categoria": "3B",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "6500",
-        "ATAQUE": "9000",
-        "DEFENSA": "5000",
-        "VELOCIDAD": "9500",
-        "PODER": "7000",
-        "TERROR": "950"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 6500,
+    "ataque": 9000,
+    "defensa": 5000,
+    "velocidad": 9500,
+    "poder": 7000,
+    "terror": 950
   },
   {
-    "numero-carta": "4B",
-    "nombre-carta": "Mangle",
-    "imagen-personaje": "../img/cartas/Mangle.png",
+    "id": 12,
+    "nombre": "Mangle",
+    "descripcion": "Carta de Mangle. Rareza: rara.",
+    "imagen": "img/cartas/Mangle.png",
+    "categoria": "4B",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "6800",
-        "ATAQUE": "8500",
-        "DEFENSA": "5500",
-        "VELOCIDAD": "9000",
-        "PODER": "7200",
-        "TERROR": "980"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 6800,
+    "ataque": 8500,
+    "defensa": 5500,
+    "velocidad": 9000,
+    "poder": 7200,
+    "terror": 980
   },
   {
-    "numero-carta": "5B",
-    "nombre-carta": "Balloon Boy",
-    "imagen-personaje": "../img/cartas/BalloonBoy.jpg",
+    "id": 13,
+    "nombre": "Balloon Boy",
+    "descripcion": "Carta de Balloon Boy. Rareza: rara.",
+    "imagen": "img/cartas/BalloonBoy.jpg",
+    "categoria": "5B",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "6200",
-        "ATAQUE": "4000",
-        "DEFENSA": "8000",
-        "VELOCIDAD": "7000",
-        "PODER": "4500",
-        "TERROR": "750"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 6200,
+    "ataque": 4000,
+    "defensa": 8000,
+    "velocidad": 7000,
+    "poder": 4500,
+    "terror": 750
   },
   {
-    "numero-carta": "6B",
-    "nombre-carta": "Withered Bonnie",
-    "imagen-personaje": "../img/cartas/withered-bonnie.webp",
+    "id": 14,
+    "nombre": "Withered Bonnie",
+    "descripcion": "Carta de Withered Bonnie. Rareza: comun.",
+    "imagen": "img/cartas/withered-bonnie.webp",
+    "categoria": "6B",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "420",
-        "ATAQUE": "450",
-        "DEFENSA": "480",
-        "VELOCIDAD": "350",
-        "PODER": "380",
-        "TERROR": "85"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 420,
+    "ataque": 450,
+    "defensa": 480,
+    "velocidad": 350,
+    "poder": 380,
+    "terror": 85
   },
   {
-    "numero-carta": "7B",
-    "nombre-carta": "Withered Chica",
-    "imagen-personaje": "../img/cartas/withered-chica.webp",
+    "id": 15,
+    "nombre": "Withered Chica",
+    "descripcion": "Carta de Withered Chica. Rareza: comun.",
+    "imagen": "img/cartas/withered-chica.webp",
+    "categoria": "7B",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "450",
-        "ATAQUE": "420",
-        "DEFENSA": "500",
-        "VELOCIDAD": "320",
-        "PODER": "360",
-        "TERROR": "88"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 450,
+    "ataque": 420,
+    "defensa": 500,
+    "velocidad": 320,
+    "poder": 360,
+    "terror": 88
   },
   {
-    "numero-carta": "8B",
-    "nombre-carta": "Withered Freddy",
-    "imagen-personaje": "../img/cartas/Withered-freddy.jpg",
+    "id": 16,
+    "nombre": "Withered Freddy",
+    "descripcion": "Carta de Withered Freddy. Rareza: comun.",
+    "imagen": "img/cartas/Withered-freddy.jpg",
+    "categoria": "8B",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "480",
-        "ATAQUE": "400",
-        "DEFENSA": "520",
-        "VELOCIDAD": "300",
-        "PODER": "400",
-        "TERROR": "92"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 480,
+    "ataque": 400,
+    "defensa": 520,
+    "velocidad": 300,
+    "poder": 400,
+    "terror": 92
   },
   {
-    "numero-carta": "1C",
-    "nombre-carta": "Nightmare Freddy",
-    "imagen-personaje": "../img/cartas/Nightmare-freddy.jpg",
+    "id": 17,
+    "nombre": "Nightmare Freddy",
+    "descripcion": "Carta de Nightmare Freddy. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-freddy.jpg",
+    "categoria": "1C",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "18000",
-        "ATAQUE": "32000",
-        "DEFENSA": "26000",
-        "VELOCIDAD": "14000",
-        "PODER": "35000",
-        "TERROR": "9200"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 18000,
+    "ataque": 32000,
+    "defensa": 26000,
+    "velocidad": 14000,
+    "poder": 35000,
+    "terror": 9200
   },
   {
-    "numero-carta": "2C",
-    "nombre-carta": "Withered Golden Freddy",
-    "imagen-personaje": "../img/cartas/Withered-goldenfreddy.jpg",
+    "id": 18,
+    "nombre": "Withered Golden Freddy",
+    "descripcion": "Carta de Withered Golden Freddy. Rareza: rara.",
+    "imagen": "img/cartas/Withered-goldenfreddy.jpg",
+    "categoria": "2C",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8700",
-        "ATAQUE": "9400",
-        "DEFENSA": "7400",
-        "VELOCIDAD": "8600",
-        "PODER": "8300",
-        "TERROR": "910"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8700,
+    "ataque": 9400,
+    "defensa": 7400,
+    "velocidad": 8600,
+    "poder": 8300,
+    "terror": 910
   },
   {
-    "numero-carta": "3C",
-    "nombre-carta": "Withered Foxy",
-    "imagen-personaje": "../img/cartas/Withered-foxy.webp",
+    "id": 19,
+    "nombre": "Withered Foxy",
+    "descripcion": "Carta de Withered Foxy. Rareza: rara.",
+    "imagen": "img/cartas/Withered-foxy.webp",
+    "categoria": "3C",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "7200",
-        "ATAQUE": "9200",
-        "DEFENSA": "5200",
-        "VELOCIDAD": "9800",
-        "PODER": "7500",
-        "TERROR": "970"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 7200,
+    "ataque": 9200,
+    "defensa": 5200,
+    "velocidad": 9800,
+    "poder": 7500,
+    "terror": 970
   },
   {
-    "numero-carta": "4C",
-    "nombre-carta": "Phantom Freddy",
-    "imagen-personaje": "../img/cartas/Phantom-freddy.jpg",
+    "id": 20,
+    "nombre": "Phantom Freddy",
+    "descripcion": "Carta de Phantom Freddy. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-freddy.jpg",
+    "categoria": "4C",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "5000",
-        "ATAQUE": "6000",
-        "DEFENSA": "9000",
-        "VELOCIDAD": "5500",
-        "PODER": "6500",
-        "TERROR": "800"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 5000,
+    "ataque": 6000,
+    "defensa": 9000,
+    "velocidad": 5500,
+    "poder": 6500,
+    "terror": 800
   },
   {
-    "numero-carta": "5C",
-    "nombre-carta": "Phantom Chica",
-    "imagen-personaje": "../img/cartas/Phantom-chica.webp",
+    "id": 21,
+    "nombre": "Phantom Chica",
+    "descripcion": "Carta de Phantom Chica. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-chica.webp",
+    "categoria": "5C",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "5200",
-        "ATAQUE": "5800",
-        "DEFENSA": "9200",
-        "VELOCIDAD": "5800",
-        "PODER": "6200",
-        "TERROR": "820"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 5200,
+    "ataque": 5800,
+    "defensa": 9200,
+    "velocidad": 5800,
+    "poder": 6200,
+    "terror": 820
   },
   {
-    "numero-carta": "6C",
-    "nombre-carta": "JJ",
-    "imagen-personaje": "../img/cartas/Jj.png",
+    "id": 22,
+    "nombre": "JJ",
+    "descripcion": "Carta de JJ. Rareza: comun.",
+    "imagen": "img/cartas/Jj.png",
+    "categoria": "6C",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "250",
-        "ATAQUE": "200",
-        "DEFENSA": "300",
-        "VELOCIDAD": "400",
-        "PODER": "150",
-        "TERROR": "75"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 250,
+    "ataque": 200,
+    "defensa": 300,
+    "velocidad": 400,
+    "poder": 150,
+    "terror": 75
   },
   {
-    "numero-carta": "7C",
-    "nombre-carta": "Shadow Freddy",
-    "imagen-personaje": "../img/cartas/Shadow-freddy.webp",
+    "id": 23,
+    "nombre": "Shadow Freddy",
+    "descripcion": "Carta de Shadow Freddy. Rareza: comun.",
+    "imagen": "img/cartas/Shadow-freddy.webp",
+    "categoria": "7C",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "500",
-        "ATAQUE": "520",
-        "DEFENSA": "550",
-        "VELOCIDAD": "450",
-        "PODER": "480",
-        "TERROR": "96"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 500,
+    "ataque": 520,
+    "defensa": 550,
+    "velocidad": 450,
+    "poder": 480,
+    "terror": 96
   },
   {
-    "numero-carta": "8C",
-    "nombre-carta": "Shadow Bonnie",
-    "imagen-personaje": "../img/cartas/Shadow-bonnie.jpg",
+    "id": 24,
+    "nombre": "Shadow Bonnie",
+    "descripcion": "Carta de Shadow Bonnie. Rareza: comun.",
+    "imagen": "img/cartas/Shadow-bonnie.jpg",
+    "categoria": "8C",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "510",
-        "ATAQUE": "530",
-        "DEFENSA": "540",
-        "VELOCIDAD": "460",
-        "PODER": "490",
-        "TERROR": "98"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 510,
+    "ataque": 530,
+    "defensa": 540,
+    "velocidad": 460,
+    "poder": 490,
+    "terror": 98
   },
   {
-    "numero-carta": "1D",
-    "nombre-carta": "Nightmare Chica",
-    "imagen-personaje": "../img/cartas/Nightmare-chica.jpg",
+    "id": 25,
+    "nombre": "Nightmare Chica",
+    "descripcion": "Carta de Nightmare Chica. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-chica.jpg",
+    "categoria": "1D",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "19000",
-        "ATAQUE": "31000",
-        "DEFENSA": "29000",
-        "VELOCIDAD": "13000",
-        "PODER": "36000",
-        "TERROR": "9300"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 19000,
+    "ataque": 31000,
+    "defensa": 29000,
+    "velocidad": 13000,
+    "poder": 36000,
+    "terror": 9300
   },
   {
-    "numero-carta": "2D",
-    "nombre-carta": "Plushtrap",
-    "imagen-personaje": "../img/cartas/Plushtrap.jpg",
+    "id": 26,
+    "nombre": "Plushtrap",
+    "descripcion": "Carta de Plushtrap. Rareza: rara.",
+    "imagen": "img/cartas/Plushtrap.jpg",
+    "categoria": "2D",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8750",
-        "ATAQUE": "9600",
-        "DEFENSA": "7300",
-        "VELOCIDAD": "9000",
-        "PODER": "8400",
-        "TERROR": "940"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8750,
+    "ataque": 9600,
+    "defensa": 7300,
+    "velocidad": 9000,
+    "poder": 8400,
+    "terror": 940
   },
   {
-    "numero-carta": "3D",
-    "nombre-carta": "Phantom Foxy",
-    "imagen-personaje": "../img/cartas/Phantom-foxy.jpg",
+    "id": 27,
+    "nombre": "Phantom Foxy",
+    "descripcion": "Carta de Phantom Foxy. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-foxy.jpg",
+    "categoria": "3D",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "5500",
-        "ATAQUE": "7000",
-        "DEFENSA": "8500",
-        "VELOCIDAD": "8000",
-        "PODER": "6800",
-        "TERROR": "850"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 5500,
+    "ataque": 7000,
+    "defensa": 8500,
+    "velocidad": 8000,
+    "poder": 6800,
+    "terror": 850
   },
   {
-    "numero-carta": "4D",
-    "nombre-carta": "Phantom Mangle",
-    "imagen-personaje": "../img/cartas/Phantom-mangle.jpg",
+    "id": 28,
+    "nombre": "Phantom Mangle",
+    "descripcion": "Carta de Phantom Mangle. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-mangle.jpg",
+    "categoria": "4D",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "5800",
-        "ATAQUE": "6500",
-        "DEFENSA": "8800",
-        "VELOCIDAD": "7500",
-        "PODER": "7000",
-        "TERROR": "870"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 5800,
+    "ataque": 6500,
+    "defensa": 8800,
+    "velocidad": 7500,
+    "poder": 7000,
+    "terror": 870
   },
   {
-    "numero-carta": "5D",
-    "nombre-carta": "Phantom Puppet",
-    "imagen-personaje": "../img/cartas/Phantom-puppet.jpg",
+    "id": 29,
+    "nombre": "Phantom Puppet",
+    "descripcion": "Carta de Phantom Puppet. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-puppet.jpg",
+    "categoria": "5D",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "6000",
-        "ATAQUE": "6200",
-        "DEFENSA": "9500",
-        "VELOCIDAD": "7200",
-        "PODER": "7200",
-        "TERROR": "900"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 6000,
+    "ataque": 6200,
+    "defensa": 9500,
+    "velocidad": 7200,
+    "poder": 7200,
+    "terror": 900
   },
   {
-    "numero-carta": "6D",
-    "nombre-carta": "Endo-01",
-    "imagen-personaje": "../img/cartas/Endo-01.webp",
+    "id": 30,
+    "nombre": "Endo-01",
+    "descripcion": "Carta de Endo-01. Rareza: comun.",
+    "imagen": "img/cartas/Endo-01.webp",
+    "categoria": "6D",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "600",
-        "ATAQUE": "300",
-        "DEFENSA": "600",
-        "VELOCIDAD": "300",
-        "PODER": "300",
-        "TERROR": "80"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 600,
+    "ataque": 300,
+    "defensa": 600,
+    "velocidad": 300,
+    "poder": 300,
+    "terror": 80
   },
   {
-    "numero-carta": "7D",
-    "nombre-carta": "Endo-02",
-    "imagen-personaje": "../img/cartas/Endo-02.jpg",
+    "id": 31,
+    "nombre": "Endo-02",
+    "descripcion": "Carta de Endo-02. Rareza: comun.",
+    "imagen": "img/cartas/Endo-02.jpg",
+    "categoria": "7D",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "610",
-        "ATAQUE": "310",
-        "DEFENSA": "610",
-        "VELOCIDAD": "310",
-        "PODER": "310",
-        "TERROR": "82"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 610,
+    "ataque": 310,
+    "defensa": 610,
+    "velocidad": 310,
+    "poder": 310,
+    "terror": 82
   },
   {
-    "numero-carta": "8D",
-    "nombre-carta": "Paperpals",
-    "imagen-personaje": "../img/cartas/Paperpals.webp",
+    "id": 32,
+    "nombre": "Paperpals",
+    "descripcion": "Carta de Paperpals. Rareza: comun.",
+    "imagen": "img/cartas/Paperpals.webp",
+    "categoria": "8D",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "100",
-        "ATAQUE": "100",
-        "DEFENSA": "100",
-        "VELOCIDAD": "500",
-        "PODER": "100",
-        "TERROR": "50"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 100,
+    "ataque": 100,
+    "defensa": 100,
+    "velocidad": 500,
+    "poder": 100,
+    "terror": 50
   },
   {
-    "numero-carta": "1E",
-    "nombre-carta": "Nightmare Bonnie",
-    "imagen-personaje": "../img/cartas/Nightmare-bonnie.jpg",
+    "id": 33,
+    "nombre": "Nightmare Bonnie",
+    "descripcion": "Carta de Nightmare Bonnie. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-bonnie.jpg",
+    "categoria": "1E",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "22000",
-        "ATAQUE": "38000",
-        "DEFENSA": "30000",
-        "VELOCIDAD": "20000",
-        "PODER": "42000",
-        "TERROR": "9800"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 22000,
+    "ataque": 38000,
+    "defensa": 30000,
+    "velocidad": 20000,
+    "poder": 42000,
+    "terror": 9800
   },
   {
-    "numero-carta": "2E",
-    "nombre-carta": "Ennard",
-    "imagen-personaje": "../img/cartas/Ennard.webp",
+    "id": 34,
+    "nombre": "Ennard",
+    "descripcion": "Carta de Ennard. Rareza: rara.",
+    "imagen": "img/cartas/Ennard.webp",
+    "categoria": "2E",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9100",
-        "ATAQUE": "8700",
-        "DEFENSA": "9200",
-        "VELOCIDAD": "9200",
-        "PODER": "8100",
-        "TERROR": "970"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9100,
+    "ataque": 8700,
+    "defensa": 9200,
+    "velocidad": 9200,
+    "poder": 8100,
+    "terror": 970
   },
   {
-    "numero-carta": "3E",
-    "nombre-carta": "Phantom Balloon Boy",
-    "imagen-personaje": "../img/cartas/Phantom-BalloonBoy.jpg",
+    "id": 35,
+    "nombre": "Phantom Balloon Boy",
+    "descripcion": "Carta de Phantom Balloon Boy. Rareza: rara.",
+    "imagen": "img/cartas/Phantom-BalloonBoy.jpg",
+    "categoria": "3E",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "4800",
-        "ATAQUE": "4500",
-        "DEFENSA": "7500",
-        "VELOCIDAD": "6500",
-        "PODER": "5500",
-        "TERROR": "780"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 4800,
+    "ataque": 4500,
+    "defensa": 7500,
+    "velocidad": 6500,
+    "poder": 5500,
+    "terror": 780
   },
   {
-    "numero-carta": "4E",
-    "nombre-carta": "Circus Baby",
-    "imagen-personaje": "../img/cartas/CircusBaby.jpg",
+    "id": 36,
+    "nombre": "Circus Baby",
+    "descripcion": "Carta de Circus Baby. Rareza: rara.",
+    "imagen": "img/cartas/CircusBaby.jpg",
+    "categoria": "4E",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8500",
-        "ATAQUE": "8200",
-        "DEFENSA": "8000",
-        "VELOCIDAD": "7800",
-        "PODER": "8800",
-        "TERROR": "920"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8500,
+    "ataque": 8200,
+    "defensa": 8000,
+    "velocidad": 7800,
+    "poder": 8800,
+    "terror": 920
   },
   {
-    "numero-carta": "5E",
-    "nombre-carta": "Funtime Freddy",
-    "imagen-personaje": "../img/cartas/Funtime-Freddy.jpg",
+    "id": 37,
+    "nombre": "Funtime Freddy",
+    "descripcion": "Carta de Funtime Freddy. Rareza: rara.",
+    "imagen": "img/cartas/Funtime-Freddy.jpg",
+    "categoria": "5E",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8200",
-        "ATAQUE": "8800",
-        "DEFENSA": "7800",
-        "VELOCIDAD": "8000",
-        "PODER": "8500",
-        "TERROR": "940"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8200,
+    "ataque": 8800,
+    "defensa": 7800,
+    "velocidad": 8000,
+    "poder": 8500,
+    "terror": 940
   },
   {
-    "numero-carta": "6E",
-    "nombre-carta": "Crying Child",
-    "imagen-personaje": "../img/cartas/Crying-Child.webp",
+    "id": 38,
+    "nombre": "Crying Child",
+    "descripcion": "Carta de Crying Child. Rareza: comun.",
+    "imagen": "img/cartas/Crying-Child.webp",
+    "categoria": "6E",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "150",
-        "ATAQUE": "150",
-        "DEFENSA": "150",
-        "VELOCIDAD": "150",
-        "PODER": "150",
-        "TERROR": "700"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 150,
+    "ataque": 150,
+    "defensa": 150,
+    "velocidad": 150,
+    "poder": 150,
+    "terror": 700
   },
   {
-    "numero-carta": "7E",
-    "nombre-carta": "Molten Freddy",
-    "imagen-personaje": "../img/cartas/Molten-Freddy.png",
+    "id": 39,
+    "nombre": "Molten Freddy",
+    "descripcion": "Carta de Molten Freddy. Rareza: comun.",
+    "imagen": "img/cartas/Molten-Freddy.png",
+    "categoria": "7E",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "100",
-        "ATAQUE": "100",
-        "DEFENSA": "100",
-        "VELOCIDAD": "100",
-        "PODER": "100",
-        "TERROR": "10"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 100,
+    "ataque": 100,
+    "defensa": 100,
+    "velocidad": 100,
+    "poder": 100,
+    "terror": 10
   },
   {
-    "numero-carta": "8E",
-    "nombre-carta": "Purple Guy",
-    "imagen-personaje": "../img/cartas/PurpleGuy.jpeg",
+    "id": 40,
+    "nombre": "Purple Guy",
+    "descripcion": "Carta de Purple Guy. Rareza: comun.",
+    "imagen": "img/cartas/PurpleGuy.jpeg",
+    "categoria": "8E",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "200",
-        "ATAQUE": "600",
-        "DEFENSA": "200",
-        "VELOCIDAD": "400",
-        "PODER": "500",
-        "TERROR": "80"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 200,
+    "ataque": 600,
+    "defensa": 200,
+    "velocidad": 400,
+    "poder": 500,
+    "terror": 80
   },
   {
-    "numero-carta": "1F",
-    "nombre-carta": "Nightmare Mangle",
-    "imagen-personaje": "../img/cartas/Nightmare-Mangle.png",
+    "id": 41,
+    "nombre": "Nightmare Mangle",
+    "descripcion": "Carta de Nightmare Mangle. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-Mangle.png",
+    "categoria": "1F",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "25000",
-        "ATAQUE": "40000",
-        "DEFENSA": "35000",
-        "VELOCIDAD": "25000",
-        "PODER": "45000",
-        "TERROR": "9000"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 25000,
+    "ataque": 40000,
+    "defensa": 35000,
+    "velocidad": 25000,
+    "poder": 45000,
+    "terror": 9000
   },
   {
-    "numero-carta": "2F",
-    "nombre-carta": "Scrap Baby",
-    "imagen-personaje": "../img/cartas/ScrapBaby.webp",
+    "id": 42,
+    "nombre": "Scrap Baby",
+    "descripcion": "Carta de Scrap Baby. Rareza: rara.",
+    "imagen": "img/cartas/ScrapBaby.webp",
+    "categoria": "2F",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9400",
-        "ATAQUE": "8900",
-        "DEFENSA": "9600",
-        "VELOCIDAD": "8600",
-        "PODER": "9400",
-        "TERROR": "920"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9400,
+    "ataque": 8900,
+    "defensa": 9600,
+    "velocidad": 8600,
+    "poder": 9400,
+    "terror": 920
   },
   {
-    "numero-carta": "3F",
-    "nombre-carta": "Funtime Foxy",
-    "imagen-personaje": "../img/cartas/FuntimeFoxy.jpg",
+    "id": 43,
+    "nombre": "Funtime Foxy",
+    "descripcion": "Carta de Funtime Foxy. Rareza: rara.",
+    "imagen": "img/cartas/FuntimeFoxy.jpg",
+    "categoria": "3F",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8000",
-        "ATAQUE": "9500",
-        "DEFENSA": "7500",
-        "VELOCIDAD": "9000",
-        "PODER": "8200",
-        "TERROR": "960"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8000,
+    "ataque": 9500,
+    "defensa": 7500,
+    "velocidad": 9000,
+    "poder": 8200,
+    "terror": 960
   },
   {
-    "numero-carta": "4F",
-    "nombre-carta": "Ballora",
-    "imagen-personaje": "../img/cartas/Ballora.jpg",
+    "id": 44,
+    "nombre": "Ballora",
+    "descripcion": "Carta de Ballora. Rareza: rara.",
+    "imagen": "img/cartas/Ballora.jpg",
+    "categoria": "4F",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "7800",
-        "ATAQUE": "8000",
-        "DEFENSA": "8200",
-        "VELOCIDAD": "8500",
-        "PODER": "9000",
-        "TERROR": "980"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 7800,
+    "ataque": 8000,
+    "defensa": 8200,
+    "velocidad": 8500,
+    "poder": 9000,
+    "terror": 980
   },
   {
-    "numero-carta": "5F",
-    "nombre-carta": "Bidybab",
-    "imagen-personaje": "../img/cartas/Bidybab.jpg",
+    "id": 45,
+    "nombre": "Bidybab",
+    "descripcion": "Carta de Bidybab. Rareza: rara.",
+    "imagen": "img/cartas/Bidybab.jpg",
+    "categoria": "5F",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "4000",
-        "ATAQUE": "3500",
-        "DEFENSA": "4500",
-        "VELOCIDAD": "5000",
-        "PODER": "3000",
-        "TERROR": "650"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 4000,
+    "ataque": 3500,
+    "defensa": 4500,
+    "velocidad": 5000,
+    "poder": 3000,
+    "terror": 650
   },
   {
-    "numero-carta": "6F",
-    "nombre-carta": "Minireena",
-    "imagen-personaje": "../img/cartas/Minireena.jpg",
+    "id": 46,
+    "nombre": "Minireena",
+    "descripcion": "Carta de Minireena. Rareza: comun.",
+    "imagen": "img/cartas/Minireena.jpg",
+    "categoria": "6F",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "150",
-        "ATAQUE": "250",
-        "DEFENSA": "150",
-        "VELOCIDAD": "450",
-        "PODER": "200",
-        "TERROR": "60"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 150,
+    "ataque": 250,
+    "defensa": 150,
+    "velocidad": 450,
+    "poder": 200,
+    "terror": 60
   },
   {
-    "numero-carta": "7F",
-    "nombre-carta": "Electrobab",
-    "imagen-personaje": "../img/cartas/Electrobab.jpg",
+    "id": 47,
+    "nombre": "Electrobab",
+    "descripcion": "Carta de Electrobab. Rareza: comun.",
+    "imagen": "img/cartas/Electrobab.jpg",
+    "categoria": "7F",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "160",
-        "ATAQUE": "260",
-        "DEFENSA": "160",
-        "VELOCIDAD": "460",
-        "PODER": "210",
-        "TERROR": "62"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 160,
+    "ataque": 260,
+    "defensa": 160,
+    "velocidad": 460,
+    "poder": 210,
+    "terror": 62
   },
   {
-    "numero-carta": "8F",
-    "nombre-carta": "Bon-Bon",
-    "imagen-personaje": "../img/cartas/Bon-bon.jpg",
+    "id": 48,
+    "nombre": "Bon-Bon",
+    "descripcion": "Carta de Bon-Bon. Rareza: comun.",
+    "imagen": "img/cartas/Bon-bon.jpg",
+    "categoria": "8F",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "200",
-        "ATAQUE": "300",
-        "DEFENSA": "200",
-        "VELOCIDAD": "500",
-        "PODER": "250",
-        "TERROR": "65"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 200,
+    "ataque": 300,
+    "defensa": 200,
+    "velocidad": 500,
+    "poder": 250,
+    "terror": 65
   },
   {
-    "numero-carta": "1G",
-    "nombre-carta": "Nightmare Foxy",
-    "imagen-personaje": "../img/cartas/Nightmare-Foxy.png",
+    "id": 49,
+    "nombre": "Nightmare Foxy",
+    "descripcion": "Carta de Nightmare Foxy. Rareza: especial.",
+    "imagen": "img/cartas/Nightmare-Foxy.png",
+    "categoria": "1G",
     "rareza": "especial",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "26000",
-        "ATAQUE": "42000",
-        "DEFENSA": "38000",
-        "VELOCIDAD": "28000",
-        "PODER": "46000",
-        "TERROR": "7500"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 26000,
+    "ataque": 42000,
+    "defensa": 38000,
+    "velocidad": 28000,
+    "poder": 46000,
+    "terror": 7500
   },
   {
-    "numero-carta": "2G",
-    "nombre-carta": "Scraptrap",
-    "imagen-personaje": "../img/cartas/Scraptrap.jpg",
+    "id": 50,
+    "nombre": "Scraptrap",
+    "descripcion": "Carta de Scraptrap. Rareza: rara.",
+    "imagen": "img/cartas/Scraptrap.jpg",
+    "categoria": "2G",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9800",
-        "ATAQUE": "9100",
-        "DEFENSA": "9000",
-        "VELOCIDAD": "8400",
-        "PODER": "8900",
-        "TERROR": "930"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9800,
+    "ataque": 9100,
+    "defensa": 9000,
+    "velocidad": 8400,
+    "poder": 8900,
+    "terror": 930
   },
   {
-    "numero-carta": "3G",
-    "nombre-carta": "Lefty",
-    "imagen-personaje": "../img/cartas/Lefty.jpg",
+    "id": 51,
+    "nombre": "Lefty",
+    "descripcion": "Carta de Lefty. Rareza: rara.",
+    "imagen": "img/cartas/Lefty.jpg",
+    "categoria": "3G",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9000",
-        "ATAQUE": "9000",
-        "DEFENSA": "9000",
-        "VELOCIDAD": "9000",
-        "PODER": "9000",
-        "TERROR": "1000"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9000,
+    "ataque": 9000,
+    "defensa": 9000,
+    "velocidad": 9000,
+    "poder": 9000,
+    "terror": 1000
   },
   {
-    "numero-carta": "4G",
-    "nombre-carta": "Rockstar Freddy",
-    "imagen-personaje": "../img/cartas/Rockstar-Freddy.jpg",
+    "id": 52,
+    "nombre": "Rockstar Freddy",
+    "descripcion": "Carta de Rockstar Freddy. Rareza: rara.",
+    "imagen": "img/cartas/Rockstar-Freddy.jpg",
+    "categoria": "4G",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8800",
-        "ATAQUE": "8600",
-        "DEFENSA": "8700",
-        "VELOCIDAD": "8400",
-        "PODER": "9800",
-        "TERROR": "980"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8800,
+    "ataque": 8600,
+    "defensa": 8700,
+    "velocidad": 8400,
+    "poder": 9800,
+    "terror": 980
   },
   {
-    "numero-carta": "5G",
-    "nombre-carta": "Rockstar Bonnie",
-    "imagen-personaje": "../img/cartas/Rockstar-Bonnie.jpg",
+    "id": 53,
+    "nombre": "Rockstar Bonnie",
+    "descripcion": "Carta de Rockstar Bonnie. Rareza: rara.",
+    "imagen": "img/cartas/Rockstar-Bonnie.jpg",
+    "categoria": "5G",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8600",
-        "ATAQUE": "8900",
-        "DEFENSA": "8400",
-        "VELOCIDAD": "8700",
-        "PODER": "8800",
-        "TERROR": "950"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8600,
+    "ataque": 8900,
+    "defensa": 8400,
+    "velocidad": 8700,
+    "poder": 8800,
+    "terror": 950
   },
   {
-    "numero-carta": "6G",
-    "nombre-carta": "Bonnet",
-    "imagen-personaje": "../img/cartas/Bonnet.jpg",
+    "id": 54,
+    "nombre": "Bonnet",
+    "descripcion": "Carta de Bonnet. Rareza: comun.",
+    "imagen": "img/cartas/Bonnet.jpg",
+    "categoria": "6G",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "210",
-        "ATAQUE": "310",
-        "DEFENSA": "210",
-        "VELOCIDAD": "510",
-        "PODER": "260",
-        "TERROR": "68"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 210,
+    "ataque": 310,
+    "defensa": 210,
+    "velocidad": 510,
+    "poder": 260,
+    "terror": 68
   },
   {
-    "numero-carta": "7G",
-    "nombre-carta": "Yenndo",
-    "imagen-personaje": "../img/cartas/Yenndo.jpg",
+    "id": 55,
+    "nombre": "Yenndo",
+    "descripcion": "Carta de Yenndo. Rareza: comun.",
+    "imagen": "img/cartas/Yenndo.jpg",
+    "categoria": "7G",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "650",
-        "ATAQUE": "350",
-        "DEFENSA": "650",
-        "VELOCIDAD": "350",
-        "PODER": "350",
-        "TERROR": "85"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 650,
+    "ataque": 350,
+    "defensa": 650,
+    "velocidad": 350,
+    "poder": 350,
+    "terror": 85
   },
   {
-    "numero-carta": "8G",
-    "nombre-carta": "Lolbit",
-    "imagen-personaje": "../img/cartas/Lolbit.jpg",
+    "id": 56,
+    "nombre": "Lolbit",
+    "descripcion": "Carta de Lolbit. Rareza: comun.",
+    "imagen": "img/cartas/Lolbit.jpg",
+    "categoria": "8G",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "400",
-        "ATAQUE": "400",
-        "DEFENSA": "400",
-        "VELOCIDAD": "600",
-        "PODER": "400",
-        "TERROR": "90"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 400,
+    "ataque": 400,
+    "defensa": 400,
+    "velocidad": 600,
+    "poder": 400,
+    "terror": 90
   },
   {
-    "numero-carta": "1H",
-    "nombre-carta": "Nightmare Balloon Boy",
-    "imagen-personaje": "../img/cartas/Nightmare-BalloonBoy.jpg",
+    "id": 57,
+    "nombre": "Nightmare Balloon Boy",
+    "descripcion": "Carta de Nightmare Balloon Boy. Rareza: rara.",
+    "imagen": "img/cartas/Nightmare-BalloonBoy.jpg",
+    "categoria": "1H",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9500",
-        "ATAQUE": "9000",
-        "DEFENSA": "9500",
-        "VELOCIDAD": "9000",
-        "PODER": "9500",
-        "TERROR": "950"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9500,
+    "ataque": 9000,
+    "defensa": 9500,
+    "velocidad": 9000,
+    "poder": 9500,
+    "terror": 950
   },
   {
-    "numero-carta": "2H",
-    "nombre-carta": "Vanny",
-    "imagen-personaje": "../img/cartas/Vanny.webp",
+    "id": 58,
+    "nombre": "Vanny",
+    "descripcion": "Carta de Vanny. Rareza: rara.",
+    "imagen": "img/cartas/Vanny.webp",
+    "categoria": "2H",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8900",
-        "ATAQUE": "9800",
-        "DEFENSA": "8600",
-        "VELOCIDAD": "9200",
-        "PODER": "9200",
-        "TERROR": "820"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8900,
+    "ataque": 9800,
+    "defensa": 8600,
+    "velocidad": 9200,
+    "poder": 9200,
+    "terror": 820
   },
   {
-    "numero-carta": "3H",
-    "nombre-carta": "Rockstar Chica",
-    "imagen-personaje": "../img/cartas/Rockstar-Chica.jpg",
+    "id": 59,
+    "nombre": "Rockstar Chica",
+    "descripcion": "Carta de Rockstar Chica. Rareza: rara.",
+    "imagen": "img/cartas/Rockstar-Chica.jpg",
+    "categoria": "3H",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8700",
-        "ATAQUE": "8400",
-        "DEFENSA": "8900",
-        "VELOCIDAD": "8600",
-        "PODER": "8700",
-        "TERROR": "970"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8700,
+    "ataque": 8400,
+    "defensa": 8900,
+    "velocidad": 8600,
+    "poder": 8700,
+    "terror": 970
   },
   {
-    "numero-carta": "4H",
-    "nombre-carta": "Rockstar Foxy",
-    "imagen-personaje": "../img/cartas/Rockstar-Foxy.jpg",
+    "id": 60,
+    "nombre": "Rockstar Foxy",
+    "descripcion": "Carta de Rockstar Foxy. Rareza: rara.",
+    "imagen": "img/cartas/Rockstar-Foxy.jpg",
+    "categoria": "4H",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "8400",
-        "ATAQUE": "9200",
-        "DEFENSA": "8600",
-        "VELOCIDAD": "9100",
-        "PODER": "8600",
-        "TERROR": "990"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 8400,
+    "ataque": 9200,
+    "defensa": 8600,
+    "velocidad": 9100,
+    "poder": 8600,
+    "terror": 990
   },
   {
-    "numero-carta": "5H",
-    "nombre-carta": "Glitchtrap",
-    "imagen-personaje": "../img/cartas/Glitchtrap.webp",
+    "id": 61,
+    "nombre": "Glitchtrap",
+    "descripcion": "Carta de Glitchtrap. Rareza: rara.",
+    "imagen": "img/cartas/Glitchtrap.webp",
+    "categoria": "5H",
     "rareza": "rara",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "9200",
-        "ATAQUE": "8700",
-        "DEFENSA": "9100",
-        "VELOCIDAD": "8200",
-        "PODER": "9100",
-        "TERROR": "1200"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 9200,
+    "ataque": 8700,
+    "defensa": 9100,
+    "velocidad": 8200,
+    "poder": 9100,
+    "terror": 1200
   },
   {
-    "numero-carta": "6H",
-    "nombre-carta": "El Chip",
-    "imagen-personaje": "../img/cartas/ElChip.jpg",
+    "id": 62,
+    "nombre": "El Chip",
+    "descripcion": "Carta de El Chip. Rareza: comun.",
+    "imagen": "img/cartas/ElChip.jpg",
+    "categoria": "6H",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "450",
-        "ATAQUE": "460",
-        "DEFENSA": "470",
-        "VELOCIDAD": "440",
-        "PODER": "430",
-        "TERROR": "87"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 450,
+    "ataque": 460,
+    "defensa": 470,
+    "velocidad": 440,
+    "poder": 430,
+    "terror": 87
   },
   {
-    "numero-carta": "7H",
-    "nombre-carta": "Funtime Chica",
-    "imagen-personaje": "../img/cartas/Funtime-Chica.jpg",
+    "id": 63,
+    "nombre": "Funtime Chica",
+    "descripcion": "Carta de Funtime Chica. Rareza: comun.",
+    "imagen": "img/cartas/Funtime-Chica.jpg",
+    "categoria": "7H",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "460",
-        "ATAQUE": "470",
-        "DEFENSA": "450",
-        "VELOCIDAD": "430",
-        "PODER": "440",
-        "TERROR": "89"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 460,
+    "ataque": 470,
+    "defensa": 450,
+    "velocidad": 430,
+    "poder": 440,
+    "terror": 89
   },
   {
-    "numero-carta": "8H",
-    "nombre-carta": "Helpy",
-    "imagen-personaje": "../img/cartas/Helpy.jpg",
+    "id": 64,
+    "nombre": "Helpy",
+    "descripcion": "Carta de Helpy. Rareza: comun.",
+    "imagen": "img/cartas/Helpy.jpg",
+    "categoria": "8H",
     "rareza": "comun",
-    "etiqueta-estadistica": [
-      {
-        "VIDA": "200",
-        "ATAQUE": "200",
-        "DEFENSA": "300",
-        "VELOCIDAD": "200",
-        "PODER": "150",
-        "TERROR": "50"
-      }
-    ],
-    "texto-trasero": "TRADING CARDS"
+    "vida": 200,
+    "ataque": 200,
+    "defensa": 300,
+    "velocidad": 200,
+    "poder": 150,
+    "terror": 50
   }
 ]

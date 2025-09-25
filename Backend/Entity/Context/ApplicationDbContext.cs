@@ -106,39 +106,30 @@ namespace Entity.Context
             });
 
             // Configuración de Ronda
-            modelBuilder.Entity<Ronda>(entity =>
-            {
-                entity.Property(e => e.AtributoCompetido)
-                    .HasColumnType("varchar(100)")
-                    .IsRequired();
+           modelBuilder.Entity<Ronda>(entity =>
+                {
+                    entity.Property(e => e.AtributoCompetido)
+                        .HasColumnType("varchar(100)")
+                        .IsRequired(false);         // ✅ ahora permite NULL
 
-                entity.Property(e => e.Estado)
-                    .HasColumnType("varchar(50)")
-                    .HasDefaultValue("Esperando");
+                    entity.Property(e => e.Estado)
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Esperando");
 
-                // Índice único para evitar duplicados de número de ronda por partida
-                entity.HasIndex(e => new { e.IdPartida, e.NumeroRonda })
-                    .IsUnique();
+                    entity.HasIndex(e => new { e.IdPartida, e.NumeroRonda }).IsUnique();
 
-                // Relación con Partida
-                entity.HasOne(e => e.Partida)
-                    .WithMany(e => e.Rondas)
-                    .HasForeignKey(e => e.IdPartida)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    entity.HasOne(e => e.Partida).WithMany(e => e.Rondas)
+                        .HasForeignKey(e => e.IdPartida)
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                // Relación con JugadorQueElige
-                entity.HasOne(e => e.JugadorQueElige)
-                    .WithMany(e => e.RondasQueElige)
-                    .HasForeignKey(e => e.IdJugadorQueElige)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    entity.HasOne(e => e.JugadorQueElige).WithMany(e => e.RondasQueElige)
+                        .HasForeignKey(e => e.IdJugadorQueElige)
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                // Relación con Ganador
-                entity.HasOne(e => e.Ganador)
-                    .WithMany(e => e.RondasGanadas)
-                    .HasForeignKey(e => e.IdGanador)
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-
+                    entity.HasOne(e => e.Ganador).WithMany(e => e.RondasGanadas)
+                        .HasForeignKey(e => e.IdGanador)
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
             // Configuración de Jugada
             modelBuilder.Entity<Jugada>(entity =>
             {

@@ -93,28 +93,49 @@ function actualizarSistemaConJugadoresReales() {
 }
 
 function actualizarInterfazJugadores() {
-    // Ocultar jugadores extra y mostrar solo los reales
-    const contenedoresJugadores = document.querySelectorAll('.iconos-1, .iconos-2');
-    
-    contenedoresJugadores.forEach((contenedor, index) => {
-        if (index < jugadoresBackend.length) {
-            // Mostrar jugador real
-            contenedor.style.display = 'block';
-            const input = contenedor.querySelector('input');
-            const h4 = contenedor.querySelector('h4');
-            
-            if (input && jugadoresBackend[index]) {
-                input.value = jugadoresBackend[index].Nombre || jugadoresBackend[index].nombre;
-            }
-            if (h4) {
-                h4.textContent = `J${index + 1}`;
-            }
+    console.log(' Actualizando la interfaz para los jugadores...');
+    actualizarUIJugadorCompleto(1, jugadoresBackend.length > 0 ? jugadoresBackend[0] : null);
+    actualizarUIJugadorCompleto(2, jugadoresBackend.length > 1 ? jugadoresBackend[1] : null);
+    console.log(' Interfaz de jugadores actualizada.');
+}
+
+/**
+ * Función robusta para actualizar el nombre y avatar de un jugador en la UI.
+ * Esta función es a prueba de errores para no detener el script.
+ * @param {number} numeroJugador - El número del jugador (1 o 2).
+ * @param {object | null} datosJugador - El objeto con los datos del jugador.
+ */
+function actualizarUIJugadorCompleto(numeroJugador, datosJugador) {
+    const contenedor = document.querySelector(`.iconos-${numeroJugador}`);
+    if (!contenedor) return;
+
+    const nombreEl = contenedor.querySelector('input');
+    const avatarEl = contenedor.querySelector('img');
+
+    if (!nombreEl || !avatarEl) {
+        console.error(`Elementos de UI (input o img) no encontrados para el jugador ${numeroJugador}.`);
+        return;
+    }
+
+    // Mostrar el contenedor del jugador si hay datos, ocultarlo si no.
+    contenedor.style.display = datosJugador ? 'block' : 'none';
+
+    if (datosJugador) {
+        nombreEl.value = datosJugador.Nombre || datosJugador.nombre || `Jugador ${numeroJugador}`;
+        avatarEl.alt = `Avatar de ${nombreEl.value}`;
+
+        const avatarInfo = datosJugador.Avatar || datosJugador.avatar;
+        if (avatarInfo && typeof avatarInfo === 'string') {
+            const backendBaseUrl = API_BASE.replace('/api', '');
+            const nombreArchivo = avatarInfo.split(/[\\/]/).pop();
+            avatarEl.src = `${backendBaseUrl}/img/foto/${nombreArchivo}`;
+            avatarEl.onerror = () => { avatarEl.src = '../img/foto/icono.png'; };
         } else {
             // Ocultar jugadores extra
             contenedor.style.display = 'none';
         }
-    });
-    
+    };
+
     console.log(' Interfaz de jugadores actualizada');
 }
 

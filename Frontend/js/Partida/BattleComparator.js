@@ -123,30 +123,51 @@ class BattleComparator {
     /**
      * Carga información completa de las cartas (con datos de la carta original)
      */
-    async cargarInfoCompletaCartas() {
-        try {
-            for (let jugada of this.cartasEnComparacion) {
-                if (!jugada.cartaJugador || !jugada.cartaJugador.carta) {
-                    // Cargar información completa de la carta
-                    const response = await fetch(`http://localhost:7147/api/cartajugador/${jugada.idCartaJugador}`);
-                    if (response.ok) {
-                        const cartaJugadorCompleta = await response.json();
-                        jugada.cartaJugador = cartaJugadorCompleta;
-                    }
-                }
-                
-                // Cargar información del jugador si no está disponible
-                if (!jugada.jugador) {
-                    const jugadorResponse = await fetch(`http://localhost:7147/api/jugador/${jugada.idJugador}`);
-                    if (jugadorResponse.ok) {
-                        jugada.jugador = await jugadorResponse.json();
-                    }
-                }
-            }
-        } catch (error) {
-            console.error(' Error cargando información completa de cartas:', error);
+async cargarInfoCompletaCartas() {
+  for (const j of this.cartasEnComparacion) {
+    // Normalizar ids y valor
+    j.id = j.Id ?? j.id;
+    j.idJugador = Number(j.IdJugador ?? j.idJugador);
+    j.idCartaJugador = Number(j.IdCartaJugador ?? j.idCartaJugador);
+    j.valorAtributo = Number(j.ValorAtributo ?? j.valorAtributo ?? 0);
+
+    // CartaJugador completa
+    if (!j.cartaJugador || !j.cartaJugador.Carta) {
+      const urlCJ = buildUrl(API_ENDPOINTS.CARTA_JUGADOR_BY_ID, { id: j.idCartaJugador });
+      const cj = await apiGet(urlCJ);
+      // normaliza carta interna
+      const carta = cj.Carta ?? cj.carta ?? {};
+      j.cartaJugador = {
+        ...cj,
+        Carta: {
+          Id: carta.Id ?? carta.id,
+          Nombre: carta.Nombre ?? carta.nombre,
+          Imagen: carta.Imagen ?? carta.imagen, // puede ser nombre archivo o bytes
+          Rareza: carta.Rareza ?? carta.rareza,
+          Vida: carta.Vida ?? carta.vida ?? 0,
+          Defensa: (carta.Defensa ?? carta.defensa ?? carta.Defenza ?? carta.defenza ?? 0),
+          Defenza: (carta.Defenza ?? carta.defenza ?? carta.Defensa ?? carta.defensa ?? 0),
+          Velocidad: carta.Velocidad ?? carta.velocidad ?? 0,
+          Ataque: carta.Ataque ?? carta.ataque ?? 0,
+          Poder: carta.Poder ?? carta.poder ?? 0,
+          Terror: carta.Terror ?? carta.terror ?? 0
         }
+      };
     }
+
+    // Jugador
+    if (!j.jugador) {
+      const urlJ = buildUrl(API_ENDPOINTS.JUGADOR_BY_ID, { id: j.idJugador });
+      const ju = await apiGet(urlJ);
+      j.jugador = {
+        id: ju.Id ?? ju.id,
+        nombre: ju.Nombre ?? ju.nombre,
+        avatar: ju.Avatar ?? ju.avatar
+      };
+    }
+  }
+}
+
 
     /**
      * Configura el header de la batalla
@@ -188,77 +209,79 @@ class BattleComparator {
      * Crea el elemento visual de una carta en la batalla
      */
     crearElementoCartaBatalla(jugada, esGanadora = false) {
-        const carta = jugada.cartaJugador.carta;
-        const jugador = jugada.jugador;
-        
-        const cartaElement = document.createElement('div');
-        cartaElement.className = `carta-batalla ${esGanadora ? 'carta-ganadora-preview' : ''}`;
-        cartaElement.dataset.jugadaId = jugada.id;
-        cartaElement.dataset.valor = jugada.valorAtributo;
-        
-        // Convertir imagen a base64 si está disponible
-        let imagenSrc = '../img/foto/default-card.jpg';
-        if (carta.imagen && carta.imagen.length > 0) {
-            const uint8Array = new Uint8Array(carta.imagen);
-            const base64String = this.arrayBufferToBase64(uint8Array.buffer);
-            imagenSrc = `data:image/jpeg;base64,${base64String}`;
-        }
-        
-        cartaElement.innerHTML = `
-            <div class="carta-container">
-                <div class="info-jugador-carta">
-                    <img src="${jugador.avatar}" alt="${jugador.nombre}" class="avatar-mini">
-                    <span class="nombre-jugador-carta">${jugador.nombre}</span>
-                </div>
-                
-                <div class="carta-visual">
-                    <div class="carta-header">
-                        <span class="carta-nombre">${carta.nombre}</span>
-                        <span class="carta-rareza ${this.obtenerClaseRareza(carta.rareza)}">${carta.rareza}</span>
-                    </div>
-                    
-                    <div class="carta-imagen">
-                        <img src="${imagenSrc}" alt="${carta.nombre}">
-                    </div>
-                    
-                    <div class="carta-stats">
-                        <div class="stat-item ${this.atributoComparar === 'vida' ? 'stat-competido' : ''}">
-                            <span class="stat-label">VIDA</span>
-                            <span class="stat-value">${carta.vida}</span>
-                        </div>
-                        <div class="stat-item ${this.atributoComparar === 'defensa' ? 'stat-competido' : ''}">
-                            <span class="stat-label">DEF</span>
-                            <span class="stat-value">${carta.defensa}</span>
-                        </div>
-                        <div class="stat-item ${this.atributoComparar === 'velocidad' ? 'stat-competido' : ''}">
-                            <span class="stat-label">VEL</span>
-                            <span class="stat-value">${carta.velocidad}</span>
-                        </div>
-                        <div class="stat-item ${this.atributoComparar === 'ataque' ? 'stat-competido' : ''}">
-                            <span class="stat-label">ATQ</span>
-                            <span class="stat-value">${carta.ataque}</span>
-                        </div>
-                        <div class="stat-item ${this.atributoComparar === 'poder' ? 'stat-competido' : ''}">
-                            <span class="stat-label">POD</span>
-                            <span class="stat-value">${carta.poder}</span>
-                        </div>
-                        <div class="stat-item ${this.atributoComparar === 'terror' ? 'stat-competido' : ''}">
-                            <span class="stat-label">TER</span>
-                            <span class="stat-value">${carta.terror}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="valor-atributo-destacado">
-                        <span class="atributo-nombre">${this.atributoComparar.toUpperCase()}</span>
-                        <span class="atributo-valor">${jugada.valorAtributo}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        return cartaElement;
-    }
+  const carta = jugada.cartaJugador.Carta || jugada.cartaJugador.carta || {};
+  const jugador = jugada.jugador || {};
+  const cartaElement = document.createElement('div');
+  cartaElement.className = `carta-batalla ${esGanadora ? 'carta-ganadora-preview' : ''}`;
+  cartaElement.dataset.jugadaId = jugada.id;
+  cartaElement.dataset.valor = jugada.valorAtributo;
 
+  const imgSrc = this.resolveCartaImg(carta);
+
+  const attr = (k) => {
+    const a = String(this.atributoComparar || '').toLowerCase();
+    if (a === 'defenza') return (k === 'defensa' || k === 'defenza');
+    return a === k;
+  };
+
+  cartaElement.innerHTML = `
+    <div class="carta-container">
+      <div class="info-jugador-carta">
+        <img src="${this.resolveAvatar(jugador.avatar)}" alt="${jugador.nombre || ''}" class="avatar-mini">
+        <span class="nombre-jugador-carta">${jugador.nombre || ''}</span>
+      </div>
+      <div class="carta-visual">
+        <div class="carta-header">
+          <span class="carta-nombre">${carta.Nombre || 'Carta'}</span>
+          <span class="carta-rareza ${this.obtenerClaseRareza(carta.Rareza || '')}">${carta.Rareza || ''}</span>
+        </div>
+        <div class="carta-imagen">
+          <img src="${imgSrc}" alt="${carta.Nombre || ''}">
+        </div>
+        <div class="carta-stats">
+          <div class="stat-item ${attr('vida') ? 'stat-competido' : ''}"><span class="stat-label">VIDA</span><span class="stat-value">${carta.Vida ?? 0}</span></div>
+          <div class="stat-item ${attr('defensa') ? 'stat-competido' : ''}"><span class="stat-label">DEF</span><span class="stat-value">${(carta.Defensa ?? carta.Defenza ?? 0)}</span></div>
+          <div class="stat-item ${attr('velocidad') ? 'stat-competido' : ''}"><span class="stat-label">VEL</span><span class="stat-value">${carta.Velocidad ?? 0}</span></div>
+          <div class="stat-item ${attr('ataque') ? 'stat-competido' : ''}"><span class="stat-label">ATQ</span><span class="stat-value">${carta.Ataque ?? 0}</span></div>
+          <div class="stat-item ${attr('poder') ? 'stat-competido' : ''}"><span class="stat-label">POD</span><span class="stat-value">${carta.Poder ?? 0}</span></div>
+          <div class="stat-item ${attr('terror') ? 'stat-competido' : ''}"><span class="stat-label">TER</span><span class="stat-value">${carta.Terror ?? 0}</span></div>
+        </div>
+        <div class="valor-atributo-destacado">
+          <span class="atributo-nombre">${String(this.atributoComparar || '').toUpperCase()}</span>
+          <span class="atributo-valor">${jugada.valorAtributo}</span>
+        </div>
+      </div>
+    </div>
+  `;
+  return cartaElement;
+}
+resolveCartaImg(carta) {
+  // Si Imagen es string → construye URL pública; si es byte[] → base64
+  const img = carta.Imagen ?? carta.imagen;
+  if (!img) return '../img/foto/default-card.jpg';
+
+  if (typeof img === 'string') {
+    const API_BASE = (window.API_CONFIG?.baseURL || '').replace(/\/+$/, '');
+    const PUBLIC_BASE = API_BASE.replace(/\/api$/i, '');
+    const baseName = img.split(/[\\/]/).pop();
+    return `${PUBLIC_BASE}/img/foto/${encodeURIComponent(baseName)}`;
+  }
+
+  // bytes
+  try {
+    const u8 = Array.isArray(img) ? new Uint8Array(img) : new Uint8Array(Object.values(img));
+    return `data:image/jpeg;base64,${this.arrayBufferToBase64(u8.buffer)}`;
+  } catch { return '../img/foto/default-card.jpg'; }
+}
+
+resolveAvatar(avatar) {
+  if (!avatar) return '../img/foto/icono.png';
+  if (avatar.startsWith('http') || avatar.startsWith('data:')) return avatar;
+  const API_BASE = (window.API_CONFIG?.baseURL || '').replace(/\/+$/, '');
+  const PUBLIC_BASE = API_BASE.replace(/\/api$/i, '');
+  const baseName = String(avatar).split(/[\\/]/).pop();
+  return `${PUBLIC_BASE}/img/foto/${encodeURIComponent(baseName)}`;
+}
     /**
      * Convierte array buffer a base64
      */

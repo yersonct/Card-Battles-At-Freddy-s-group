@@ -147,16 +147,18 @@ opacity: 0;
 }
 
 .completo-iconos-usuario div .iconos-1,.iconos-2{
-    background-image: url(../../img/foto/4.jpg);
+    /* background-image: url(../../img/foto/4.jpg); */
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-clip: border-box;
     overflow: hidden;
-   
+     background-size: cover;
+  background-position: center;
+  border-radius: 12px; /* opcional */
 }
 .iconos-jugador .container-icono .iconos-1{
-    background-image: url(../../img/foto/4.jpg);
+    /* background-image: url(../../img/foto/4.jpg); */
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -172,6 +174,8 @@ opacity: 0;
     right: 0%;
     margin: auto;
     z-index: 20;
+  border-radius: 12px; /* opcional */
+
  }
 #cronometro {
   font-size: 48px;
@@ -222,7 +226,8 @@ input{
      color:red;
      text-shadow: 0px 0px 10px red;   
      font-size: x-large;
-
+    z-index:100000 !important;
+    position: relativo;
 }
 
 @media (max-width: 768px) {
@@ -1389,3 +1394,18 @@ tbody tr:hover {
     background: linear-gradient(45deg, #357abd, #2968a3);
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
 }
+
+
+
+.seleccion-atributos{
+  position: fixed; inset: 0;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.7); z-index: 9999;
+}
+.seleccion-atributos .modal-content{
+  background: #1b1b1b; color: #fff; padding: 16px 20px; border-radius: 12px; max-width: 520px; width: 90%;
+}
+.seleccion-atributos .botones-atributos{
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(120px,1fr)); gap: 8px; margin-top: 10px;
+}
+.seleccion-atributos .btn-atributo{ padding:10px 12px; cursor:pointer; border-radius:8px; }

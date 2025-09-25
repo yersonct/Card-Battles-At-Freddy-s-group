@@ -1,5 +1,6 @@
        // Configuración de la API
 const API_BASE_URL = 'http://localhost:7147/api';
+const SERVER_BASE_URL = API_BASE_URL.replace('/api', '');
 
 // Función para ir a la pantalla de transición antes de volver a crear sala
 function irTransmision() {
@@ -13,15 +14,6 @@ window.onload = function() {
   const audio = document.getElementById("miAudio");
   audio.play();
 };
-// Función para voltear carta
-function voltearCarta(carta) {
-    // Alternar la clase 'volteada' para activar la animación
-    carta.classList.toggle('volteada');
-    
-    // Sonido opcional (opcional, puedes comentar esta línea si no quieres sonido)
-    // const audio = new Audio('sonido-volteo.mp3');
-    // audio.play().catch(e => console.log('No se pudo reproducir el sonido'));
-}
 
 // Función para obtener las cartas del backend
 async function obtenerCartasDelBackend() {
@@ -36,16 +28,6 @@ async function obtenerCartasDelBackend() {
         console.error('Error al obtener cartas del backend:', error);
         return [];
     }
-}
-
-// Función para convertir array de bytes a base64
-function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
 }
 
 // Función para determinar la clase CSS según la rareza
@@ -66,56 +48,51 @@ function obtenerClaseCategoria(rareza) {
 function crearCartaHTML(carta) {
     const claseCategoria = obtenerClaseCategoria(carta.rareza);
     
-    // Convertir imagen a base64 si existe
-    let imagenSrc = '../img/foto/default-card.jpg'; // imagen por defecto
-    if (carta.imagen && carta.imagen.length > 0) {
-        const base64String = carta.imagen;
-        imagenSrc = `data:image/jpeg;base64,${base64String}`;
+    // La API envía la imagen como una cadena Base64.
+    // Si no hay imagen, usamos una por defecto.
+    let imagenSrc = '/Frontend/img/foto/default-card.jpg'; // Ruta a una imagen por defecto
+
+    if (carta.imagen) {
+        // Construimos un Data URL para la imagen a partir de la cadena Base64.
+        imagenSrc = `data:image/jpeg;base64,${carta.imagen}`;
     }
 
+    // NOTA: Plantilla definitiva que respeta la estructura visual y funcional que tu CSS espera para una correcta visualización y animación.
     return `
-        <div class="carta" onclick="voltearCarta(this)">
-            <div class="contenedor-carta">
-                <!-- Lado frontal -->
-                <div class="lado-frontal ${claseCategoria}">
-                    <div class="encabezado-carta">
-                        <div class="numero-carta">${carta.categoria || 'N/A'}</div>
-                        <div class="nombre-carta">${carta.nombre}</div>
+        <div class="carta-container">
+            <div class="carta" onclick="this.classList.toggle('volteada')">
+                
+                <!-- LADO FRONTAL DE LA CARTA -->
+                <div class="lado lado-frontal ${claseCategoria}">
+
+                    <!-- Título -->
+                    <div class="nombre-carta">${carta.nombre || 'Personaje Desconocido'}</div>
+
+                    <!-- Imagen -->
+                    <img src="${imagenSrc}" alt="${carta.nombre}" class="imagen-personaje" onerror="this.onerror=null; this.src='/Frontend/img/foto/default-card.jpg';">
+
+                    <!-- Descripción y Tipo/Rareza -->
+                    <div class="descripcion-carta">
+                        <p class="tipo-rareza"><strong>${carta.categoria || 'N/A'}</strong> &mdash; <em>${carta.rareza || 'Común'}</em></p>
+                        <p class="texto-habilidad">${carta.descripcion || 'Esta carta no tiene una descripción.'}</p>
                     </div>
-                    <div class="contenedor-imagen-personaje">
-                        <img src="${imagenSrc}" alt="${carta.nombre}" class="imagen-personaje">
-                    </div>
+
+                    <!-- Estadísticas -->
                     <div class="contenedor-estadisticas">
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">VIDA</span>
-                            <span class="valor-estadistica">${carta.vida || 0}</span>
-                        </div>
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">ATAQUE</span>
-                            <span class="valor-estadistica">${carta.ataque || 0}</span>
-                        </div>
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">PODER</span>
-                            <span class="valor-estadistica">${carta.poder || 0}</span>
-                        </div>
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">DEFENSA</span>
-                            <span class="valor-estadistica">${carta.defensa || 0}</span>
-                        </div>
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">VELOCIDAD</span>
-                            <span class="valor-estadistica">${carta.velocidad || 0}</span>
-                        </div>
-                        <div class="fila-estadistica">
-                            <span class="etiqueta-estadistica">TERROR</span>
-                            <span class="valor-estadistica">${carta.terror || 0}</span>
-                        </div>
+                        <div class="fila-estadistica"><span>Ataque</span> <strong>${carta.ataque || 0}</strong></div>
+                        <div class="fila-estadistica"><span>Defensa</span> <strong>${carta.defensa || 0}</strong></div>
+                        <div class="fila-estadistica"><span>Velocidad</span> <strong>${carta.velocidad || 0}</strong></div>
+                        <div class="fila-estadistica"><span>Ataque</span> <strong>${carta.ataque || 0}</strong></div>
+                        <div class="fila-estadistica"><span>Poder</span> <strong>${carta.poder || 0}</strong></div>
+                        <div class="fila-estadistica"><span>Terror</span> <strong>${carta.terror || 0}</strong></div>
                     </div>
+
                 </div>
-                <!-- Lado trasero -->
-                <div class="lado-trasero">
-                    <div class="logo-trasero"></div>
-                    <div class="texto-trasero">TRADING CARDS</div>
+
+                <!-- LADO TRASERO DE LA CARTA -->
+                <div class="lado lado-trasero">
+                    <img src="/Frontend/img/foto/cartas-L.png" alt="Logo del Juego" class="imagen-reverso">
+                    <h3 class="titulo-reverso">Card Battles at Freddy's</h3>
                 </div>
             </div>
         </div>
@@ -152,12 +129,11 @@ async function cargarCartas() {
             return ordenA - ordenB;
         });
 
-        // Limpiar contenedor y agregar cartas
-        contenedorPrincipal.innerHTML = '';
-        cartas.forEach(carta => {
-            contenedorPrincipal.innerHTML += crearCartaHTML(carta);
-        });
+        // Generar todo el HTML de las cartas de una sola vez para mayor rendimiento
+        const cartasHTML = cartas.map(crearCartaHTML).join('');
 
+        // Actualizar el DOM una sola vez para evitar parpadeos
+        contenedorPrincipal.innerHTML = cartasHTML;
         console.log(`Se cargaron ${cartas.length} cartas desde el backend`);
         
     } catch (error) {

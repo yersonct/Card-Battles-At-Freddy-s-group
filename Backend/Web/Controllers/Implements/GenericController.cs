@@ -62,6 +62,7 @@ namespace Web.Controllers.Implements
                     return BadRequest(ModelState);
                 // se llaman a las funciones del business para crear un nuevo registro
                 var createdEntity = await _business.CreateAsync(dto);
+                _logger.LogInformation("Registro creado con Id {Id}", GetEntityId(createdEntity));
                 return CreatedAtAction(nameof(GetById), new { id = GetEntityId(createdEntity) }, createdEntity);
             }
             catch (ArgumentException ex)

@@ -92,6 +92,9 @@ namespace Entity.Migrations
                     b.Property<int>("IdJugador")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdPartida")
+                        .HasColumnType("int");
+
                     b.Property<int>("PosicionEnMazo")
                         .HasColumnType("int");
 
@@ -288,7 +291,6 @@ namespace Entity.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("AtributoCompetido")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 

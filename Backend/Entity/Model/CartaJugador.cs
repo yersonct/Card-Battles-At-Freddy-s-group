@@ -11,6 +11,7 @@ namespace Entity.Model
         public int IdCarta { get; set; } // ID de la carta
         public int PosicionEnMazo { get; set; } // Posición de la carta en el mazo (1-8)
         public bool Usada { get; set; } = false; // Indica si la carta ha sido usada en la partida
+         public int IdPartida { get; set; }  
         public int? RondaUsada { get; set; } // En qué ronda fue usada
 
         // Navegación
